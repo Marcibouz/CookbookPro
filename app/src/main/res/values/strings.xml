@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">First_Second</string>
+    <string name="app_name">Cookbook Pro</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label"></string>
-    <string name="second_fragment_label"></string>
+    <string name="recipelistscreen_label"></string>
+    <string name="addscreen_label"></string>
     <string name="viewrecipes_button_text">View Recipes</string>
     <string name="previous">Previous</string>
 
@@ -12,4 +12,5 @@
     <string name="Randi">R</string>
     <string name="apptitle">Cookbook Pro</string>
     <string name="add_recipe">Add Recipe</string>
+    <string name="addbutton">addbutton</string>
 </resources>

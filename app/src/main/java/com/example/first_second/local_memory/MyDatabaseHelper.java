@@ -12,9 +12,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "my_recipes";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_INGREDIENT = "ingredient";
-    private static final String COLUMN_AMOUNT = "amount";
+
+    private static final String USER_NAME = "user_name";
+    private static final String RECIPE_NAME = "recipe_name";
+    private static final String INGREDIENT = "ingredient";
+    private static final String AMOUNT = "amount";
 
     public MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,9 +27,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query =
                 "CREATE TABLE " + TABLE_NAME +
-                        " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_INGREDIENT + " TEXT, " +
-                        COLUMN_AMOUNT + " TEXT);";
+                        " (" + USER_NAME + " TEXT PRIMARY KEY, " +
+                        RECIPE_NAME + " TEXT PRIMARY KEY, " +
+                        INGREDIENT + " TEXT PRIMARY KEY, " +
+                        AMOUNT + " TEXT);";
         db.execSQL(query);
     }
 

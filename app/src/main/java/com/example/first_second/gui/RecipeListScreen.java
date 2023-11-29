@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.first_second.databinding.RecipelistscreenBinding;
@@ -12,6 +14,7 @@ import com.example.first_second.databinding.RecipelistscreenBinding;
 public class RecipeListScreen extends Fragment {
 
     private RecipelistscreenBinding binding;
+    private TextView lol;
 
     @Override
     public View onCreateView(
@@ -24,17 +27,27 @@ public class RecipeListScreen extends Fragment {
 
     }
 
-//    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+//        binding.viewrecipesButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                NavHostFragment.findNavController(RecipeListScreen.this)
-//                        .navigate(R.id.RecipeListScreen_to_HomeScreen);
+//                NavHostFragment.findNavController(HomeScreen.this)
+//                       .navigate(R.id.HomeScreen_to_RecipeListScreen);
 //            }
 //        });
-//    }
+    }
+
+    private void countMe(TextView text) {
+        // Get the value of the text view
+        String countString = text.getText().toString();
+        // Convert value to a number and increment it
+        int count = Integer.parseInt(countString);
+        count++;
+        // Display the new value in the text view.
+        text.setText(Integer.toString(count));
+    }
 
     @Override
     public void onDestroyView() {
