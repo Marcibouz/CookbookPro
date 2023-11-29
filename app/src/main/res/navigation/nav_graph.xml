@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/HomeScreen">
+
+    <fragment
+        android:id="@+id/HomeScreen"
+        android:name="com.example.first_second.gui.HomeScreen"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/homescreen">
+
+        <action
+            android:id="@+id/HomeScreen_to_RecipeListScreen"
+            app:destination="@id/RecipeListScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/RecipeListScreen"
+        android:name="com.example.first_second.gui.RecipeListScreen"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/recipelistscreen">
+
+        <action
+            android:id="@+id/RecipeListScreen_to_HomeScreen"
+            app:destination="@id/HomeScreen" />
+    </fragment>
+</navigation>
