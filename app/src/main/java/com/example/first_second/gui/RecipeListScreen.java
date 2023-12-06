@@ -8,13 +8,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.first_second.R;
 import com.example.first_second.databinding.RecipelistscreenBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class RecipeListScreen extends Fragment {
 
     private RecipelistscreenBinding binding;
     private TextView lol;
+    RecyclerView recyclerView;
+    FloatingActionButton add_button;
 
     @Override
     public View onCreateView(
@@ -30,6 +35,11 @@ public class RecipeListScreen extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        recyclerView = view.findViewById(R.id.recyclerView);
+        add_button = view.findViewById(R.id.add_button);
+
+        AddButtonListener addButtonListener = new AddButtonListener(RecipeListScreen.this);
+        add_button.setOnClickListener(addButtonListener);
 //        binding.viewrecipesButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
