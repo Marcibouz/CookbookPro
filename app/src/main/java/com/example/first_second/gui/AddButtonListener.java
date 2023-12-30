@@ -12,6 +12,8 @@ public class AddButtonListener implements View.OnClickListener {
     public AddButtonListener(Fragment fragment){
         this.fragment=fragment;
     }
+
+    //Geht zum AddScreen
     @Override
     public void onClick(View view) {
         NavHostFragment.findNavController(fragment).navigate(R.id.RecipeListScreen_to_AddScreen);

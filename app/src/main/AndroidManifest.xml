@@ -13,6 +13,9 @@
         android:theme="@style/Theme.First_Second"
         tools:targetApi="31">
         <activity
+            android:name=".gui.UserNameEntryActivity"
+            android:exported="false" />
+        <activity
             android:name=".gui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
