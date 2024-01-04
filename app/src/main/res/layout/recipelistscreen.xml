@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/screenBackground"
 
-    tools:context=".gui.AddScreen">
+    tools:context=".gui.RecipeListScreen">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

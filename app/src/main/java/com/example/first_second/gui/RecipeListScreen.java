@@ -30,7 +30,7 @@ public class RecipeListScreen extends Fragment {
     FloatingActionButton add_button;
 
     DatabaseHelper db;
-    LinkedList<String> recipe_id, recipe_name;
+    LinkedList<String> recipe_id, recipe_name, recipe_ingredients, recipe_directions;
 
     RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
     @Override
@@ -38,10 +38,8 @@ public class RecipeListScreen extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = RecipelistscreenBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
     }
 
     //Setzt die Instanzvariablen und den addButtonListener auf den add_Button.
@@ -65,11 +63,14 @@ public class RecipeListScreen extends Fragment {
         //Rezept IDs und Namen in Arrays speichern
         recipe_id = new LinkedList<>();
         recipe_name = new LinkedList<>();
+        recipe_ingredients = new LinkedList<>();
+        recipe_directions = new LinkedList<>();
         storeRecipesInLists();
 
         //Diese an recyclerviewadapter geben
-        recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(context, recipe_id,
-                recipe_name);
+        recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(context,
+                RecipeListScreen.this, recipe_id, recipe_name, recipe_ingredients,
+                recipe_directions);
         recyclerView.setAdapter(recipeRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
@@ -86,6 +87,8 @@ public class RecipeListScreen extends Fragment {
             while (cursor.moveToNext()){
                 recipe_id.add(cursor.getString(0));
                 recipe_name.add(cursor.getString(1));
+                recipe_ingredients.add(cursor.getString(2));
+                recipe_directions.add(cursor.getString(3));
             }
         }
     }

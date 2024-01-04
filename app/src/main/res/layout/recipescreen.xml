@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     android:background="@color/screenBackground"
     android:padding="16dp"
-    tools:context=".gui.AddScreen">
+    tools:context=".gui.RecipeScreen">
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,17 +23,17 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/save_button"
+                android:id="@+id/update_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Save"
+                android:text="Update"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/directions" />
+                app:layout_constraintTop_toBottomOf="@+id/directions2" />
 
             <EditText
-                android:id="@+id/ingredients"
+                android:id="@+id/ingredients2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -42,10 +42,10 @@
                 android:inputType="textMultiLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_name" />
+                app:layout_constraintTop_toBottomOf="@+id/recipe_name2" />
 
             <EditText
-                android:id="@+id/directions"
+                android:id="@+id/directions2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -54,10 +54,10 @@
                 android:inputType="textMultiLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients" />
+                app:layout_constraintTop_toBottomOf="@+id/ingredients2" />
 
             <EditText
-                android:id="@+id/recipe_name"
+                android:id="@+id/recipe_name2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

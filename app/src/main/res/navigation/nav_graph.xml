@@ -14,6 +14,9 @@
         <action
             android:id="@+id/RecipeListScreen_to_AddScreen"
             app:destination="@id/AddScreen" />
+        <action
+            android:id="@+id/RecipeListScreen_to_RecipeScreen"
+            app:destination="@id/RecipeScreen" />
     </fragment>
 
     <fragment
@@ -25,6 +28,29 @@
         <action
             android:id="@+id/AddScreen_to_RecipeListScreen"
             app:destination="@id/RecipeListScreen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/RecipeScreen"
+        android:name="com.example.first_second.gui.RecipeScreen"
+        android:label="@string/addscreen_label"
+        tools:layout="@layout/recipescreen">
+
+        <action
+            android:id="@+id/RecipeScreen_to_RecipeListScreen"
+            app:destination="@id/RecipeListScreen" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="recipe_name"
+            app:argType="string" />
+        <argument
+            android:name="ingredients"
+            app:argType="string" />
+        <argument
+            android:name="directions"
+            app:argType="string" />
     </fragment>
 
 </navigation>
