@@ -68,4 +68,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+    public long updateRecipe(String id, String recipe_name, String ingredients, String directions){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(RECIPE_NAME, recipe_name);
+        cv.put(INGREDIENTS, ingredients);
+        cv.put(DIRECTIONS, directions);
+
+        return db.update(TABLE_NAME, cv, "id=?", new String[]{id});
+    }
 }
