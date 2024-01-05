@@ -46,7 +46,6 @@ public class RecipeRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.recipe_id_txt.setText(String.valueOf(recipe_id.get(position)));
         holder.recipe_name_txt.setText(String.valueOf(recipe_name.get(position)));
         RowElementListener rowElementListener =
                 new RowElementListener(String.valueOf(recipe_id.get(position)),
@@ -63,11 +62,10 @@ public class RecipeRecyclerViewAdapter extends
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView recipe_id_txt, recipe_name_txt;
+        TextView recipe_name_txt;
         LinearLayout rowLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            recipe_id_txt = itemView.findViewById(R.id.recipe_id_txt);
             recipe_name_txt = itemView.findViewById(R.id.recipe_name_txt);
             rowLayout = itemView.findViewById(R.id.rowLayout);
         }

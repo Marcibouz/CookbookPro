@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -21,7 +23,7 @@ public class RecipeScreen extends Fragment {
     private RecipescreenBinding binding;
     private Context context;
     EditText recipe_name_input, ingredients_input, directions_input;
-    Button update_button;
+    Button update_button, delete_button;
     String id, recipe_name, ingredients, directions;
 
     @Override
@@ -39,14 +41,24 @@ public class RecipeScreen extends Fragment {
         ingredients_input = view.findViewById(R.id.ingredients2);
         directions_input = view.findViewById(R.id.directions2);
         update_button = view.findViewById(R.id.update_button);
+        delete_button = view.findViewById(R.id.delete_button);
 
         getAndSetArgData();
 
-        //hier wieder addonclicklistener für update button
+        //Actionbar Title setzen
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(recipe_name);
+
+        //setOnclicklistener für update button
         UpdateButtonListener updateButtonListener = new UpdateButtonListener(context,
                 RecipeScreen.this, id, recipe_name_input, ingredients_input,
                 directions_input);
         update_button.setOnClickListener(updateButtonListener);
+
+        //setOnclicklistener für delete button
+        DeleteButtonListener deleteButtonListener = new DeleteButtonListener(context,
+                RecipeScreen.this, id);
+        delete_button.setOnClickListener(deleteButtonListener);
     }
 
     @Override

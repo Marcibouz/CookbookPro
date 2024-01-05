@@ -78,4 +78,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return db.update(TABLE_NAME, cv, "id=?", new String[]{id});
     }
+
+    public long deleteOneRecipe(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, "id=?", new String[]{id});
+    }
 }

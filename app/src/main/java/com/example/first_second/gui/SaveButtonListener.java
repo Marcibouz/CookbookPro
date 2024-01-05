@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -40,6 +42,10 @@ public class SaveButtonListener implements View.OnClickListener{
         }else{
             NavHostFragment.findNavController(fragment).navigate(R.id.AddScreen_to_RecipeListScreen);
             Toast.makeText(context, "Recipe added!", Toast.LENGTH_SHORT).show();
+
+            //Actionbar Title setzen
+            ActionBar actionBar = ((AppCompatActivity)fragment.getActivity()).getSupportActionBar();
+            actionBar.setTitle("Cookbook Pro");
         }
     }
 }
