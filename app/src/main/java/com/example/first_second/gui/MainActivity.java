@@ -14,6 +14,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.first_second.databinding.ActivityMainBinding;
 
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +44,19 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        // noinspection SimplifiableIfStatement
+        if (item.getItemId() == R.id.action_receiveViaBluetooth) {
+            //Bluetooth Receive
+            Toast.makeText(this,"Bluetooth", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

@@ -2,4 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.first_second.gui.MainActivity">
+    <item
+        android:id="@+id/action_receiveViaBluetooth"
+        android:orderInCategory="100"
+        android:title="Receive via Bluetoothandroi"
+        android:icon="@drawable/baseline_bluetooth"
+        app:showAsAction="always" />
 </menu>
