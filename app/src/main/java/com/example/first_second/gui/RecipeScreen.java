@@ -22,8 +22,8 @@ import com.example.first_second.databinding.RecipescreenBinding;
 public class RecipeScreen extends Fragment {
     private RecipescreenBinding binding;
     private Context context;
-    EditText recipe_name_input, ingredients_input, directions_input;
-    Button update_button, delete_button;
+    EditText recipe_name_input, ingredients_input, directions_input, multiplier;
+    Button update_button, delete_button, calculate_button;
     String id, recipe_name, ingredients, directions;
 
     @Override
@@ -40,8 +40,10 @@ public class RecipeScreen extends Fragment {
         recipe_name_input = view.findViewById(R.id.recipe_name2);
         ingredients_input = view.findViewById(R.id.ingredients2);
         directions_input = view.findViewById(R.id.directions2);
+        multiplier = view.findViewById(R.id.multiplier);
         update_button = view.findViewById(R.id.update_button);
         delete_button = view.findViewById(R.id.delete_button);
+        calculate_button = view.findViewById(R.id.calculate_button);
 
         getAndSetArgData();
 
@@ -59,6 +61,12 @@ public class RecipeScreen extends Fragment {
         DeleteButtonListener deleteButtonListener = new DeleteButtonListener(context,
                 RecipeScreen.this, id);
         delete_button.setOnClickListener(deleteButtonListener);
+
+        //setOnclicklistener für calculate button
+        CalculateButtonListener calculateButtonListener =
+                new CalculateButtonListener(ingredients_input, multiplier,
+                        ingredients_input.getText().toString());
+        calculate_button.setOnClickListener(calculateButtonListener);
     }
 
     @Override

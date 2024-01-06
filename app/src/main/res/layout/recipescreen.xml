@@ -34,6 +34,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/directions2" />
 
             <Button
+                android:id="@+id/calculate_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Calculate"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/update_button" />
+
+            <Button
                 android:id="@+id/delete_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -43,7 +55,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/update_button" />
+                app:layout_constraintTop_toBottomOf="@+id/calculate_button" />
 
             <EditText
                 android:id="@+id/ingredients2"
@@ -84,6 +96,34 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/multiplier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="3"
+                android:gravity="center"
+                android:hint="1"
+                android:inputType="numberDecimal"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.75"
+                app:layout_constraintStart_toEndOf="@+id/calculate_button"
+                app:layout_constraintTop_toBottomOf="@+id/update_button" />
+
+            <TextView
+                android:id="@+id/portions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Portions:"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/multiplier"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/calculate_button"
+                app:layout_constraintTop_toBottomOf="@+id/update_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
