@@ -22,7 +22,7 @@ public class RecipeScreen extends Fragment {
     private RecipescreenBinding binding;
     private Context context;
     private EditText recipe_name_input, ingredients_input, directions_input, multiplier;
-    private Button update_button, delete_button, calculate_button;
+    private Button update_button, delete_button, calculate_button, share_button;
     private String id, recipe_name, ingredients, directions;
 
     @Override
@@ -43,6 +43,7 @@ public class RecipeScreen extends Fragment {
         update_button = view.findViewById(R.id.update_button);
         delete_button = view.findViewById(R.id.delete_button);
         calculate_button = view.findViewById(R.id.calculate_button);
+        share_button = view.findViewById(R.id.share_button);
 
         getAndSetArgData();
 
@@ -66,6 +67,12 @@ public class RecipeScreen extends Fragment {
                 new CalculateButtonListener(ingredients_input, multiplier,
                         ingredients_input.getText().toString());
         calculate_button.setOnClickListener(calculateButtonListener);
+
+        //setOnclicklistener für share button
+        ShareButtonListener shareButtonListener = new ShareButtonListener(context,
+                RecipeScreen.this, getActivity(), recipe_name_input, ingredients_input,
+                directions_input);
+        share_button.setOnClickListener(shareButtonListener);
     }
 
     @Override

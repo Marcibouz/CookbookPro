@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.first_second.bluetooth.BluetoothHelper;
 import com.example.first_second.databinding.ActivityMainBinding;
 
 import android.view.Menu;
@@ -51,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         // noinspection SimplifiableIfStatement
         if (item.getItemId() == R.id.action_receiveViaBluetooth) {
-            //Bluetooth Receive
             Toast.makeText(this,"Bluetooth", Toast.LENGTH_SHORT).show();
+            BluetoothHelper bluetoothHelper = new BluetoothHelper();
+            bluetoothHelper.startDiscoverable();
         }
 
         return super.onOptionsItemSelected(item);
