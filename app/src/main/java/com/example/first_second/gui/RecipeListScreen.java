@@ -2,15 +2,15 @@ package com.example.first_second.gui;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,14 +25,17 @@ import java.util.LinkedList;
 public class RecipeListScreen extends Fragment {
 
     private RecipelistscreenBinding binding;
-    Context context;
-    RecyclerView recyclerView;
-    FloatingActionButton add_button;
+    private Context context;
+    private RecyclerView recyclerView;
+    private FloatingActionButton add_button;
+    private ConstraintLayout recipeListLayout;
 
-    DatabaseHelper db;
-    LinkedList<String> recipe_id, recipe_name, recipe_ingredients, recipe_directions;
+    private Drawable nothingHereYetBackground;
 
-    RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
+    private DatabaseHelper db;
+    private LinkedList<String> recipe_id, recipe_name, recipe_ingredients, recipe_directions;
+
+    private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -52,6 +55,11 @@ public class RecipeListScreen extends Fragment {
         //Views initialisieren
         recyclerView = view.findViewById(R.id.recyclerView);
         add_button = view.findViewById(R.id.add_button);
+        recipeListLayout = view.findViewById(R.id.recipeListScreen);
+
+        //Image initialisieren
+        nothingHereYetBackground =
+                ResourcesCompat.getDrawable(getResources(), R.drawable.nothinghereyet, null);
 
         //AddButtonlistener setzen
         AddButtonListener addButtonListener = new AddButtonListener(RecipeListScreen.this);
@@ -82,7 +90,7 @@ public class RecipeListScreen extends Fragment {
     void storeRecipesInLists(){
         Cursor cursor = db.readAllRecipes();
         if (cursor.getCount() == 0){
-            Toast.makeText(context,"No recipes yet.", Toast.LENGTH_SHORT).show();
+            recipeListLayout.setBackground(nothingHereYetBackground);
         }else{
             while (cursor.moveToNext()){
                 recipe_id.add(cursor.getString(0));

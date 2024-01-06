@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.first_second.R;
 import com.example.first_second.databinding.AddscreenBinding;
-import com.example.first_second.local_memory.DatabaseHelper;
 
 public class AddScreen extends Fragment {
 

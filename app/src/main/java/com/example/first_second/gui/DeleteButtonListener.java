@@ -13,9 +13,9 @@ import com.example.first_second.R;
 import com.example.first_second.local_memory.DatabaseHelper;
 
 public class DeleteButtonListener implements View.OnClickListener{
-    Context context;
-    Fragment fragment;
-    String id;
+    private Context context;
+    private Fragment fragment;
+    private String id;
     public DeleteButtonListener(Context context, Fragment fragment, String id){
         this.context = context;
         this.fragment = fragment;

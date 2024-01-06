@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/screenBackground"
+    android:background="@drawable/emtpytable"
     android:padding="16dp"
     tools:context=".gui.RecipeScreen">
 
@@ -27,8 +27,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:backgroundTint="@color/buttonbackground"
                 android:text="Update"
-                android:textSize="20sp"
+                android:textSize="21sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/directions2" />
@@ -38,8 +39,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:backgroundTint="@color/buttonbackground"
                 android:text="Calculate"
-                android:textSize="20sp"
+                android:textSize="21sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,9 +52,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:backgroundTint="@color/buttonbackground"
                 android:text="Delete"
                 android:textColor="#FF0000"
-                android:textSize="20sp"
+                android:textSize="21sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calculate_button" />
@@ -61,41 +64,44 @@
                 android:id="@+id/ingredients2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hintcolor"
                 android:ems="10"
                 android:hint="Ingredients"
                 android:inputType="textMultiLine"
-                android:textSize="19sp"
+                android:textSize="21sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_name2" />
+                app:layout_constraintTop_toBottomOf="@+id/textIngredients2" />
 
             <EditText
                 android:id="@+id/directions2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hintcolor"
                 android:ems="10"
                 android:hint="Directions"
                 android:inputType="textMultiLine"
-                android:textSize="19sp"
+                android:textSize="21sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients2" />
+                app:layout_constraintTop_toBottomOf="@+id/textDirections2" />
 
             <EditText
                 android:id="@+id/recipe_name2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hintcolor"
                 android:ems="10"
                 android:hint="Recipe Name"
                 android:inputType="text"
-                android:textSize="19sp"
+                android:textSize="21sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/textRecipeName2" />
 
             <EditText
                 android:id="@+id/multiplier"
@@ -106,19 +112,64 @@
                 android:gravity="center"
                 android:hint="1"
                 android:inputType="numberDecimal"
-                android:textSize="19sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hintcolor"
+                android:textSize="21sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.75"
                 app:layout_constraintStart_toEndOf="@+id/calculate_button"
                 app:layout_constraintTop_toBottomOf="@+id/update_button" />
 
             <TextView
+                android:id="@+id/textRecipeName2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Recipe Name:"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textIngredients2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Ingredients:"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recipe_name2" />
+
+            <TextView
+                android:id="@+id/textDirections2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Directions:"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients2" />
+
+            <TextView
                 android:id="@+id/portions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="17dp"
                 android:text="Portions:"
-                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textSize="23sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/multiplier"
                 app:layout_constraintHorizontal_bias="1.0"

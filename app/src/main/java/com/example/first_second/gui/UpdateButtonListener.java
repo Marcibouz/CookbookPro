@@ -14,10 +14,10 @@ import com.example.first_second.R;
 import com.example.first_second.local_memory.DatabaseHelper;
 
 public class UpdateButtonListener implements View.OnClickListener{
-    Context context;
-    Fragment fragment;
-    String id;
-    EditText recipe_name_input, ingredients_input, directions_input;
+    private Context context;
+    private Fragment fragment;
+    private String id;
+    private EditText recipe_name_input, ingredients_input, directions_input;
     public UpdateButtonListener(Context context, Fragment fragment, String id,
                                 EditText recipe_name_input, EditText ingredients_input,
                                 EditText directions_input){

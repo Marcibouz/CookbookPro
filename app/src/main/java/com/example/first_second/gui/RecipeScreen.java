@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +21,9 @@ import com.example.first_second.databinding.RecipescreenBinding;
 public class RecipeScreen extends Fragment {
     private RecipescreenBinding binding;
     private Context context;
-    EditText recipe_name_input, ingredients_input, directions_input, multiplier;
-    Button update_button, delete_button, calculate_button;
-    String id, recipe_name, ingredients, directions;
+    private EditText recipe_name_input, ingredients_input, directions_input, multiplier;
+    private Button update_button, delete_button, calculate_button;
+    private String id, recipe_name, ingredients, directions;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -14,7 +14,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.first_second.databinding.ActivityMainBinding;
 
 import android.view.Menu;
-import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 

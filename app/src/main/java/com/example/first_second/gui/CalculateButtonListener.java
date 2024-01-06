@@ -6,8 +6,8 @@ import android.widget.EditText;
 import com.example.first_second.application_logic.ApplicationLogic;
 
 public class CalculateButtonListener implements View.OnClickListener{
-    EditText ingredients, multiplier;
-    String ingredientsToScale;
+    private EditText ingredients, multiplier;
+    private String ingredientsToScale;
     public CalculateButtonListener(EditText ingredients, EditText multiplier,
                                    String ingredientsToScale){
         this.ingredients = ingredients;

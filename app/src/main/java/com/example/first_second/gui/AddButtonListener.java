@@ -8,7 +8,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.first_second.R;
 
 public class AddButtonListener implements View.OnClickListener {
-    Fragment fragment;
+    private Fragment fragment;
     public AddButtonListener(Fragment fragment){
         this.fragment=fragment;
     }
