@@ -62,11 +62,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = null;
         if(db != null){
-            cursor = db.rawQuery(query, null);
+            return db.rawQuery(query, null);
+        } else {
+            return null;
         }
-        return cursor;
     }
 
     public long updateRecipe(String id, String recipe_name, String ingredients, String directions){
@@ -82,5 +82,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long deleteOneRecipe(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "id=?", new String[]{id});
+    }
+
+    public void deleteAllRecipes(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME);
     }
 }

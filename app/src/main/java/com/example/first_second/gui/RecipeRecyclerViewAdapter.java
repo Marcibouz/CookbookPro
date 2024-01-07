@@ -35,6 +35,17 @@ public class RecipeRecyclerViewAdapter extends
         this.recipe_ingredients = recipe_ingredients;
         this.recipe_directions = recipe_directions;
     }
+    public RecipeRecyclerViewAdapter(Context context,
+                                     LinkedList<String> recipe_id,
+                                     LinkedList<String> recipe_name,
+                                     LinkedList<String> recipe_ingredients,
+                                     LinkedList<String> recipe_directions){
+        this.context = context;
+        this.recipe_id = recipe_id;
+        this.recipe_name = recipe_name;
+        this.recipe_ingredients = recipe_ingredients;
+        this.recipe_directions = recipe_directions;
+    }
 
     @NonNull
     @Override

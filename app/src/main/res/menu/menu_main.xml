@@ -7,5 +7,10 @@
         android:orderInCategory="100"
         android:title="Receive via Bluetooth"
         android:icon="@drawable/baseline_bluetooth"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_deleteAll"
+        android:orderInCategory="100"
+        android:title="Delete All"
+        app:showAsAction="never" />
 </menu>
