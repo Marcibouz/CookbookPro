@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private Context context;
     private static final String DATABASE_NAME = "RecipeList.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -21,7 +20,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context=context;
     }
 
     @Override
