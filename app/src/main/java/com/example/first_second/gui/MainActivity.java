@@ -1,16 +1,20 @@
 package com.example.first_second.gui;
 
-import android.content.Intent;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.example.first_second.R;
-
+import static com.example.first_second.bluetooth.BluetoothHelper.SHARE_PERMISSIONS;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -22,6 +26,7 @@ import com.example.first_second.databinding.ActivityMainBinding;
 import com.example.first_second.local_memory.DatabaseHelper;
 
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -42,18 +47,39 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        //ddOnDestinationChangedListener fuer navController
+        DestinationChangedListener destinationChangedListener =
+                new DestinationChangedListener(binding, getMenuInflater());
+        navController.addOnDestinationChangedListener(destinationChangedListener);
+
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         nothingHereYetBackground =
                 ResourcesCompat.getDrawable(getResources(), R.drawable.nothinghereyet, null);
+        //Permission Request
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, SHARE_PERMISSIONS, 0);
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Logic for not displaying 3 dot menu outside of RecipeListScreen
+        getSupportActionBar().setTitle("Cookbook Pro");
+        NavController navController =
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavDestination currentDestination = navController.getCurrentDestination();
+
+        if (currentDestination != null){
+            int currentFragmentId = currentDestination.getId();
+            if(currentFragmentId != R.id.RecipeListScreen){
+                return false;
+            }
+        }
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        getSupportActionBar().setTitle("Cookbook Pro");
         return true;
     }
 
@@ -63,10 +89,11 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         // noinspection SimplifiableIfStatement
+
         if (item.getItemId() == R.id.action_receiveViaBluetooth) {
             Toast.makeText(this,"Bluetooth", Toast.LENGTH_SHORT).show();
             BluetoothHelper bluetoothHelper = new BluetoothHelper();
-            bluetoothHelper.startDiscoverable();
+//            bluetoothHelper.startDiscoverable();
         }
         if (item.getItemId() == R.id.action_deleteAll) {
             DatabaseHelper db = new DatabaseHelper(this);
@@ -75,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     new RecipeRecyclerViewAdapter(this, new LinkedList<String>(),
                             new LinkedList<String>(), new LinkedList<String>(),
                             new LinkedList<String>());
-            RecyclerView recyclerView = findViewById(R.id.recyclerView);
+            RecyclerView recyclerView = findViewById(R.id.recyclerViewRecipes);
             recyclerView.setAdapter(recipeRecyclerViewAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             ConstraintLayout recipeListLayout = findViewById(R.id.recipeListScreen);

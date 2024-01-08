@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recipeRowLayout"
+    android:id="@+id/deviceRowLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -20,10 +20,10 @@
             android:padding="20dp">
 
             <TextView
-                android:id="@+id/recipe_name_txt"
+                android:id="@+id/device_name_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recipe Name"
+                android:text="Device Name"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -16,7 +16,7 @@ import com.example.first_second.R;
 import java.util.LinkedList;
 
 public class RecipeRecyclerViewAdapter extends
-        RecyclerView.Adapter<RecipeRecyclerViewAdapter.MyViewHolder>{
+        RecyclerView.Adapter<RecipeRecyclerViewAdapter.RecipeViewHolder>{
     private Context context;
     //fragment muss aus RecipeListScreen weitergegeben werden, damit das fragment dem RowElement-
     //Listener übergeben werden kann, damit dieser dann in den RecipeScreen wechselt und die Rezept-
@@ -49,22 +49,20 @@ public class RecipeRecyclerViewAdapter extends
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recipe_row, parent, false);
-        return new MyViewHolder(view);
+        return new RecipeViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.recipe_name_txt.setText(String.valueOf(recipe_name.get(position)));
-        RowElementListener rowElementListener =
-                new RowElementListener(String.valueOf(recipe_id.get(position)),
-                        String.valueOf(recipe_name.get(position)),
-                        String.valueOf(recipe_ingredients.get(position)),
-                        String.valueOf(recipe_directions.get(position)),
+    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+        holder.recipe_name_txt.setText(recipe_name.get(position));
+        RecipeRowElementListener recipeRowElementListener =
+                new RecipeRowElementListener(recipe_id.get(position), recipe_name.get(position),
+                        recipe_ingredients.get(position), recipe_directions.get(position),
                         fragment);
-        holder.rowLayout.setOnClickListener(rowElementListener);
+        holder.recipeRowLayout.setOnClickListener(recipeRowElementListener);
     }
 
     @Override
@@ -72,13 +70,13 @@ public class RecipeRecyclerViewAdapter extends
         return recipe_id.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class RecipeViewHolder extends RecyclerView.ViewHolder {
         TextView recipe_name_txt;
-        LinearLayout rowLayout;
-        public MyViewHolder(@NonNull View itemView) {
+        LinearLayout recipeRowLayout;
+        public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             recipe_name_txt = itemView.findViewById(R.id.recipe_name_txt);
-            rowLayout = itemView.findViewById(R.id.rowLayout);
+            recipeRowLayout = itemView.findViewById(R.id.recipeRowLayout);
         }
     }
 }

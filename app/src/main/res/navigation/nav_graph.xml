@@ -36,6 +36,9 @@
         <action
             android:id="@+id/RecipeScreen_to_RecipeListScreen"
             app:destination="@id/RecipeListScreen" />
+        <action
+            android:id="@+id/RecipeScreen_to_AvailableDevicesScreen"
+            app:destination="@id/AvailableDevicesScreen" />
         <argument
             android:name="id"
             app:argType="string" />
@@ -57,6 +60,12 @@
         <action
             android:id="@+id/SplashScreen_to_RecipeListScreen"
             app:destination="@id/RecipeListScreen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/AvailableDevicesScreen"
+        android:name="com.example.first_second.gui.AvailableDevicesScreen"
+        tools:layout="@layout/availabledevicesscreen">
     </fragment>
 
 </navigation>

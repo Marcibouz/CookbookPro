@@ -17,10 +17,12 @@ public class CalculateButtonListener implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         String multiplierString = multiplier.getText().toString();
+        double multiplierDouble;
         if (multiplierString.isEmpty()){
-            return;
+            multiplierDouble = 1;
+        } else {
+            multiplierDouble = Double.parseDouble(multiplierString);
         }
-        double multiplierDouble = Double.parseDouble(multiplierString);
         String result = ApplicationLogic.calculatePortion(ingredientsToScale, multiplierDouble);
         ingredients.setText(result);
     }

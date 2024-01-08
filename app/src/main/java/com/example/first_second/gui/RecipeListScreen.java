@@ -46,6 +46,7 @@ public class RecipeListScreen extends Fragment {
     }
 
     //Setzt die Instanzvariablen und den addButtonListener auf den add_Button.
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -53,7 +54,7 @@ public class RecipeListScreen extends Fragment {
         context = getContext();
 
         //Views initialisieren
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerViewRecipes);
         add_button = view.findViewById(R.id.add_button);
         recipeListLayout = view.findViewById(R.id.recipeListScreen);
 

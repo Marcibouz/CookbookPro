@@ -32,6 +32,7 @@ public class RecipeScreen extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = this.getContext();
@@ -46,10 +47,6 @@ public class RecipeScreen extends Fragment {
         share_button = view.findViewById(R.id.share_button);
 
         getAndSetArgData();
-
-        //Actionbar Title setzen
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(recipe_name);
 
         //setOnclicklistener für update button
         UpdateButtonListener updateButtonListener = new UpdateButtonListener(context,
