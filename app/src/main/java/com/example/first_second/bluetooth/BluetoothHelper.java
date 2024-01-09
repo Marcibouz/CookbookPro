@@ -12,6 +12,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -25,13 +27,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@RequiresApi(api = Build.VERSION_CODES.S)
 public class BluetoothHelper extends AppCompatActivity {
     private static final String TAG = "BluetoothHelper"; // Tag for Logging
     //Permission Strings
     public static final String[] SHARE_PERMISSIONS = { // Required Permissions for sharing Recipes
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.BLUETOOTH_SCAN};
+    public static final String[] RECEIVE_PERMISSIONS = { // Required Permissions for sharing Recipes
+            Manifest.permission.BLUETOOTH_ADVERTISE};
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private Context context;
     private Activity activity;
@@ -57,11 +60,13 @@ public class BluetoothHelper extends AppCompatActivity {
     public Map<String, String> getAvailableDevices() {
         return availableDevices;
     }
-    public void addBluetoothObserver(BluetoothObserver bluetoothObserver){
+
+    public void addBluetoothObserver(BluetoothObserver bluetoothObserver) {
         observers.add(bluetoothObserver);
     }
-    public void notifyObservers(){
-        for (BluetoothObserver bo : observers){
+
+    public void notifyObservers() {
+        for (BluetoothObserver bo : observers) {
             bo.propertyChange(this);
         }
     }
@@ -115,12 +120,24 @@ public class BluetoothHelper extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        if (bluetoothAdapter.isDiscovering()) {
+        if (bluetoothAdapter.isDiscovering()) { // Cancel ongoing discovery
             bluetoothAdapter.cancelDiscovery();
         }
-        bluetoothAdapter.startDiscovery();
+        if(!availableDevices.isEmpty()){ // Empty list from previous search
+            availableDevices.clear();
+        }
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(receiver, filter);
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        context.registerReceiver(receiver, filter);
+
+        boolean discoveryStarted = bluetoothAdapter.startDiscovery();
+        if(!discoveryStarted) {
+            Toast.makeText(context, "Discovery not started. Fine Location access must ", Toast.LENGTH_SHORT).show();
+        }
+        Log.d("Discovery Status", discoveryStarted ? "Started Successfully" : "Failed to Start");
+
     }
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -141,4 +158,12 @@ public class BluetoothHelper extends AppCompatActivity {
             }
         }
     };
+
+    public void startDiscoverable() {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        context.startActivity(discoverableIntent); // Maybe context.startActivity?
+    }
 }

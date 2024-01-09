@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.example.first_second.R;
 import static com.example.first_second.bluetooth.BluetoothHelper.SHARE_PERMISSIONS;
+import static com.example.first_second.bluetooth.BluetoothHelper.RECEIVE_PERMISSIONS;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private Drawable nothingHereYetBackground;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +59,14 @@ public class MainActivity extends AppCompatActivity {
 
         nothingHereYetBackground =
                 ResourcesCompat.getDrawable(getResources(), R.drawable.nothinghereyet, null);
-        //Permission Request
+
+        //Permission Request (Share)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, SHARE_PERMISSIONS, 0);
+        }
+        //Permission Request (Receive)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, RECEIVE_PERMISSIONS, 0);
         }
     }
 
@@ -92,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.action_receiveViaBluetooth) {
             Toast.makeText(this,"Bluetooth", Toast.LENGTH_SHORT).show();
-            BluetoothHelper bluetoothHelper = new BluetoothHelper();
-//            bluetoothHelper.startDiscoverable();
+            BluetoothHelper bluetoothHelper = new BluetoothHelper(this, this);
+            bluetoothHelper.startDiscoverable();
         }
         if (item.getItemId() == R.id.action_deleteAll) {
             DatabaseHelper db = new DatabaseHelper(this);
