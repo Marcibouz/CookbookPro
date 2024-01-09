@@ -72,9 +72,11 @@ public class BluetoothHelper extends AppCompatActivity {
     }
 
     public boolean checkPermissions() {
-        for (String s : SHARE_PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(context, s) != PackageManager.PERMISSION_GRANTED) {
-                return false;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            for (String s : SHARE_PERMISSIONS) {
+                if (ContextCompat.checkSelfPermission(context, s) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
             }
         }
         return true;
@@ -97,9 +99,10 @@ public class BluetoothHelper extends AppCompatActivity {
 
 
     public void findDevices() {
-
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
         }
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
 
@@ -117,8 +120,10 @@ public class BluetoothHelper extends AppCompatActivity {
     }
 
     private void startDiscovery() {
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
         }
         if (bluetoothAdapter.isDiscovering()) { // Cancel ongoing discovery
             bluetoothAdapter.cancelDiscovery();
@@ -142,8 +147,10 @@ public class BluetoothHelper extends AppCompatActivity {
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                return;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
             }
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
@@ -153,17 +160,23 @@ public class BluetoothHelper extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 String deviceName = device.getName();
                 String deviceHardwareAddress = device.getAddress(); // MAC address
-                availableDevices.put(deviceHardwareAddress, deviceName);
+                if (deviceName != null) {
+                    availableDevices.put(deviceHardwareAddress, deviceName);
+                }
                 notifyObservers();
             }
         }
     };
 
     public void startDiscoverable() {
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
         }
+
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        context.startActivity(discoverableIntent); // Maybe context.startActivity?
+        context.startActivity(discoverableIntent);
+        Toast.makeText(context, "Discoverable läuft durch", Toast.LENGTH_SHORT).show();
     }
 }

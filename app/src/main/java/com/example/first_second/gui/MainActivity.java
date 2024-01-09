@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         // noinspection SimplifiableIfStatement
 
         if (item.getItemId() == R.id.action_receiveViaBluetooth) {
-            Toast.makeText(this,"Bluetooth", Toast.LENGTH_SHORT).show();
             BluetoothHelper bluetoothHelper = new BluetoothHelper(this, this);
             bluetoothHelper.startDiscoverable();
         }
