@@ -8,7 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
@@ -59,9 +62,7 @@ public class RecipeRecyclerViewAdapter extends
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         holder.recipe_name_txt.setText(recipe_name.get(position));
         RecipeRowElementListener recipeRowElementListener =
-                new RecipeRowElementListener(recipe_id.get(position), recipe_name.get(position),
-                        recipe_ingredients.get(position), recipe_directions.get(position),
-                        fragment);
+                new RecipeRowElementListener(position);
         holder.recipeRowLayout.setOnClickListener(recipeRowElementListener);
     }
 
@@ -77,6 +78,31 @@ public class RecipeRecyclerViewAdapter extends
             super(itemView);
             recipe_name_txt = itemView.findViewById(R.id.recipe_name_txt);
             recipeRowLayout = itemView.findViewById(R.id.recipeRowLayout);
+        }
+    }
+
+    private class RecipeRowElementListener implements View.OnClickListener{
+
+        private String current_id;
+        private String current_recipe_name;
+        private String current_ingredients;
+        private String current_directions;
+        private RecipeRowElementListener(int position){
+            current_id = recipe_id.get(position);
+            current_recipe_name = recipe_name.get(position);
+            current_ingredients = recipe_ingredients.get(position);
+            current_directions = recipe_directions.get(position);
+        }
+        @Override
+        public void onClick(View view) {
+            RecipeListScreenDirections.RecipeListScreenToRecipeScreen action =
+                    (RecipeListScreenDirections.RecipeListScreenToRecipeScreen)
+                            RecipeListScreenDirections.
+                                    RecipeListScreenToRecipeScreen(current_id, current_recipe_name,
+                                    current_ingredients, current_directions);
+            NavHostFragment.findNavController(fragment).navigate(action);
+            ActionBar actionBar = ((AppCompatActivity)fragment.getActivity()).getSupportActionBar();
+            actionBar.setTitle(current_recipe_name);
         }
     }
 }

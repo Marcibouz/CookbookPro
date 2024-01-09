@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,8 @@ public class SplashScreen extends Fragment {
         splashScreenLayout = view.findViewById(R.id.splashScreen);
 
         ///setOnclicklistener für splashScreenLayout;
-        SplashScreenListener splashScreenListener =
-                new SplashScreenListener(SplashScreen.this);
+        SplashscreenListener splashScreenListener =
+                new SplashscreenListener();
         splashScreenLayout.setOnClickListener(splashScreenListener);
     }
 
@@ -42,5 +43,13 @@ public class SplashScreen extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    private class SplashscreenListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            NavHostFragment.
+                    findNavController(SplashScreen.this).
+                    navigate(R.id.SplashScreen_to_RecipeListScreen);
+        }
     }
 }

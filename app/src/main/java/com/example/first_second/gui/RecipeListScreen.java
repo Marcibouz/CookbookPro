@@ -12,12 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
 import com.example.first_second.databinding.RecipelistscreenBinding;
 import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.LinkedList;
@@ -32,7 +34,7 @@ public class RecipeListScreen extends Fragment {
 
     private Drawable nothingHereYetBackground;
 
-    private DatabaseHelper db;
+    private LocalMemory lm;
     private LinkedList<String> recipe_id, recipe_name, recipe_ingredients, recipe_directions;
 
     private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
@@ -63,11 +65,11 @@ public class RecipeListScreen extends Fragment {
                 ResourcesCompat.getDrawable(getResources(), R.drawable.nothinghereyet, null);
 
         //AddButtonlistener setzen
-        AddButtonListener addButtonListener = new AddButtonListener(RecipeListScreen.this);
+        AddButtonListener addButtonListener = new AddButtonListener();
         add_button.setOnClickListener(addButtonListener);
 
         //DatabaseHelper initialisieren
-        db = new DatabaseHelper(context);
+        lm = new DatabaseHelper(context);
 
         //Rezept IDs und Namen in Arrays speichern
         recipe_id = new LinkedList<>();
@@ -89,7 +91,7 @@ public class RecipeListScreen extends Fragment {
      * und Namen jeweils in die Arrays.
      */
     void storeRecipesInLists(){
-        Cursor cursor = db.readAllRecipes();
+        Cursor cursor = lm.readAllRecipes();
         if (cursor.getCount() == 0){
             recipeListLayout.setBackground(nothingHereYetBackground);
         }else{
@@ -107,4 +109,12 @@ public class RecipeListScreen extends Fragment {
         binding = null;
     }
 
+    private class AddButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            NavHostFragment.
+                    findNavController(RecipeListScreen.this).
+                    navigate(R.id.RecipeListScreen_to_AddScreen);
+        }
+    }
 }
