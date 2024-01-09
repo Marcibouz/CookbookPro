@@ -8,6 +8,9 @@ import android.os.Bundle;
 import com.example.first_second.R;
 import static com.example.first_second.bluetooth.BluetoothHelper.SHARE_PERMISSIONS;
 import static com.example.first_second.bluetooth.BluetoothHelper.RECEIVE_PERMISSIONS;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.first_second.bluetooth.BluetoothHelper;
 import com.example.first_second.databinding.ActivityMainBinding;
 import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemory;
 
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,11 +41,13 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private MenuInflater menuInflater;
     private Drawable nothingHereYetBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        menuInflater = getMenuInflater();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         //ddOnDestinationChangedListener fuer navController
         DestinationChangedListener destinationChangedListener =
-                new DestinationChangedListener(binding, getMenuInflater());
+                new DestinationChangedListener();
         navController.addOnDestinationChangedListener(destinationChangedListener);
 
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         }
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -103,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
             bluetoothHelper.startDiscoverable();
         }
         if (item.getItemId() == R.id.action_deleteAll) {
-            DatabaseHelper db = new DatabaseHelper(this);
-            db.deleteAllRecipes();
+            LocalMemory lm = new DatabaseHelper(this);
+            lm.deleteAllRecipes();
             RecipeRecyclerViewAdapter recipeRecyclerViewAdapter =
                     new RecipeRecyclerViewAdapter(this, new LinkedList<String>(),
                             new LinkedList<String>(), new LinkedList<String>(),
@@ -123,5 +129,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private class DestinationChangedListener implements NavController.OnDestinationChangedListener {
+        @Override
+        public void onDestinationChanged(@NonNull NavController navController,
+                                         @NonNull NavDestination currentDestination,
+                                         @Nullable Bundle bundle) {
+            binding.toolbar.getMenu().clear();
+            int currentFragmentId = currentDestination.getId();
+            if (currentFragmentId == R.id.RecipeListScreen){
+                menuInflater.inflate(R.menu.menu_main, binding.toolbar.getMenu());
+            }
+        }
     }
 }

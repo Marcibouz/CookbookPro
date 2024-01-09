@@ -5,14 +5,16 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.example.first_second.application_logic.ApplicationLogic;
+import com.example.first_second.application_logic.PortionCalculator;
 
 
-public class ApplicationLogicTest {
+public class PortionCalculatorTest {
     /**
      * Im Normalfall wird ein zu erwartender String ausgegeben.
      */
     @Test
     public void calculatePortionNormal() {
+        ApplicationLogic applicationLogic = new PortionCalculator();
         String testString = "500 g\tHackfleisch, gemischtes\n" +
                 "1\tZwiebel(n)\n" +
                 "2\tKnoblauchzehe(n)\n" +
@@ -27,7 +29,7 @@ public class ApplicationLogicTest {
                 "2 Bund\tPetersilie oder TK\n" +
                 "2 EL\tTomatenmark\n" +
                 "2 Dose\tTomate(n), geschälte (1600 g)\n" +
-                "etwas\tRotwein", ApplicationLogic.calculatePortion(testString, multiplier));
+                "etwas\tRotwein", applicationLogic.calculatePortion(testString, multiplier));
     }
 
     /**
@@ -35,9 +37,10 @@ public class ApplicationLogicTest {
      */
     @Test
     public void calculatePortionMultiplikatorGleichNull() {
+        ApplicationLogic applicationLogic = new PortionCalculator();
         String testString = "3 Eier und 5,5 Karoffeln.";
         int multiplier = 0;
-        assertEquals("3 Eier und 5,5 Karoffeln.", ApplicationLogic.calculatePortion(testString, multiplier));
+        assertEquals("3 Eier und 5,5 Karoffeln.", applicationLogic.calculatePortion(testString, multiplier));
     }
 
     /**
@@ -45,9 +48,10 @@ public class ApplicationLogicTest {
      */
     @Test
     public void calculatePortionMultiplikatorKleinerNull() {
+        ApplicationLogic applicationLogic = new PortionCalculator();
         String testString = "3 Eier und 5,5 Karoffeln.";
         int multiplier = -1;
-        assertEquals("3 Eier und 5,5 Karoffeln.", ApplicationLogic.calculatePortion(testString, multiplier));
+        assertEquals("3 Eier und 5,5 Karoffeln.", applicationLogic.calculatePortion(testString, multiplier));
     }
 
     /**
@@ -55,9 +59,10 @@ public class ApplicationLogicTest {
      */
     @Test
     public void calculatePortionNoNumbers() {
+        ApplicationLogic applicationLogic = new PortionCalculator();
         String testString = "Ich bereite ein Rezept zu";
         int multiplier = 2;
-        assertEquals("Ich bereite ein Rezept zu", ApplicationLogic.calculatePortion(testString, multiplier));
+        assertEquals("Ich bereite ein Rezept zu", applicationLogic.calculatePortion(testString, multiplier));
     }
 
     /**
@@ -65,11 +70,12 @@ public class ApplicationLogicTest {
      */
     @Test
     public void calculatePortionStringNull() {
+        ApplicationLogic applicationLogic = new PortionCalculator();
         String testString = null;
         int multiplier = 2;
         assertThrows(IllegalArgumentException.class, ()
                 -> {
-            ApplicationLogic.calculatePortion(testString, multiplier);
+            applicationLogic.calculatePortion(testString, multiplier);
         });
     }
 
@@ -78,10 +84,11 @@ public class ApplicationLogicTest {
      */
     @Test
     public void calculatePortionKommaBleibtKomma() {
+        ApplicationLogic applicationLogic = new PortionCalculator();
         String testString = "123,123 14124,2324 234,234,234 3454,3454";
         int multiplier = 3;
         assertEquals("369,369 42372,6972 702,702,702 10363,0362",
-                ApplicationLogic.calculatePortion(testString, multiplier));
+                applicationLogic.calculatePortion(testString, multiplier));
     }
 
     /**
@@ -89,10 +96,11 @@ public class ApplicationLogicTest {
      */
     @Test
     public void calculatePortionPunktBleibtPunkt() {
+        ApplicationLogic applicationLogic = new PortionCalculator();
         String testString = "123.123 14124.2324 234.234.234 3454.3454";
         int multiplier = 3;
         assertEquals("369.369 42372.6972 702.702.702 10363.0362",
-                ApplicationLogic.calculatePortion(testString, multiplier));
+                applicationLogic.calculatePortion(testString, multiplier));
     }
 
     /**
@@ -100,9 +108,10 @@ public class ApplicationLogicTest {
      */
     @Test
     public void calculatePortionKomplexeZahlenUndBuchstaben() {
+        ApplicationLogic applicationLogic = new PortionCalculator();
         String testString = "123,123adw14124.2324.234adw234,234,234dw3454.3454";
         int multiplier = 3;
         assertEquals("369,369adw42372.6972.702adw702,702,702dw10363.0362",
-                ApplicationLogic.calculatePortion(testString, multiplier));
+                applicationLogic.calculatePortion(testString, multiplier));
     }
 }
