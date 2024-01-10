@@ -56,9 +56,7 @@ public class BluetoothHelper extends AppCompatActivity {
         this.activity = activity;
     }
 
-    public BluetoothHelper() {
-
-    }
+    public BluetoothHelper() {}
 
     public Map<BluetoothDevice, String> getAvailableBondedDevices() {
         return availableBondedDevices;
@@ -72,9 +70,14 @@ public class BluetoothHelper extends AppCompatActivity {
         observers.add(bluetoothObserver);
     }
 
-    public void notifyObservers() {
+    public void notifyObserversBoundedDeviceAdded() {
         for (BluetoothObserver bo : observers) {
-            bo.propertyChange(this);
+            bo.bondedDeviceAdded(this);
+        }
+    }
+    public void notifyObserversAvailableDeviceAdded() {
+        for (BluetoothObserver bo : observers) {
+            bo.availableDeviceAdded(this);
         }
     }
 
@@ -122,7 +125,7 @@ public class BluetoothHelper extends AppCompatActivity {
             for (BluetoothDevice device : pairedDevices) {
                 String deviceName = device.getName();
                 availableBondedDevices.put(device, deviceName);
-                notifyObservers();
+                notifyObserversBoundedDeviceAdded();
             }
         }
         startDiscovery();
@@ -176,7 +179,7 @@ public class BluetoothHelper extends AppCompatActivity {
                 if (deviceName != null) { // Exclude devices with no name
                     availableDevices.put(device, deviceName);
                 }
-                notifyObservers();
+                notifyObserversAvailableDeviceAdded();
             }
         }
     };

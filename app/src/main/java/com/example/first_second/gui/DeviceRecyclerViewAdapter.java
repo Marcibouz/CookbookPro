@@ -32,16 +32,25 @@ public class DeviceRecyclerViewAdapter extends
         this.fragment = fragment;
     }
     @Override
-    public void propertyChange(BluetoothHelper bluetoothHelper) {
-        Map<BluetoothDevice, String> availableBondedDevices = bluetoothHelper.getAvailableBondedDevices();
-        Map<BluetoothDevice, String> availableDevices = bluetoothHelper.getAvailableDevices();
+    public void bondedDeviceAdded(BluetoothHelper bluetoothHelper){
+        Map<BluetoothDevice, String> availableBondedDevices = bluetoothHelper.
+                getAvailableBondedDevices();
         for (Map.Entry<BluetoothDevice, String> e: availableBondedDevices.entrySet()){
-            device.add(e.getKey());
-            deviceName.add((e.getValue()));
+            if(!device.contains(e.getKey())){
+                device.add(e.getKey());
+                deviceName.add((e.getValue()));
+            }
         }
+        notifyDataSetChanged();
+    }
+    @Override
+    public void availableDeviceAdded(BluetoothHelper bluetoothHelper){
+        Map<BluetoothDevice, String> availableDevices = bluetoothHelper.getAvailableDevices();
         for (Map.Entry<BluetoothDevice, String> e: availableDevices.entrySet()){
-            device.add(e.getKey());
-            deviceName.add((e.getValue()));
+            if(!device.contains(e.getKey())){
+                device.add(e.getKey());
+                deviceName.add((e.getValue()));
+            }
         }
         notifyDataSetChanged();
     }
@@ -85,7 +94,8 @@ public class DeviceRecyclerViewAdapter extends
         }
         @Override
         public void onClick(View view) {
-            Toast.makeText(context, "Attempting to connect to device " + current_device_name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Attempting to connect to device " + current_device_name,
+                    Toast.LENGTH_SHORT).show();
             BluetoothHelper bluetoothHelper = new BluetoothHelper(context, fragment.getActivity());
             bluetoothHelper.createClientThread(current_device);
         }
