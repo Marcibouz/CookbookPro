@@ -79,9 +79,11 @@ public class BluetoothHelper extends AppCompatActivity {
     }
 
     public boolean checkPermissions() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) { // Before API Level 31, these Permissions did not exist
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
+            // Before API Level 31, these Permissions did not exist
             for (String s : SHARE_PERMISSIONS) {
-                if (ContextCompat.checkSelfPermission(context, s) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(context, s)
+                        != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
@@ -107,7 +109,8 @@ public class BluetoothHelper extends AppCompatActivity {
 
     public void findDevices() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT)
+                    != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
         }
@@ -127,7 +130,8 @@ public class BluetoothHelper extends AppCompatActivity {
 
     private void startDiscovery() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN)
+                    != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
         }
@@ -145,16 +149,20 @@ public class BluetoothHelper extends AppCompatActivity {
 
         boolean discoveryStarted = bluetoothAdapter.startDiscovery();
         if(!discoveryStarted) {
-            Toast.makeText(context, "Discovery not started. Fine Location access must be Granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,
+                    "Discovery not started. Fine Location access must be Granted",
+                    Toast.LENGTH_SHORT).show();
         }
-        Log.d("Discovery Status", discoveryStarted ? "Started Successfully" : "Failed to Start");
+        Log.d("Discovery Status",
+                discoveryStarted ? "Started Successfully" : "Failed to Start");
 
     }
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN)
+                        != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
             }
@@ -175,7 +183,8 @@ public class BluetoothHelper extends AppCompatActivity {
 
     public void startDiscoverable() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_ADVERTISE)
+                    != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
         }
@@ -184,12 +193,15 @@ public class BluetoothHelper extends AppCompatActivity {
         context.startActivity(discoverableIntent);
         Toast.makeText(context, "Discoverable läuft durch", Toast.LENGTH_SHORT).show();
 
-        BluetoothServerThread bluetoothServerThread = new BluetoothServerThread(bluetoothAdapter, APP_NAME, UNIQUE_ID);
+        BluetoothServerThread bluetoothServerThread =
+                new BluetoothServerThread(bluetoothAdapter, APP_NAME, UNIQUE_ID);
         bluetoothServerThread.start();
 
     }
 
-    public UUID getUniqueId() {
-        return UNIQUE_ID;
+    public void createClientThread(BluetoothDevice device) {
+        BluetoothClientThread bluetoothClientThread = new BluetoothClientThread(bluetoothAdapter, device, UNIQUE_ID);
+        bluetoothClientThread.start();
+
     }
 }
