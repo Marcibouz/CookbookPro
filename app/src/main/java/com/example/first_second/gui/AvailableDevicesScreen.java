@@ -1,7 +1,5 @@
 package com.example.first_second.gui;
 
-import static java.lang.Thread.sleep;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
