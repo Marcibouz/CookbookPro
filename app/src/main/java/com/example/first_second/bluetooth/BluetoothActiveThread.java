@@ -45,7 +45,7 @@ public class BluetoothActiveThread extends Thread {
         try {
             objectInputStream = new ObjectInputStream(inputStream);
             recipe = (Recipe) objectInputStream.readObject();
-            LocalMemory lm = new DatabaseHelper(context);
+            LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
             lm.addRecipe(recipe);
             Log.d(TAG, "Recipe: " + recipe.toString());
         } catch (IOException e) {

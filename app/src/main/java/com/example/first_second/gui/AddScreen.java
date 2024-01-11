@@ -69,7 +69,7 @@ public class AddScreen extends Fragment {
         //erfolgreichem Hinzufügen wieder zurück zum Recipelistscreen zu gelangen.
         @Override
         public void onClick(View view) {
-            LocalMemory lm = new DatabaseHelper(context);
+            LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
             Recipe recipe = new Recipe(recipe_name.getText().toString().trim(),
                     ingredients.getText().toString().trim(), directions.getText().toString().trim());
             long saveFeedback = lm.addRecipe(recipe);

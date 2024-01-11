@@ -100,7 +100,7 @@ public class RecipeScreen extends Fragment {
     private class UpdateButtonListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
-            LocalMemory lm = new DatabaseHelper(context);
+            LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
             String recipe_name = recipe_name_input.getText().toString().trim();
             String ingredients = ingredients_input.getText().toString().trim();
             String directions = directions_input.getText().toString().trim();
@@ -125,7 +125,7 @@ public class RecipeScreen extends Fragment {
     private class DeleteButtonListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
-            LocalMemory lm = new DatabaseHelper(context);
+            LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
             int deleteFeedback = lm.deleteOneRecipe(id);
 
             if(deleteFeedback == 0){

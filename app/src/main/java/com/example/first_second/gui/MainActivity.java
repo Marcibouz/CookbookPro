@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             bluetoothHelper.startDiscoverable();
         }
         if (item.getItemId() == R.id.action_deleteAll) {
-            LocalMemory lm = new DatabaseHelper(this);
+            LocalMemory lm = DatabaseHelper.getDatabaseHelper(this);
             lm.deleteAllRecipes();
             RecipeRecyclerViewAdapter recipeRecyclerViewAdapter =
                     new RecipeRecyclerViewAdapter(this, new LinkedList<String>(),

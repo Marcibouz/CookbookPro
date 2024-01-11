@@ -29,7 +29,8 @@ public class DatabaseHelperTest {
 
     @Before
     public void setUp() {
-        db = new DatabaseHelper(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        db = DatabaseHelper.getDatabaseHelper(InstrumentationRegistry.getInstrumentation().
+                getTargetContext());
         db.deleteAllRecipes();
         recipe = new Recipe("Name", "Kartoffel", "Kochen");
         recipe1 = new Recipe("Name1", "Kartoffel1", "Kochen1");

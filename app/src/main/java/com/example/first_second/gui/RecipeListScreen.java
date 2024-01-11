@@ -70,7 +70,7 @@ public class RecipeListScreen extends Fragment {
         add_button.setOnClickListener(addButtonListener);
 
         //DatabaseHelper initialisieren
-        lm = new DatabaseHelper(context);
+        lm = DatabaseHelper.getDatabaseHelper(context);
 
         //Rezept IDs und Namen in Arrays speichern
         recipe_id = new LinkedList<>();

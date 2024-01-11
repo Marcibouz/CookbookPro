@@ -19,11 +19,17 @@ public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
     private static final String RECIPE_NAME = "recipe_name";
     private static final String INGREDIENTS = "ingredients";
     private static final String DIRECTIONS = "directions";
+    private static DatabaseHelper databaseHelper;
 
-    public DatabaseHelper(@Nullable Context context) {
+    private DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
+    public static DatabaseHelper getDatabaseHelper(@Nullable Context context) {
+        if (databaseHelper == null){
+            databaseHelper = new DatabaseHelper(context);
+        }
+        return databaseHelper;
+    }
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME +
