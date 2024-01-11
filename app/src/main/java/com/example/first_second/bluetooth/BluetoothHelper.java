@@ -195,8 +195,8 @@ public class BluetoothHelper extends AppCompatActivity {
         bluetoothServerThread.start();
     }
 
-    public void createClientThread(BluetoothDevice device) {
-        BluetoothClientThread bluetoothClientThread = new BluetoothClientThread(bluetoothAdapter, device, UNIQUE_ID);
+    public void createClientThread(BluetoothDevice device, String name, String ingredients, String instructions) {
+        BluetoothClientThread bluetoothClientThread = new BluetoothClientThread(bluetoothAdapter, device, UNIQUE_ID, name, ingredients, instructions);
         bluetoothClientThread.start();
     }
 }

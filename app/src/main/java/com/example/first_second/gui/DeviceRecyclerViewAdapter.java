@@ -104,7 +104,7 @@ public class DeviceRecyclerViewAdapter extends
             Toast.makeText(context, "Attempting to connect to device " + current_device_name,
                     Toast.LENGTH_LONG).show();
             BluetoothHelper bluetoothHelper = new BluetoothHelper(context, fragment.getActivity());
-            bluetoothHelper.createClientThread(current_device);
+            bluetoothHelper.createClientThread(current_device, recipe_name, ingredients, directions);
         }
     }
 }
