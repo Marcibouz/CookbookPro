@@ -30,6 +30,7 @@ public class DatabaseHelperTest {
     @Before
     public void setUp() {
         db = new DatabaseHelper(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        db.deleteAllRecipes();
         recipe = new Recipe("Name", "Kartoffel", "Kochen");
         recipe1 = new Recipe("Name1", "Kartoffel1", "Kochen1");
         recipe2 = new Recipe("Name2", "Kartoffel2", "Kochen2");
@@ -42,7 +43,6 @@ public class DatabaseHelperTest {
 
     @After
     public void finish(){
-        db.deleteAllRecipes();
         db.close();
     }
     @Test
