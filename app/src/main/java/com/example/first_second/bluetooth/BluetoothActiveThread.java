@@ -2,17 +2,24 @@ package com.example.first_second.bluetooth;
 
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class BluetoothActiveThread extends Thread{
+public class BluetoothActiveThread extends Thread {
     private BluetoothSocket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
+    private String recipeName;
+    private String recipeIngredients;
+    private String recipeInstructions;
     private byte[] buffer = new byte[1024]; // buffer store for the stream
     private static final String TAG = "ActiveThread";
 
@@ -33,12 +40,12 @@ public class BluetoothActiveThread extends Thread{
     }
 
     public void run() {
-        int length;
+        Log.d(TAG, "Active Thread Running");
         // Keep listening to the InputStream until an exception occurs.
         while (true) {
             try {
                 // Read from the InputStream.
-                length = inputStream.read(buffer);
+                inputStream.read(buffer);
             } catch (IOException e) {
                 Log.d(TAG, "Input stream was disconnected", e);
                 break;
@@ -46,9 +53,9 @@ public class BluetoothActiveThread extends Thread{
         }
     }
 
-    // receive data from the remote device.
     public void read() {
         int bytesRead;
+
         try {
             while (true) {
                 bytesRead = inputStream.read(buffer);
@@ -67,7 +74,7 @@ public class BluetoothActiveThread extends Thread{
     }
 
     private void processReceivedData(byte[] data) {
-        // convert the byte array to a string
+
         String receivedData = new String(data, StandardCharsets.UTF_8);
 
         // Do something with the received data

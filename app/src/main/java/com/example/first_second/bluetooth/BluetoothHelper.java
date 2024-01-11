@@ -47,7 +47,7 @@ public class BluetoothHelper extends AppCompatActivity {
     private Map<BluetoothDevice, String> availableDevices = new LinkedHashMap<>();
     private List<BluetoothObserver> observers = new LinkedList<>();
     private static final String APP_NAME = "CookBook Pro";
-    private static final UUID UNIQUE_ID = UUID.randomUUID();
+    private static final UUID UNIQUE_ID = UUID.fromString("b7adcd2b-9256-48d6-a7b6-922e95d91ce1");
 
 
 
@@ -173,10 +173,10 @@ public class BluetoothHelper extends AppCompatActivity {
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Discovery has found a device. Get the BluetoothDevice
                 // object and its info from the Intent.
-                Log.d(TAG, "Found a device");
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 String deviceName = device.getName();
                 if (deviceName != null) { // Exclude devices with no name
+                    Log.d(TAG, "Found a device");
                     availableDevices.put(device, deviceName);
                 }
                 notifyObserversAvailableDeviceAdded();
@@ -194,17 +194,14 @@ public class BluetoothHelper extends AppCompatActivity {
 
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         context.startActivity(discoverableIntent);
-        Toast.makeText(context, "Discoverable läuft durch", Toast.LENGTH_SHORT).show();
 
         BluetoothServerThread bluetoothServerThread =
                 new BluetoothServerThread(bluetoothAdapter, APP_NAME, UNIQUE_ID);
         bluetoothServerThread.start();
-
     }
 
     public void createClientThread(BluetoothDevice device) {
         BluetoothClientThread bluetoothClientThread = new BluetoothClientThread(bluetoothAdapter, device, UNIQUE_ID);
-        bluetoothClientThread.start();
-
+        bluetoothClientThread.run();
     }
 }

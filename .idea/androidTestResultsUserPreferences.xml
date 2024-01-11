@@ -22,8 +22,11 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Fairphone FP4" value="120" />
                   <entry key="Pixel_7_API_34" value="120" />
+                  <entry key="Status" value="80" />
                   <entry key="Tests" value="360" />
+                  <entry key="samsung SM-T710" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -113,6 +116,7 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Fairphone FP4" value="120" />
                   <entry key="Pixel_7_API_34" value="120" />
                   <entry key="Tests" value="360" />
                 </map>

@@ -7,7 +7,6 @@ import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.UUID;
 
 public class BluetoothServerThread extends Thread {
@@ -16,6 +15,7 @@ public class BluetoothServerThread extends Thread {
 
     @SuppressLint("MissingPermission")
     public BluetoothServerThread(BluetoothAdapter adapter, String name, UUID uuid) {
+        Log.d(TAG, "Server Thread created");
         try {
             serverSocket = adapter.listenUsingRfcommWithServiceRecord(name, uuid);
         } catch (IOException e) {
@@ -24,6 +24,7 @@ public class BluetoothServerThread extends Thread {
     }
 
     public void run() {
+        Log.d(TAG, "Server Thread running");
         BluetoothSocket socket;
         while(true) {
             try {
@@ -34,7 +35,7 @@ public class BluetoothServerThread extends Thread {
             }
 
             if (socket != null) { // Connection is being established
-                //We create the bluetooth connected thread, that represents the active connection
+                // Create the bluetooth connected thread that represents the active connection
                 BluetoothActiveThread bluetoothActiveThread = new BluetoothActiveThread(socket);
 
                 //Start this thread
