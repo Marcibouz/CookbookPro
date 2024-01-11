@@ -66,6 +66,15 @@
         android:id="@+id/AvailableDevicesScreen"
         android:name="com.example.first_second.gui.AvailableDevicesScreen"
         tools:layout="@layout/availabledevicesscreen">
+        <argument
+            android:name="recipe_name"
+            app:argType="string" />
+        <argument
+            android:name="ingredients"
+            app:argType="string" />
+        <argument
+            android:name="directions"
+            app:argType="string" />
     </fragment>
 
 </navigation>

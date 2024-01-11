@@ -27,9 +27,16 @@ public class DeviceRecyclerViewAdapter extends
     private Fragment fragment;
     private List<BluetoothDevice> device = new LinkedList<>();
     private List<String> deviceName = new LinkedList<>();
-    public DeviceRecyclerViewAdapter(Context context, Fragment fragment){
+    private String recipe_name;
+    private String ingredients;
+    private String directions;
+    public DeviceRecyclerViewAdapter(Context context, Fragment fragment, String recipe_name,
+                                     String ingredients, String directions){
         this.context = context;
         this.fragment = fragment;
+        this.recipe_name = recipe_name;
+        this.ingredients = ingredients;
+        this.directions = directions;
     }
     @Override
     public void bondedDeviceAdded(BluetoothHelper bluetoothHelper){

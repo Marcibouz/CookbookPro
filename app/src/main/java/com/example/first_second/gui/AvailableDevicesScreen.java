@@ -24,6 +24,9 @@ public class AvailableDevicesScreen extends Fragment {
     private Activity activity;
     private RecyclerView recyclerView;
     private BluetoothObserver bo;
+    private String recipe_name;
+    private String ingredients;
+    private String directions;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -33,12 +36,15 @@ public class AvailableDevicesScreen extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getContext();
         activity = getActivity();
         recyclerView = view.findViewById(R.id.recyclerViewAvailableDevices);
-        bo = new DeviceRecyclerViewAdapter(context, AvailableDevicesScreen.this);
+        getAndSetArgData();
+        bo = new DeviceRecyclerViewAdapter(context, AvailableDevicesScreen.this,
+                recipe_name, ingredients, directions);
         BluetoothHelper bluetoothHelper = new BluetoothHelper(context, activity);
         bluetoothHelper.addBluetoothObserver(bo);
         recyclerView.setAdapter((DeviceRecyclerViewAdapter)bo);
@@ -50,5 +56,12 @@ public class AvailableDevicesScreen extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void getAndSetArgData(){
+        //Getting Data from Args
+        recipe_name = AvailableDevicesScreenArgs.fromBundle(getArguments()).getRecipeName();
+        ingredients = AvailableDevicesScreenArgs.fromBundle(getArguments()).getIngredients();
+        directions = AvailableDevicesScreenArgs.fromBundle(getArguments()).getDirections();
     }
 }

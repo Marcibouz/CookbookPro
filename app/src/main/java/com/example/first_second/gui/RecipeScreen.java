@@ -167,8 +167,11 @@ public class RecipeScreen extends Fragment {
             BluetoothHelper bluetoothHelper = new BluetoothHelper(context, activity);
             if (bluetoothHelper.checkPermissions()) { // Permission check
                 if (bluetoothHelper.activateBluetooth()) {
-                    NavHostFragment.findNavController(RecipeScreen.this).
-                            navigate(R.id.RecipeScreen_to_AvailableDevicesScreen);
+                    RecipeScreenDirections.RecipeScreenToAvailableDevicesScreen action =
+                            (RecipeScreenDirections.RecipeScreenToAvailableDevicesScreen)
+                                    RecipeScreenDirections.RecipeScreenToAvailableDevicesScreen(
+                                            recipe_name, ingredients, directions);
+                    NavHostFragment.findNavController(RecipeScreen.this).navigate(action);
                     ActionBar actionBar = ((AppCompatActivity)RecipeScreen.this.getActivity()).
                             getSupportActionBar();
                     actionBar.setTitle("Cookbook Pro");
