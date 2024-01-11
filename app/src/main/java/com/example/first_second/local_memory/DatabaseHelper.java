@@ -8,10 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
     private static final String DATABASE_NAME = "RecipeList.db";
     private static final int DATABASE_VERSION = 1;
-
     private static final String TABLE_NAME = "my_recipes";
     private static final String ID = "id";
     private static final String RECIPE_NAME = "recipe_name";
@@ -38,43 +40,55 @@ public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
         onCreate(db);
     }
 
-    public long addRecipe(String recipe_name, String ingredients, String directions){
+    @Override
+    public long addRecipe(Recipe recipe){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(RECIPE_NAME, recipe_name);
-        cv.put(INGREDIENTS, ingredients);
-        cv.put(DIRECTIONS, directions);
+        cv.put(RECIPE_NAME, recipe.getRecipeName());
+        cv.put(INGREDIENTS, recipe.getIngredients());
+        cv.put(DIRECTIONS, recipe.getDirections());
 
         return db.insert(TABLE_NAME,null,cv);
     }
 
-    //Gibt alle Rezepte der Datenbank wieder
-    public Cursor readAllRecipes(){
+    @Override
+    public List<Recipe> readAllRecipes(){
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
 
+        LinkedList<Recipe> recipeList = new LinkedList<>();
         if(db != null){
-            return db.rawQuery(query, null);
-        } else {
-            return null;
+            Cursor cursor = db.rawQuery(query, null);
+            while (cursor.moveToNext()){
+                Recipe recipe = new Recipe(cursor.getString(1), cursor.getString(2),
+                        cursor.getString(3));
+                recipe.setId(cursor.getString(0));
+                recipeList.add(recipe);
+            }
+            cursor.close();
         }
+        return recipeList;
     }
 
-    public int updateRecipe(String id, String recipe_name, String ingredients, String directions){
+    @Override
+    public int updateRecipe(Recipe recipe){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(RECIPE_NAME, recipe_name);
-        cv.put(INGREDIENTS, ingredients);
-        cv.put(DIRECTIONS, directions);
+        String id = recipe.getId();
+        cv.put(RECIPE_NAME, recipe.getRecipeName());
+        cv.put(INGREDIENTS, recipe.getIngredients());
+        cv.put(DIRECTIONS, recipe.getDirections());
 
         return db.update(TABLE_NAME, cv, "id=?", new String[]{id});
     }
 
+    @Override
     public int deleteOneRecipe(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "id=?", new String[]{id});
     }
 
+    @Override
     public void deleteAllRecipes(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);

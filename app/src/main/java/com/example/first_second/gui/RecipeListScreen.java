@@ -1,7 +1,6 @@
 package com.example.first_second.gui;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,9 +19,11 @@ import com.example.first_second.R;
 import com.example.first_second.databinding.RecipelistscreenBinding;
 import com.example.first_second.local_memory.DatabaseHelper;
 import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class RecipeListScreen extends Fragment {
 
@@ -90,16 +91,16 @@ public class RecipeListScreen extends Fragment {
      * Nutzt den DatabaseHelper um ein Cursor mit allen Rezepten zu erhalten und packt deren IDs
      * und Namen jeweils in die Arrays.
      */
-    void storeRecipesInLists(){
-        Cursor cursor = lm.readAllRecipes();
-        if (cursor.getCount() == 0){
+    private void storeRecipesInLists(){
+        List<Recipe> recipes = lm.readAllRecipes();
+        if (recipes.isEmpty()){
             recipeListLayout.setBackground(nothingHereYetBackground);
-        }else{
-            while (cursor.moveToNext()){
-                recipe_id.add(cursor.getString(0));
-                recipe_name.add(cursor.getString(1));
-                recipe_ingredients.add(cursor.getString(2));
-                recipe_directions.add(cursor.getString(3));
+        } else{
+            for (Recipe r : recipes){
+                recipe_id.add(r.getId());
+                recipe_name.add(r.getRecipeName());
+                recipe_ingredients.add(r.getIngredients());
+                recipe_directions.add(r.getDirections());
             }
         }
     }

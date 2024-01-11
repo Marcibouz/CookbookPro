@@ -1,6 +1,6 @@
 package com.example.first_second.local_memory;
 
-import android.database.Cursor;
+import java.util.List;
 
 /**
  * Schnittstelle des LocalMemory
@@ -10,31 +10,25 @@ public interface LocalMemory {
     /**
      * Fügt ein Rezept der Datenbank hinzu.
      *
-     * @param recipe_name Name des Rezepts
-     * @param ingredients Zutaten des Rezepts
-     * @param directions Zubereitung des Rezepts
+     * @param recipe Das neue Rezept
      * @return ID des neu hinzugefügten Rezepts oder -1 wenn es einen Fehler beim Hinzufügen gab
      */
-    long addRecipe(String recipe_name, String ingredients, String directions);
+    long addRecipe(Recipe recipe);
 
     /**
      * Gibt alle Rezepte der Datenbank zurück.
      *
      * @return Alle Rezepte der Datenbank
      */
-    Cursor readAllRecipes();
+    List<Recipe> readAllRecipes();
 
     /**
-     * Aktualisiert das Rezept mit der gegebenenen ID mit dem gegebenen Namen, den Zutaten sowie den
-     * Zubereitungsanweisungen.
+     * Aktualisiert das Rezept mit dem neuen Rezept.
      *
-     * @param id ID des Rezeptes welches aktualisiert werden soll
-     * @param recipe_name Neuer Name des Rezepts
-     * @param ingredients Neue Zutaten des Rezepts
-     * @param directions Neue Zubereitungsanweisungen des Rezepts
+     * @param recipe Rezept mit welchem das alte überschrieben werden soll
      * @return Anzahl der betroffenenen Zeilen
      */
-    int updateRecipe(String id, String recipe_name, String ingredients, String directions);
+    int updateRecipe(Recipe recipe);
 
     /**
      * Löscht das Rezept mit der gegebenen ID

@@ -26,6 +26,7 @@ import com.example.first_second.bluetooth.BluetoothHelper;
 import com.example.first_second.databinding.RecipescreenBinding;
 import com.example.first_second.local_memory.DatabaseHelper;
 import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.Recipe;
 
 
 public class RecipeScreen extends Fragment {
@@ -103,7 +104,9 @@ public class RecipeScreen extends Fragment {
             String recipe_name = recipe_name_input.getText().toString().trim();
             String ingredients = ingredients_input.getText().toString().trim();
             String directions = directions_input.getText().toString().trim();
-            int addFeedback = lm.updateRecipe(id, recipe_name, ingredients, directions);
+            Recipe recipe = new Recipe(recipe_name, ingredients, directions);
+            recipe.setId(id);
+            int addFeedback = lm.updateRecipe(recipe);
 
             if(addFeedback == 0){
                 Toast.makeText(context, "Recipe was deleted!", Toast.LENGTH_SHORT).show();

@@ -19,6 +19,7 @@ import com.example.first_second.R;
 import com.example.first_second.databinding.AddscreenBinding;
 import com.example.first_second.local_memory.DatabaseHelper;
 import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.Recipe;
 
 public class AddScreen extends Fragment {
 
@@ -69,9 +70,9 @@ public class AddScreen extends Fragment {
         @Override
         public void onClick(View view) {
             LocalMemory lm = new DatabaseHelper(context);
-            long saveFeedback = lm.addRecipe(recipe_name.getText().toString().trim(),
-                    ingredients.getText().toString().trim(),
-                    directions.getText().toString().trim());
+            Recipe recipe = new Recipe(recipe_name.getText().toString().trim(),
+                    ingredients.getText().toString().trim(), directions.getText().toString().trim());
+            long saveFeedback = lm.addRecipe(recipe);
 
             if (saveFeedback == -1){
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
