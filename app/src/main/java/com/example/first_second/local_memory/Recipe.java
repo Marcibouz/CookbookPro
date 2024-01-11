@@ -1,10 +1,16 @@
 package com.example.first_second.local_memory;
 
-public class Recipe {
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+
+public class Recipe implements Serializable {
     /**
      * ID, welche von der DB beim Hinzufügen vergeben wurde.
      */
-    private String id;
+    private transient String id;
     private String recipeName;
     private String ingredients;
     private String directions;
@@ -34,4 +40,12 @@ public class Recipe {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                ", recipeName='" + recipeName + '\'' +
+                ", ingredients='" + ingredients + '\'' +
+                ", directions='" + directions + '\'' +
+                '}';
+    }
 }

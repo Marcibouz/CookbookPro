@@ -5,8 +5,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,8 +20,6 @@ import androidx.core.content.ContextCompat;
 
 import com.example.first_second.gui.BluetoothObserver;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +44,6 @@ public class BluetoothHelper extends AppCompatActivity {
     private List<BluetoothObserver> observers = new LinkedList<>();
     private static final String APP_NAME = "CookBook Pro";
     private static final UUID UNIQUE_ID = UUID.fromString("b7adcd2b-9256-48d6-a7b6-922e95d91ce1");
-
 
 
     public BluetoothHelper(Context context, Activity activity) {
@@ -196,12 +191,12 @@ public class BluetoothHelper extends AppCompatActivity {
         context.startActivity(discoverableIntent);
 
         BluetoothServerThread bluetoothServerThread =
-                new BluetoothServerThread(bluetoothAdapter, APP_NAME, UNIQUE_ID);
+                new BluetoothServerThread(bluetoothAdapter, APP_NAME, UNIQUE_ID, context);
         bluetoothServerThread.start();
     }
 
     public void createClientThread(BluetoothDevice device) {
         BluetoothClientThread bluetoothClientThread = new BluetoothClientThread(bluetoothAdapter, device, UNIQUE_ID);
-        bluetoothClientThread.run();
+        bluetoothClientThread.start();
     }
 }

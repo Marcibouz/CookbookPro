@@ -4,18 +4,22 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
 import java.util.UUID;
 
 public class BluetoothServerThread extends Thread {
+    private Context context;
     private static final String TAG = "ServerThread";
     private BluetoothServerSocket serverSocket;
 
     @SuppressLint("MissingPermission")
-    public BluetoothServerThread(BluetoothAdapter adapter, String name, UUID uuid) {
+    public BluetoothServerThread(BluetoothAdapter adapter, String name, UUID uuid, Context context) {
         Log.d(TAG, "Server Thread created");
+        this.context = context;
+
         try {
             serverSocket = adapter.listenUsingRfcommWithServiceRecord(name, uuid);
         } catch (IOException e) {
@@ -38,10 +42,14 @@ public class BluetoothServerThread extends Thread {
                 // Create the bluetooth connected thread that represents the active connection
                 BluetoothActiveThread bluetoothActiveThread = new BluetoothActiveThread(socket);
 
-                //Start this thread
+                // Start this thread
                 bluetoothActiveThread.start();
 
-                bluetoothActiveThread.read();
+                // Reads Recipe Data and saves it in data bank
+                bluetoothActiveThread.read(context);
+
+                // Closes ServerThread
+                cancel();
                 try {
                     serverSocket.close();
                     break;

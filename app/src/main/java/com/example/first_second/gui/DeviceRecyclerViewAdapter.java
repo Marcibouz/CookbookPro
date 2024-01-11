@@ -95,7 +95,7 @@ public class DeviceRecyclerViewAdapter extends
         @Override
         public void onClick(View view) {
             Toast.makeText(context, "Attempting to connect to device " + current_device_name,
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_LONG).show();
             BluetoothHelper bluetoothHelper = new BluetoothHelper(context, fragment.getActivity());
             bluetoothHelper.createClientThread(current_device);
         }

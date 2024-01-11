@@ -1,25 +1,26 @@
 package com.example.first_second.bluetooth;
 
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.Recipe;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class BluetoothActiveThread extends Thread {
     private BluetoothSocket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
-    private String recipeName;
-    private String recipeIngredients;
-    private String recipeInstructions;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+    private Recipe recipe;
     private byte[] buffer = new byte[1024]; // buffer store for the stream
     private static final String TAG = "ActiveThread";
 
@@ -28,64 +29,42 @@ public class BluetoothActiveThread extends Thread {
 
         // Get the input and output streams
         try {
-            inputStream = socket.getInputStream();
-        } catch (IOException e) {
-            Log.e(TAG, "Error occurred when creating input stream", e);
-        }
-        try {
             outputStream = socket.getOutputStream();
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when creating output stream", e);
         }
-    }
-
-    public void run() {
-        Log.d(TAG, "Active Thread Running");
-        // Keep listening to the InputStream until an exception occurs.
-        while (true) {
-            try {
-                // Read from the InputStream.
-                inputStream.read(buffer);
-            } catch (IOException e) {
-                Log.d(TAG, "Input stream was disconnected", e);
-                break;
-            }
+        try {
+            inputStream = socket.getInputStream();
+        } catch (IOException e) {
+            Log.e(TAG, "Error occurred when creating input stream", e);
         }
     }
 
-    public void read() {
-        int bytesRead;
-
+    public void read(Context context) {
+        Log.d(TAG, "Read Method Called");
         try {
-            while (true) {
-                bytesRead = inputStream.read(buffer);
-
-                if (bytesRead == -1) {
-                    // End of stream reached
-                    break;
-                }
-
-                // Process the received data
-                processReceivedData(Arrays.copyOf(buffer, bytesRead));
-            }
+            objectInputStream = new ObjectInputStream(inputStream);
+            recipe = (Recipe) objectInputStream.readObject();
+            LocalMemory lm = new DatabaseHelper(context);
+            lm.addRecipe(recipe);
+            Log.d(TAG, "Recipe: " + recipe.toString());
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when reading data", e);
+        } catch (ClassNotFoundException e) {
+            Log.e(TAG, "Class could not be found", e);
+        } finally {
+            // closes ActiveThread after read() either failed or succeeded
+            cancel();
         }
     }
 
-    private void processReceivedData(byte[] data) {
-
-        String receivedData = new String(data, StandardCharsets.UTF_8);
-
-        // Do something with the received data
-        Log.d(TAG, "Received data: " + receivedData);
-    }
-
-
     // send data to the remote device.
-    public void write(byte[] bytes) {
+    public void write(Recipe recipe) {
+        Log.d(TAG, "Write Method Called");
         try {
-            outputStream.write(bytes);
+            objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(recipe);
+            objectOutputStream.flush();
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when sending data", e);
         }

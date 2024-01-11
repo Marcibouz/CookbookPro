@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.util.Log;
 
+import com.example.first_second.local_memory.Recipe;
+
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class BluetoothClientThread extends Thread {
@@ -17,6 +19,7 @@ public class BluetoothClientThread extends Thread {
     private String recipeName = "name";
     private String recipeIngredients = "zutaten";
     private String recipeInstructions = "anweisungen";
+    Recipe recipe = new Recipe("Recipe Object Name", "Recipe Object Ingredients", "Recipe Object Instructions");
     private static final String TAG = "ClientThread";
 
     @SuppressLint("MissingPermission")
@@ -42,11 +45,6 @@ public class BluetoothClientThread extends Thread {
         try {
             // Connect to the remote device through the socket.
             socket.connect();
-            // Create the bluetooth connected thread that represents the active connection
-            BluetoothActiveThread bluetoothActiveThread = new BluetoothActiveThread(socket);
-
-            //Start this thread
-            bluetoothActiveThread.start();
 
         } catch (IOException connectException) {
             // Unable to connect; close the socket and return.
@@ -61,11 +59,17 @@ public class BluetoothClientThread extends Thread {
 
         // The connection attempt succeeded. Perform work associated with
         // the connection in a separate thread.
+        // Create the bluetooth connected thread that represents the active connection
         BluetoothActiveThread bluetoothActiveThread = new BluetoothActiveThread(socket);
+
+        //Start this thread
         bluetoothActiveThread.start();
-        bluetoothActiveThread.write(recipeName.getBytes());
-        bluetoothActiveThread.write(recipeIngredients.getBytes());
-        bluetoothActiveThread.write(recipeInstructions.getBytes());
+
+        // Write recipe data
+        bluetoothActiveThread.write(recipe);
+
+        // Closes ClientThread
+        cancel();
     }
 
     // Closes the client socket and causes the thread to finish.
