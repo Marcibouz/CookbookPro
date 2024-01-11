@@ -18,17 +18,18 @@ public interface LocalMemory {
     /**
      * Gibt alle Rezepte der Datenbank zurück.
      *
-     * @return Alle Rezepte der Datenbank
+     * @return Liste mit allen Rezepte der Datenbank, leere Liste wenn die Datenbank leer ist
      */
     List<Recipe> readAllRecipes();
 
     /**
-     * Aktualisiert das Rezept mit dem neuen Rezept.
+     * Aktualisiert das Rezept mit der ID mit dem neuen Rezept.
      *
+     * @param id ID des zu aktualisierenden Rezepts
      * @param recipe Rezept mit welchem das alte überschrieben werden soll
      * @return Anzahl der betroffenenen Zeilen
      */
-    int updateRecipe(Recipe recipe);
+    int updateRecipe(String id, Recipe recipe);
 
     /**
      * Löscht das Rezept mit der gegebenen ID

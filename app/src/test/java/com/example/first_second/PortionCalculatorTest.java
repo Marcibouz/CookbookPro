@@ -18,7 +18,7 @@ public class PortionCalculatorTest {
      * Im Normalfall wird ein zu erwartender String ausgegeben.
      */
     @Test
-    public void calculatePortionNormal() {
+    public void testCommonRecipe() {
         String testString = "500 g\tHackfleisch, gemischtes\n" +
                 "1\tZwiebel(n)\n" +
                 "2\tKnoblauchzehe(n)\n" +
@@ -40,7 +40,7 @@ public class PortionCalculatorTest {
      * Wenn der Multiplikator 0 ist, soll sich der String nicht veraendern.
      */
     @Test
-    public void calculatePortionMultiplierIsZero() {
+    public void testMultiplierIsZero() {
         String testString = "3 Eier und 5,5 Karoffeln.";
         int multiplier = 0;
         assertEquals("3 Eier und 5,5 Karoffeln.", portionCalculator.calculatePortion(testString, multiplier));
@@ -50,7 +50,7 @@ public class PortionCalculatorTest {
      * Wenn der Multiplikator <0 ist, soll sich der String nicht veraendern.
      */
     @Test
-    public void calculatePortionMultiplierSmallerThanZero() {
+    public void testMultiplierSmallerThanZero() {
         String testString = "3 Eier und 5,5 Karoffeln.";
         int multiplier = -1;
         assertEquals("3 Eier und 5,5 Karoffeln.", portionCalculator.calculatePortion(testString, multiplier));
@@ -60,7 +60,7 @@ public class PortionCalculatorTest {
      * Rezept ohne Zahlen bleibt unveraendert.
      */
     @Test
-    public void calculatePortionNoNumbers() {
+    public void testNoNumbers() {
         String testString = "Ich bereite ein Rezept zu";
         int multiplier = 2;
         assertEquals("Ich bereite ein Rezept zu", portionCalculator.calculatePortion(testString, multiplier));
@@ -70,7 +70,7 @@ public class PortionCalculatorTest {
      * Wenn der String null ist, wird IllegalArgumentException geworfen.
      */
     @Test
-    public void calculatePortionStringNull() {
+    public void testStringNull() {
         String testString = null;
         int multiplier = 2;
         assertThrows(IllegalArgumentException.class, ()
@@ -83,7 +83,7 @@ public class PortionCalculatorTest {
      * Jedes Komma einer Zahl sollte ein Komma bleiben.
      */
     @Test
-    public void calculatePortionCommaStaysComma() {
+    public void testCommaStaysComma() {
         String testString = "123,123 14124,2324 234,234,234 3454,3454";
         int multiplier = 3;
         assertEquals("369,369 42372,6972 702,702,702 10363,0362",
@@ -94,7 +94,7 @@ public class PortionCalculatorTest {
      * Jeder Punkt einer Zahl sollte ein Punkt bleiben.
      */
     @Test
-    public void calculatePortionDotStaysDot() {
+    public void testDotStaysDot() {
         String testString = "123.123 14124.2324 234.234.234 3454.3454";
         int multiplier = 3;
         assertEquals("369.369 42372.6972 702.702.702 10363.0362",
@@ -105,7 +105,7 @@ public class PortionCalculatorTest {
      * Zahlen werden korrekt abgregrenzt, umgerechnet und dargestellt.
      */
     @Test
-    public void calculatePortionComplexExample() {
+    public void testComplexExample() {
         String testString = "123,123adw14124.2324.234adw234,234,234dw3454.3454";
         int multiplier = 3;
         assertEquals("369,369adw42372.6972.702adw702,702,702dw10363.0362",

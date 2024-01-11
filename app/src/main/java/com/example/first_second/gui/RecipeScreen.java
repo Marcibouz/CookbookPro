@@ -105,8 +105,7 @@ public class RecipeScreen extends Fragment {
             String ingredients = ingredients_input.getText().toString().trim();
             String directions = directions_input.getText().toString().trim();
             Recipe recipe = new Recipe(recipe_name, ingredients, directions);
-            recipe.setId(id);
-            int addFeedback = lm.updateRecipe(recipe);
+            int addFeedback = lm.updateRecipe(id, recipe);
 
             if(addFeedback == 0){
                 Toast.makeText(context, "Recipe was deleted!", Toast.LENGTH_SHORT).show();

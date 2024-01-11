@@ -42,6 +42,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
 
     @Override
     public long addRecipe(Recipe recipe){
+        if(recipe == null){
+            return -1;
+        }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(RECIPE_NAME, recipe.getRecipeName());
@@ -71,10 +74,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
     }
 
     @Override
-    public int updateRecipe(Recipe recipe){
+    public int updateRecipe(String id, Recipe recipe){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        String id = recipe.getId();
         cv.put(RECIPE_NAME, recipe.getRecipeName());
         cv.put(INGREDIENTS, recipe.getIngredients());
         cv.put(DIRECTIONS, recipe.getDirections());

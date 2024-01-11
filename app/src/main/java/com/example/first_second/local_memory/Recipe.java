@@ -1,6 +1,9 @@
 package com.example.first_second.local_memory;
 
 public class Recipe {
+    /**
+     * ID, welche von der DB beim Hinzufügen vergeben wurde.
+     */
     private String id;
     private String recipeName;
     private String ingredients;
