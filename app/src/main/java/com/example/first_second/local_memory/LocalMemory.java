@@ -9,6 +9,12 @@ import java.util.List;
  */
 public interface LocalMemory {
 
+    /**
+     * Fügt einen Observer hinzu, damit dieser über Veränderungen in der Datenbank benachrichtigt
+     * wird.
+     *
+     * @param databaseObserver Observer welcher benachrichtigt werden soll.
+     */
     void addDatabaseObserver(DatabaseObserver databaseObserver);
 
     /**

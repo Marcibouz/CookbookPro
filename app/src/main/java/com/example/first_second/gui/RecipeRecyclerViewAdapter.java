@@ -2,6 +2,8 @@ package com.example.first_second.gui;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +51,14 @@ public class RecipeRecyclerViewAdapter extends
     public void recipeListChanged() {
         LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
         List<Recipe> recipes = lm.readAllRecipes();
+
+        recipe_id.clear();
+        recipe_name.clear();
+        recipe_ingredients.clear();
+        recipe_directions.clear();
+
         if (recipes.isEmpty()){
-            recipe_id.clear();
-            recipe_name.clear();
-            recipe_ingredients.clear();
-            recipe_directions.clear();
-            recipeListLayout.setBackground(nothingHereYetBackground);
+            runOnUiThread(() -> recipeListLayout.setBackground(nothingHereYetBackground));
         } else{
             for (Recipe r : recipes){
                 recipe_id.add(r.getId());
@@ -63,8 +67,14 @@ public class RecipeRecyclerViewAdapter extends
                 recipe_directions.add(r.getDirections());
             }
         }
-        notifyDataSetChanged();
+        runOnUiThread(() -> notifyDataSetChanged());
     }
+
+    private void runOnUiThread(Runnable runnable) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(runnable);
+    }
+
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -43,9 +43,6 @@ public class LocalMemoryImpl extends SQLiteOpenHelper implements LocalMemory{
             databaseObserver.recipeListChanged();
         }
     }
-    public List<DatabaseObserver> getObservers() {
-        return observers;
-    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
