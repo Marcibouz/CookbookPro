@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
 import com.example.first_second.local_memory.Recipe;
 
@@ -20,6 +20,7 @@ public class BluetoothActiveThread extends Thread {
     private OutputStream outputStream;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
+    private Recipe recipe;
     private byte[] buffer = new byte[1024]; // buffer store for the stream
     private static final String TAG = "ActiveThread";
 
@@ -40,14 +41,13 @@ public class BluetoothActiveThread extends Thread {
     }
 
     public void read(Context context) {
-        Recipe recipe;
         Log.d(TAG, "Read Method Called");
         try {
             objectInputStream = new ObjectInputStream(inputStream);
             recipe = (Recipe) objectInputStream.readObject();
-            Log.d(TAG, "Recipe: " + recipe.toString());
-            LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
+            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
             lm.addRecipe(recipe);
+            Log.d(TAG, "Recipe: " + recipe.toString());
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when reading data", e);
         } catch (ClassNotFoundException e) {

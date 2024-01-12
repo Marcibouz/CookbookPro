@@ -21,10 +21,10 @@ import android.widget.Toast;
 
 import com.example.first_second.R;
 import com.example.first_second.application_logic.ApplicationLogic;
-import com.example.first_second.application_logic.PortionCalculator;
-import com.example.first_second.bluetooth.BluetoothHelperImpl;
+import com.example.first_second.application_logic.ApplicationLogicImpl;
+import com.example.first_second.bluetooth.BluetoothHelper;
 import com.example.first_second.databinding.RecipescreenBinding;
-import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
 import com.example.first_second.local_memory.Recipe;
 
@@ -100,7 +100,7 @@ public class RecipeScreen extends Fragment {
     private class UpdateButtonListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
-            LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
+            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
             String recipe_name = recipe_name_input.getText().toString().trim();
             String ingredients = ingredients_input.getText().toString().trim();
             String directions = directions_input.getText().toString().trim();
@@ -125,7 +125,7 @@ public class RecipeScreen extends Fragment {
     private class DeleteButtonListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
-            LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
+            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
             int deleteFeedback = lm.deleteOneRecipe(id);
 
             if(deleteFeedback == 0){
@@ -154,7 +154,7 @@ public class RecipeScreen extends Fragment {
             } else {
                 multiplierDouble = Double.parseDouble(multiplierString);
             }
-            ApplicationLogic applicationlogic = new PortionCalculator();
+            ApplicationLogic applicationlogic = new ApplicationLogicImpl();
             String result = applicationlogic.calculatePortion(ingredientsToScale, multiplierDouble);
             ingredients_input.setText(result);
         }
@@ -164,7 +164,7 @@ public class RecipeScreen extends Fragment {
         @RequiresApi(api = Build.VERSION_CODES.S)
         @Override
         public void onClick(View view) {
-            BluetoothHelperImpl bluetoothHelper = new BluetoothHelperImpl(context, activity);
+            BluetoothHelper bluetoothHelper = new BluetoothHelper(context, activity);
             if (bluetoothHelper.checkPermissions()) { // Permission check
                 if (bluetoothHelper.activateBluetooth()) {
                     RecipeScreenDirections.RecipeScreenToAvailableDevicesScreen action =

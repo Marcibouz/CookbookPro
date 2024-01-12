@@ -17,7 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
-import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
 import com.example.first_second.local_memory.Recipe;
 
@@ -47,7 +47,7 @@ public class RecipeRecyclerViewAdapter extends
 
     @Override
     public void recipeListChanged() {
-        LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
+        LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
         List<Recipe> recipes = lm.readAllRecipes();
         if (recipes.isEmpty()){
             recipe_id.clear();
