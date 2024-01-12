@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.first_second.R;
 import com.example.first_second.bluetooth.BluetoothImpl;
+import com.example.first_second.bluetooth.BluetoothObserver;
 import com.example.first_second.databinding.AvailabledevicesscreenBinding;
 
 public class AvailableDevicesScreen extends Fragment {

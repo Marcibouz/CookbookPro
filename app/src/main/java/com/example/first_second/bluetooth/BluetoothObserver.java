@@ -1,4 +1,4 @@
-package com.example.first_second.gui;
+package com.example.first_second.bluetooth;
 
 import com.example.first_second.bluetooth.BluetoothImpl;
 

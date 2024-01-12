@@ -1,7 +1,5 @@
 package com.example.first_second.local_memory;
 
-import com.example.first_second.gui.DatabaseObserver;
-
 import java.util.List;
 
 /**
@@ -13,9 +11,9 @@ public interface Memory {
      * Fügt einen Observer hinzu, damit dieser über Veränderungen in der Datenbank benachrichtigt
      * wird.
      *
-     * @param databaseObserver Observer welcher benachrichtigt werden soll.
+     * @param memoryObserver Observer welcher benachrichtigt werden soll.
      */
-    void addNewDatabaseObserver(DatabaseObserver databaseObserver);
+    void addNewDatabaseObserver(MemoryObserver memoryObserver);
 
     /**
      * Fügt ein Rezept der Datenbank hinzu.

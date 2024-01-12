@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
+import com.example.first_second.local_memory.MemoryObserver;
 import com.example.first_second.local_memory.MemoryImpl;
 import com.example.first_second.local_memory.Memory;
 import com.example.first_second.local_memory.Recipe;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class RecipeRecyclerViewAdapter extends
         RecyclerView.Adapter<RecipeRecyclerViewAdapter.RecipeViewHolder> implements
-        DatabaseObserver{
+        MemoryObserver {
     private Context context;
     private Fragment fragment;
     private ConstraintLayout recipeListLayout;

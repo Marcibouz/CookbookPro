@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.first_second.gui.BluetoothObserver;
 import com.example.first_second.gui.Gui;
 import com.example.first_second.gui.MainActivity;
 

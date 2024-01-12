@@ -1,13 +1,8 @@
 package com.example.first_second.bluetooth;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
-
-import com.example.first_second.gui.BluetoothObserver;
 
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Schnittstelle für Bluetooth Funktionen

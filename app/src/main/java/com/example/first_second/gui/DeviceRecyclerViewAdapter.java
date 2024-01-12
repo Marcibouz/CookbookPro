@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
 import com.example.first_second.bluetooth.BluetoothImpl;
+import com.example.first_second.bluetooth.BluetoothObserver;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.Map;
 
 public class DeviceRecyclerViewAdapter extends
         RecyclerView.Adapter<DeviceRecyclerViewAdapter.DeviceViewHolder> implements
-        BluetoothObserver{
+        BluetoothObserver {
     private Context context;
     private Fragment fragment;
     private List<BluetoothDevice> device = new LinkedList<>();

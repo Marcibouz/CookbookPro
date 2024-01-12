@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.example.first_second.gui.DatabaseObserver;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class MemoryImpl extends SQLiteOpenHelper implements Memory {
     private static final String INGREDIENTS = "ingredients";
     private static final String DIRECTIONS = "directions";
     private static MemoryImpl memoryImpl;
-    private List<DatabaseObserver> observers = new LinkedList<>();
+    private List<MemoryObserver> observers = new LinkedList<>();
 
     private MemoryImpl(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,14 +33,14 @@ public class MemoryImpl extends SQLiteOpenHelper implements Memory {
     }
 
     @Override
-    public void addNewDatabaseObserver(DatabaseObserver databaseObserver){
-        if (!observers.contains(databaseObserver)){
-            observers.add(databaseObserver);
+    public void addNewDatabaseObserver(MemoryObserver memoryObserver){
+        if (!observers.contains(memoryObserver)){
+            observers.add(memoryObserver);
         }
     }
     private void notifyObservers(){
-        for (DatabaseObserver databaseObserver : observers){
-            databaseObserver.recipeListChanged();
+        for (MemoryObserver memoryObserver : observers){
+            memoryObserver.recipeListChanged();
         }
     }
 
