@@ -5,8 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.first_second.gui.MainActivity;
-import com.example.first_second.local_memory.LocalMemoryImpl;
-import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.MemoryImpl;
+import com.example.first_second.local_memory.Memory;
 import com.example.first_second.local_memory.Recipe;
 
 import java.io.IOException;
@@ -48,8 +48,8 @@ public class BluetoothActiveThread extends Thread {
         try {
             objectInputStream = new ObjectInputStream(inputStream);
             recipe = (Recipe) objectInputStream.readObject();
-            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
-            lm.addRecipe(recipe);
+            Memory memory = MemoryImpl.getMemoryImpl(context);
+            memory.addRecipe(recipe);
             Log.d(TAG, "Recipe: " + recipe.toString());
             activity.showToast("Recipe received!");
         } catch (IOException e) {

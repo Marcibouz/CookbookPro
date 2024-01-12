@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Schnittstelle des LocalMemory
  */
-public interface LocalMemory {
+public interface Memory {
 
     /**
      * Fügt einen Observer hinzu, damit dieser über Veränderungen in der Datenbank benachrichtigt

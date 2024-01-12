@@ -25,8 +25,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.first_second.bluetooth.Bluetooth;
 import com.example.first_second.bluetooth.BluetoothImpl;
 import com.example.first_second.databinding.ActivityMainBinding;
-import com.example.first_second.local_memory.LocalMemoryImpl;
-import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.MemoryImpl;
+import com.example.first_second.local_memory.Memory;
 
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -105,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Your device is now discoverable.", Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.action_deleteAll) {
-            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(this);
-            lm.deleteAllRecipes();
+            Memory memory = MemoryImpl.getMemoryImpl(this);
+            memory.deleteAllRecipes();
             Toast.makeText(this, "All Recipes Deleted!", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);

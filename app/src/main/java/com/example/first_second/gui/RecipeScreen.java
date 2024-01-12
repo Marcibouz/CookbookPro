@@ -24,8 +24,8 @@ import com.example.first_second.application_logic.ApplicationLogicImpl;
 import com.example.first_second.bluetooth.Bluetooth;
 import com.example.first_second.bluetooth.BluetoothImpl;
 import com.example.first_second.databinding.RecipescreenBinding;
-import com.example.first_second.local_memory.LocalMemoryImpl;
-import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.MemoryImpl;
+import com.example.first_second.local_memory.Memory;
 import com.example.first_second.local_memory.Recipe;
 
 
@@ -100,12 +100,12 @@ public class RecipeScreen extends Fragment {
     private class UpdateButtonListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
-            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
+            Memory memory = MemoryImpl.getMemoryImpl(context);
             String recipe_name = recipe_name_input.getText().toString().trim();
             String ingredients = ingredients_input.getText().toString().trim();
             String directions = directions_input.getText().toString().trim();
             Recipe recipe = new Recipe(recipe_name, ingredients, directions);
-            int addFeedback = lm.updateRecipe(id, recipe);
+            int addFeedback = memory.updateRecipe(id, recipe);
 
             if(addFeedback == 0){
                 Toast.makeText(context, "Recipe was deleted!", Toast.LENGTH_SHORT).show();
@@ -125,8 +125,8 @@ public class RecipeScreen extends Fragment {
     private class DeleteButtonListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
-            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
-            int deleteFeedback = lm.deleteOneRecipe(id);
+            Memory memory = MemoryImpl.getMemoryImpl(context);
+            int deleteFeedback = memory.deleteOneRecipe(id);
 
             if(deleteFeedback == 0){
                 Toast.makeText(context, "Recipe is already deleted!", Toast.LENGTH_SHORT).show();

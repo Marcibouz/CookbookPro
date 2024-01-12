@@ -15,8 +15,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.first_second.R;
 import com.example.first_second.databinding.AddscreenBinding;
-import com.example.first_second.local_memory.LocalMemoryImpl;
-import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.MemoryImpl;
+import com.example.first_second.local_memory.Memory;
 import com.example.first_second.local_memory.Recipe;
 
 public class AddScreen extends Fragment {
@@ -67,10 +67,10 @@ public class AddScreen extends Fragment {
         //erfolgreichem Hinzufügen wieder zurück zum Recipelistscreen zu gelangen.
         @Override
         public void onClick(View view) {
-            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
+            Memory memory = MemoryImpl.getMemoryImpl(context);
             Recipe recipe = new Recipe(recipe_name.getText().toString().trim(),
                     ingredients.getText().toString().trim(), directions.getText().toString().trim());
-            long saveFeedback = lm.addRecipe(recipe);
+            long saveFeedback = memory.addRecipe(recipe);
 
             if (saveFeedback == -1){
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();

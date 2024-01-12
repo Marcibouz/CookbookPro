@@ -43,7 +43,8 @@ public class ApplicationLogicImplTest {
     public void testMultiplierIsZero() {
         String testString = "3 Eier und 5,5 Karoffeln.";
         int multiplier = 0;
-        assertEquals("3 Eier und 5,5 Karoffeln.", applicationLogicImpl.calculatePortion(testString, multiplier));
+        assertEquals("3 Eier und 5,5 Karoffeln.", applicationLogicImpl.
+                calculatePortion(testString, multiplier));
     }
 
     /**
@@ -53,7 +54,8 @@ public class ApplicationLogicImplTest {
     public void testMultiplierSmallerThanZero() {
         String testString = "3 Eier und 5,5 Karoffeln.";
         int multiplier = -1;
-        assertEquals("3 Eier und 5,5 Karoffeln.", applicationLogicImpl.calculatePortion(testString, multiplier));
+        assertEquals("3 Eier und 5,5 Karoffeln.", applicationLogicImpl.
+                calculatePortion(testString, multiplier));
     }
 
     /**
@@ -63,7 +65,8 @@ public class ApplicationLogicImplTest {
     public void testNoNumbers() {
         String testString = "Ich bereite ein Rezept zu";
         int multiplier = 2;
-        assertEquals("Ich bereite ein Rezept zu", applicationLogicImpl.calculatePortion(testString, multiplier));
+        assertEquals("Ich bereite ein Rezept zu", applicationLogicImpl.
+                calculatePortion(testString, multiplier));
     }
 
     /**

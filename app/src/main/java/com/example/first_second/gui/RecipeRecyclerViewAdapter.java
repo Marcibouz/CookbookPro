@@ -2,8 +2,6 @@ package com.example.first_second.gui;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
-import com.example.first_second.local_memory.LocalMemoryImpl;
-import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.MemoryImpl;
+import com.example.first_second.local_memory.Memory;
 import com.example.first_second.local_memory.Recipe;
 
 import java.util.LinkedList;
@@ -49,8 +47,8 @@ public class RecipeRecyclerViewAdapter extends
 
     @Override
     public void recipeListChanged() {
-        LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
-        List<Recipe> recipes = lm.readAllRecipes();
+        Memory memory = MemoryImpl.getMemoryImpl(context);
+        List<Recipe> recipes = memory.readAllRecipes();
 
         recipe_id.clear();
         recipe_name.clear();

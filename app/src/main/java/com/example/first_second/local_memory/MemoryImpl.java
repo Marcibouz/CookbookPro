@@ -13,7 +13,7 @@ import com.example.first_second.gui.DatabaseObserver;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LocalMemoryImpl extends SQLiteOpenHelper implements LocalMemory{
+public class MemoryImpl extends SQLiteOpenHelper implements Memory {
     private static final String DATABASE_NAME = "RecipeList.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "my_recipes";
@@ -21,17 +21,17 @@ public class LocalMemoryImpl extends SQLiteOpenHelper implements LocalMemory{
     private static final String RECIPE_NAME = "recipe_name";
     private static final String INGREDIENTS = "ingredients";
     private static final String DIRECTIONS = "directions";
-    private static LocalMemoryImpl localMemoryImpl;
+    private static MemoryImpl memoryImpl;
     private List<DatabaseObserver> observers = new LinkedList<>();
 
-    private LocalMemoryImpl(@Nullable Context context) {
+    private MemoryImpl(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-    public static LocalMemoryImpl getDatabaseHelper(@Nullable Context context) {
-        if (localMemoryImpl == null){
-            localMemoryImpl = new LocalMemoryImpl(context);
+    public static MemoryImpl getMemoryImpl(@Nullable Context context) {
+        if (memoryImpl == null){
+            memoryImpl = new MemoryImpl(context);
         }
-        return localMemoryImpl;
+        return memoryImpl;
     }
 
     @Override

@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
 import com.example.first_second.databinding.RecipelistscreenBinding;
-import com.example.first_second.local_memory.LocalMemoryImpl;
-import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.MemoryImpl;
+import com.example.first_second.local_memory.Memory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class RecipeListScreen extends Fragment {
@@ -29,7 +29,7 @@ public class RecipeListScreen extends Fragment {
     private FloatingActionButton add_button;
     private ConstraintLayout recipeListLayout;
     private Drawable nothingHereYetBackground;
-    private LocalMemory lm;
+    private Memory memory;
     private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
     @Override
     public View onCreateView(
@@ -63,8 +63,8 @@ public class RecipeListScreen extends Fragment {
 
         recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(context,
                 RecipeListScreen.this, recipeListLayout, nothingHereYetBackground);
-        lm = LocalMemoryImpl.getDatabaseHelper(context);
-        lm.addDatabaseObserver(recipeRecyclerViewAdapter);
+        memory = MemoryImpl.getMemoryImpl(context);
+        memory.addDatabaseObserver(recipeRecyclerViewAdapter);
         recyclerView.setAdapter(recipeRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
