@@ -12,10 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.first_second.R;
-import com.example.first_second.bluetooth.BluetoothHelper;
+import com.example.first_second.bluetooth.BluetoothHelperImpl;
 import com.example.first_second.databinding.AvailabledevicesscreenBinding;
 
 public class AvailableDevicesScreen extends Fragment {
@@ -45,7 +44,7 @@ public class AvailableDevicesScreen extends Fragment {
         getAndSetArgData();
         bo = new DeviceRecyclerViewAdapter(context, AvailableDevicesScreen.this,
                 recipe_name, ingredients, directions);
-        BluetoothHelper bluetoothHelper = new BluetoothHelper(context, activity);
+        BluetoothHelperImpl bluetoothHelper = new BluetoothHelperImpl(context, activity);
         bluetoothHelper.addBluetoothObserver(bo);
         recyclerView.setAdapter((DeviceRecyclerViewAdapter)bo);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

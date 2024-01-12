@@ -35,6 +35,7 @@ public class BluetoothServerThread extends Thread {
                 socket = serverSocket.accept();
             } catch (IOException e) {
                 Log.e(TAG, "Socket's accept() method failed", e);
+                cancel();
                 break;
             }
 
@@ -45,20 +46,12 @@ public class BluetoothServerThread extends Thread {
                 // Start this thread
                 bluetoothActiveThread.start();
 
-                // Reads Recipe Data and saves it in data bank
+                // Reads Recipe Data
                 bluetoothActiveThread.read(context);
-
-                // Closes ServerThread
-                cancel();
-                try {
-                    serverSocket.close();
-                    break;
-                } catch (IOException e) {
-                    Log.e(TAG, "Failed to close server socket", e);
-                }
             }
         }
     }
+
     public void cancel() {
         try {
             serverSocket.close();

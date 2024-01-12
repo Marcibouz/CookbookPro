@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
-import com.example.first_second.bluetooth.BluetoothHelper;
+import com.example.first_second.bluetooth.BluetoothHelperImpl;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class DeviceRecyclerViewAdapter extends
         this.directions = directions;
     }
     @Override
-    public void bondedDeviceAdded(BluetoothHelper bluetoothHelper){
+    public void bondedDeviceAdded(BluetoothHelperImpl bluetoothHelper){
         Map<BluetoothDevice, String> availableBondedDevices = bluetoothHelper.
                 getAvailableBondedDevices();
         for (Map.Entry<BluetoothDevice, String> e: availableBondedDevices.entrySet()){
@@ -51,7 +51,7 @@ public class DeviceRecyclerViewAdapter extends
         notifyDataSetChanged();
     }
     @Override
-    public void availableDeviceAdded(BluetoothHelper bluetoothHelper){
+    public void availableDeviceAdded(BluetoothHelperImpl bluetoothHelper){
         Map<BluetoothDevice, String> availableDevices = bluetoothHelper.getAvailableDevices();
         for (Map.Entry<BluetoothDevice, String> e: availableDevices.entrySet()){
             if(!device.contains(e.getKey())){
@@ -103,7 +103,7 @@ public class DeviceRecyclerViewAdapter extends
         public void onClick(View view) {
             Toast.makeText(context, "Attempting to connect to device " + current_device_name,
                     Toast.LENGTH_LONG).show();
-            BluetoothHelper bluetoothHelper = new BluetoothHelper(context, fragment.getActivity());
+            BluetoothHelperImpl bluetoothHelper = new BluetoothHelperImpl(context, fragment.getActivity());
             bluetoothHelper.createClientThread(current_device, recipe_name, ingredients, directions);
         }
     }

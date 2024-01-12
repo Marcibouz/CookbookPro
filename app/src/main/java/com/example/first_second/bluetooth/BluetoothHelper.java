@@ -1,202 +1,64 @@
 package com.example.first_second.bluetooth;
 
-import android.Manifest;
-
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.example.first_second.gui.BluetoothObserver;
-
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
-public class BluetoothHelper extends AppCompatActivity {
-    private static final String TAG = "BluetoothHelper"; // Tag for Logging
-    //Permission Strings
-    public static final String[] SHARE_PERMISSIONS = { // Required Permissions for sharing Recipes
-            Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.BLUETOOTH_SCAN};
-    public static final String[] RECEIVE_PERMISSIONS = { // Required Permissions for sharing Recipes
-            Manifest.permission.BLUETOOTH_ADVERTISE};
-    private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    private Context context;
-    private Activity activity;
-    //Maps consisting of MAC-Address and Name of available devices.
-    private Map<BluetoothDevice, String> availableBondedDevices = new LinkedHashMap<>();
-    private Map<BluetoothDevice, String> availableDevices = new LinkedHashMap<>();
-    private List<BluetoothObserver> observers = new LinkedList<>();
-    private static final String APP_NAME = "CookBook Pro";
-    private static final UUID UNIQUE_ID = UUID.fromString("b7adcd2b-9256-48d6-a7b6-922e95d91ce1");
+/**
+ * Schnittstelle für Bluetooth Funktionen
+ */
+public interface BluetoothHelper {
 
+    /**
+     * Gibt eine Map aller bereits verbundener Bluetooth-Geräte zurück
+     * @return Map der verbundenen Bluetooth-Geräte
+     */
+    Map<BluetoothDevice, String> getAvailableBondedDevices();
 
-    public BluetoothHelper(Context context, Activity activity) {
-        this.context = context;
-        this.activity = activity;
-    }
+    /**
+     * Gibt eine Map aller verfügbarer Bluetooth-Geräte zurück
+     * @return Map der verfügbaren Bluetooth-Geräte
+     */
+    Map<BluetoothDevice, String> getAvailableDevices();
 
-    public BluetoothHelper() {}
+    /**
+     * Methode zum Überprüfen der Berechtigungen des Nutzers.
+     * @return boolean, ob Permissions gesetzt sind oder nicht
+     */
+    boolean checkPermissions();
 
-    public Map<BluetoothDevice, String> getAvailableBondedDevices() {
-        return availableBondedDevices;
-    }
+    /**
+     * Aktiviert Bluetooth auf dem Gerät.
+     * @return false, wenn das Gerät nicht Bluetooth-fähig ist. true, wenn es Bluetooth-fähig ist
+     * und der Bluetooth Adapter aktiviert ist.
+     */
+    boolean activateBluetooth();
 
-    public Map<BluetoothDevice, String> getAvailableDevices() {
-        return availableDevices;
-    }
+    /**
+     * Methode zum Finden von Geräten, mit denen sich die App verbinden kann.
+     * Zuerst werden bereits verbundene Geräte aufgelistet
+     * Danach wird eine Liste angezeigt, welche alle Geräte in der Umgebung anzeigt,
+     * die discoverable sind.
+     */
+    void findDevices();
 
-    public void addBluetoothObserver(BluetoothObserver bluetoothObserver) {
-        observers.add(bluetoothObserver);
-    }
+    /**
+     * Sorgt dafür, dass das Gerät von anderen Geräten gefunden werden kann und eine Verbindung
+     * aufgebaut werden kann. Hierfür wird ein neuer ServerThread erstellt, welcher darauf wartet,
+     * dass ein ClientThread einen Verbindungsaufbau startet.
+     */
+    void startDiscoverable();
 
-    public void notifyObserversBoundedDeviceAdded() {
-        for (BluetoothObserver bo : observers) {
-            bo.bondedDeviceAdded(this);
-        }
-    }
-    public void notifyObserversAvailableDeviceAdded() {
-        for (BluetoothObserver bo : observers) {
-            bo.availableDeviceAdded(this);
-        }
-    }
-
-    public boolean checkPermissions() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-            // Before API Level 31, these Permissions did not exist
-            for (String s : SHARE_PERMISSIONS) {
-                if (ContextCompat.checkSelfPermission(context, s)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public boolean activateBluetooth() {
-        if (bluetoothAdapter == null) {
-            Log.d(TAG, "Device does not support Bluetooth.");
-            return false;
-        } else {
-            if (!bluetoothAdapter.isEnabled()) {
-                Log.d(TAG, "Not Enabled");
-                return false;
-            } else {
-                Log.d(TAG, "BluetoothAdapter already Enabled.");
-            }
-        }
-        return true;
-    }
-
-
-    public void findDevices() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-        }
-        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-
-        if (pairedDevices.size() > 0) {
-            Log.d(TAG, "Paired devices exist.");
-            // There are paired devices. Get the name and address of each paired device.
-            for (BluetoothDevice device : pairedDevices) {
-                String deviceName = device.getName();
-                availableBondedDevices.put(device, deviceName);
-                notifyObserversBoundedDeviceAdded();
-            }
-        }
-        startDiscovery();
-    }
-
-    private void startDiscovery() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-        }
-        if (bluetoothAdapter.isDiscovering()) { // Cancel ongoing discovery
-            bluetoothAdapter.cancelDiscovery();
-        }
-        if(!availableDevices.isEmpty()){ // Empty list from previous search
-            availableDevices.clear();
-        }
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        filter.addAction(BluetoothDevice.ACTION_FOUND);
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        context.registerReceiver(receiver, filter);
-
-        boolean discoveryStarted = bluetoothAdapter.startDiscovery();
-        if(!discoveryStarted) {
-            Toast.makeText(context,
-                    "Discovery not started. Fine Location access must be Granted",
-                    Toast.LENGTH_SHORT).show();
-        }
-        Log.d("Discovery Status",
-                discoveryStarted ? "Started Successfully" : "Failed to Start");
-
-    }
-
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-            }
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                // Discovery has found a device. Get the BluetoothDevice
-                // object and its info from the Intent.
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                String deviceName = device.getName();
-                if (deviceName != null) { // Exclude devices with no name
-                    Log.d(TAG, "Found a device");
-                    availableDevices.put(device, deviceName);
-                }
-                notifyObserversAvailableDeviceAdded();
-            }
-        }
-    };
-
-    public void startDiscoverable() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_ADVERTISE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-        }
-
-        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        context.startActivity(discoverableIntent);
-
-        BluetoothServerThread bluetoothServerThread =
-                new BluetoothServerThread(bluetoothAdapter, APP_NAME, UNIQUE_ID, context);
-        bluetoothServerThread.start();
-    }
-
-    public void createClientThread(BluetoothDevice device, String name, String ingredients, String instructions) {
-        BluetoothClientThread bluetoothClientThread = new BluetoothClientThread(bluetoothAdapter, device, UNIQUE_ID, name, ingredients, instructions);
-        bluetoothClientThread.start();
-    }
+    /**
+     * Erstellt einen neuen ClientThread, welcher versucht, sich mit einem ServerThread zu verbinden.
+     * @param device Gerät, mit dem sich verbunden werden soll und an welches die Daten verschickt
+     *               werden
+     * @param name Name des Rezeptes
+     * @param ingredients Zutaten des Rezeptes
+     * @param instructions Zubereitungsanweisungen des Rezeptes
+     */
+    void createClientThread(BluetoothDevice device, String name,
+                            String ingredients, String instructions);
 }

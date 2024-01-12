@@ -6,8 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.example.first_second.R;
-import static com.example.first_second.bluetooth.BluetoothHelper.SHARE_PERMISSIONS;
-import static com.example.first_second.bluetooth.BluetoothHelper.RECEIVE_PERMISSIONS;
+import static com.example.first_second.bluetooth.BluetoothHelperImpl.SHARE_PERMISSIONS;
+import static com.example.first_second.bluetooth.BluetoothHelperImpl.RECEIVE_PERMISSIONS;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.bluetooth.BluetoothHelper;
+import com.example.first_second.bluetooth.BluetoothHelperImpl;
 import com.example.first_second.databinding.ActivityMainBinding;
 import com.example.first_second.local_memory.DatabaseHelper;
 import com.example.first_second.local_memory.LocalMemory;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         // noinspection SimplifiableIfStatement
 
         if (item.getItemId() == R.id.action_receiveViaBluetooth) {
-            BluetoothHelper bluetoothHelper = new BluetoothHelper(this, this);
+            BluetoothHelper bluetoothHelper = new BluetoothHelperImpl(this, this);
             bluetoothHelper.startDiscoverable();
         }
         if (item.getItemId() == R.id.action_deleteAll) {
