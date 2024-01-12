@@ -23,6 +23,7 @@ import com.example.first_second.R;
 import com.example.first_second.application_logic.ApplicationLogic;
 import com.example.first_second.application_logic.ApplicationLogicImpl;
 import com.example.first_second.bluetooth.BluetoothHelper;
+import com.example.first_second.bluetooth.BluetoothHelperImpl;
 import com.example.first_second.databinding.RecipescreenBinding;
 import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
@@ -164,7 +165,7 @@ public class RecipeScreen extends Fragment {
         @RequiresApi(api = Build.VERSION_CODES.S)
         @Override
         public void onClick(View view) {
-            BluetoothHelper bluetoothHelper = new BluetoothHelper(context, activity);
+            BluetoothHelper bluetoothHelper = new BluetoothHelperImpl(context, activity);
             if (bluetoothHelper.checkPermissions()) { // Permission check
                 if (bluetoothHelper.activateBluetooth()) {
                     RecipeScreenDirections.RecipeScreenToAvailableDevicesScreen action =
