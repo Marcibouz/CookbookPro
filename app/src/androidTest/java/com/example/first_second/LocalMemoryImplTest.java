@@ -10,14 +10,14 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.Recipe;
 
 import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
-public class DatabaseHelperTest {
-    DatabaseHelper db;
+public class LocalMemoryImplTest {
+    LocalMemoryImpl localMemory;
     Recipe recipe;
     Recipe recipe1;
     Recipe recipe2;
@@ -29,9 +29,9 @@ public class DatabaseHelperTest {
 
     @Before
     public void setUp() {
-        db = DatabaseHelper.getDatabaseHelper(InstrumentationRegistry.getInstrumentation().
+        localMemory = LocalMemoryImpl.getDatabaseHelper(InstrumentationRegistry.getInstrumentation().
                 getTargetContext());
-        db.deleteAllRecipes();
+        localMemory.deleteAllRecipes();
         recipe = new Recipe("Name", "Kartoffel", "Kochen");
         recipe1 = new Recipe("Name1", "Kartoffel1", "Kochen1");
         recipe2 = new Recipe("Name2", "Kartoffel2", "Kochen2");
@@ -44,12 +44,12 @@ public class DatabaseHelperTest {
 
     @After
     public void finish(){
-        db.close();
+        localMemory.close();
     }
     @Test
     public void testOneRecipeAdded() {
-        db.addRecipe(recipe);
-        List<Recipe> recipes = db.readAllRecipes();
+        localMemory.addRecipe(recipe);
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(1, recipes.size());
         assertEquals(recipe.getRecipeName(), recipes.get(0).getRecipeName());
         assertEquals(recipe.getIngredients(), recipes.get(0).getIngredients());
@@ -58,47 +58,47 @@ public class DatabaseHelperTest {
 
     @Test
     public void testManyRecipesAdded() {
-        db.addRecipe(recipe);
-        db.addRecipe(recipe1);
-        db.addRecipe(recipe2);
-        db.addRecipe(recipe3);
-        db.addRecipe(recipe4);
-        db.addRecipe(recipe5);
-        db.addRecipe(recipe6);
-        db.addRecipe(recipe7);
-        List<Recipe> recipes = db.readAllRecipes();
+        localMemory.addRecipe(recipe);
+        localMemory.addRecipe(recipe1);
+        localMemory.addRecipe(recipe2);
+        localMemory.addRecipe(recipe3);
+        localMemory.addRecipe(recipe4);
+        localMemory.addRecipe(recipe5);
+        localMemory.addRecipe(recipe6);
+        localMemory.addRecipe(recipe7);
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(8, recipes.size());
     }
 
     @Test
     public void testRecipeAddedNull() {
-        List<Recipe> recipes = db.readAllRecipes();
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(0, recipes.size());
-        long id = db.addRecipe(null);
+        long id = localMemory.addRecipe(null);
         assertEquals(0, recipes.size());
         assertEquals(-1, id);
     }
 
     @Test
     public void testDeleteAllRecipes() {
-        db.addRecipe(recipe);
-        db.addRecipe(recipe1);
-        db.addRecipe(recipe2);
-        db.deleteAllRecipes();
-        List<Recipe> recipes = db.readAllRecipes();
+        localMemory.addRecipe(recipe);
+        localMemory.addRecipe(recipe1);
+        localMemory.addRecipe(recipe2);
+        localMemory.deleteAllRecipes();
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(0, recipes.size());
     }
 
     @Test
     public void testDeleteOneRecipe() {
-        long id = db.addRecipe(recipe);
-        db.addRecipe(recipe1);
+        long id = localMemory.addRecipe(recipe);
+        localMemory.addRecipe(recipe1);
 
-        List<Recipe> recipes = db.readAllRecipes();
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(2, recipes.size());
 
-        int numberOfAffectedRows = db.deleteOneRecipe(String.valueOf(id));
-        recipes = db.readAllRecipes();
+        int numberOfAffectedRows = localMemory.deleteOneRecipe(String.valueOf(id));
+        recipes = localMemory.readAllRecipes();
 
         assertEquals(1, recipes.size());
         assertEquals(recipe1.getRecipeName(), recipes.get(0).getRecipeName());
@@ -109,26 +109,26 @@ public class DatabaseHelperTest {
 
     @Test
     public void testDeleteRecipeNotThere() {
-        List<Recipe> recipes = db.readAllRecipes();
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(0, recipes.size());
-        int numberOfAffectedRows = db.deleteOneRecipe("1");
+        int numberOfAffectedRows = localMemory.deleteOneRecipe("1");
         assertEquals(0, numberOfAffectedRows);
     }
 
     @Test
     public void testUpdateRecipe() {
-        long id = db.addRecipe(recipe);
+        long id = localMemory.addRecipe(recipe);
 
-        List<Recipe> recipes = db.readAllRecipes();
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(1, recipes.size());
         assertEquals(recipe.getRecipeName(), recipes.get(0).getRecipeName());
         assertEquals(recipe.getIngredients(), recipes.get(0).getIngredients());
         assertEquals(recipe.getDirections(), recipes.get(0).getDirections());
 
         Recipe recipe1 = new Recipe("Name1", "Kartoffel1", "Kochen1");
-        int numberOfAffectedRows = db.updateRecipe(String.valueOf(id), recipe1);
+        int numberOfAffectedRows = localMemory.updateRecipe(String.valueOf(id), recipe1);
 
-        recipes = db.readAllRecipes();
+        recipes = localMemory.readAllRecipes();
         assertEquals(1, recipes.size());
         assertEquals(recipe1.getRecipeName(), recipes.get(0).getRecipeName());
         assertEquals(recipe1.getIngredients(), recipes.get(0).getIngredients());
@@ -138,43 +138,43 @@ public class DatabaseHelperTest {
 
     @Test
     public void testUpdateRecipeNotThere() {
-        List<Recipe> recipes = db.readAllRecipes();
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(0, recipes.size());
-        int numberOfAffectedRows = db.updateRecipe("1", recipe);
+        int numberOfAffectedRows = localMemory.updateRecipe("1", recipe);
         assertEquals(0, numberOfAffectedRows);
     }
 
     @Test
     public void testComplexAddUpdateDelete() {
-        long id = db.addRecipe(recipe);
-        long id1 = db.addRecipe(recipe1);
-        db.addRecipe(recipe2);
+        long id = localMemory.addRecipe(recipe);
+        long id1 = localMemory.addRecipe(recipe1);
+        localMemory.addRecipe(recipe2);
 
-        List<Recipe> recipes = db.readAllRecipes();
+        List<Recipe> recipes = localMemory.readAllRecipes();
         assertEquals(3, recipes.size());
 
-        db.deleteOneRecipe(String.valueOf(id));
-        db.deleteOneRecipe(String.valueOf(id1));
+        localMemory.deleteOneRecipe(String.valueOf(id));
+        localMemory.deleteOneRecipe(String.valueOf(id1));
 
-        recipes = db.readAllRecipes();
+        recipes = localMemory.readAllRecipes();
         assertEquals(1, recipes.size());
         assertEquals(recipe2.getRecipeName(), recipes.get(0).getRecipeName());
         assertEquals(recipe2.getIngredients(), recipes.get(0).getIngredients());
         assertEquals(recipe2.getDirections(), recipes.get(0).getDirections());
 
-        db.addRecipe(recipe3);
-        db.addRecipe(recipe4);
-        db.addRecipe(recipe5);
+        localMemory.addRecipe(recipe3);
+        localMemory.addRecipe(recipe4);
+        localMemory.addRecipe(recipe5);
 
-        recipes = db.readAllRecipes();
+        recipes = localMemory.readAllRecipes();
         assertEquals(4, recipes.size());
         assertEquals(recipe4.getRecipeName(), recipes.get(2).getRecipeName());
         assertEquals(recipe4.getIngredients(), recipes.get(2).getIngredients());
         assertEquals(recipe4.getDirections(), recipes.get(2).getDirections());
 
-        db.deleteAllRecipes();
+        localMemory.deleteAllRecipes();
 
-        recipes = db.readAllRecipes();
+        recipes = localMemory.readAllRecipes();
         assertEquals(0, recipes.size());
     }
 }

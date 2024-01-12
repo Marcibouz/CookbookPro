@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -22,20 +21,16 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.bluetooth.BluetoothHelper;
 import com.example.first_second.databinding.ActivityMainBinding;
-import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
 
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -108,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             bluetoothHelper.startDiscoverable();
         }
         if (item.getItemId() == R.id.action_deleteAll) {
-            LocalMemory lm = DatabaseHelper.getDatabaseHelper(this);
+            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(this);
             lm.deleteAllRecipes();
             Toast.makeText(this,"All Recipes Deleted", Toast.LENGTH_SHORT).show();
         }

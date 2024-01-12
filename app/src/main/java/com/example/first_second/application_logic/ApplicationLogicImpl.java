@@ -3,7 +3,7 @@ package com.example.first_second.application_logic;
 /**
  * Implementierung der ApplicationLogic
  */
-public class PortionCalculator implements ApplicationLogic{
+public class ApplicationLogicImpl implements ApplicationLogic{
 
     public String calculatePortion(String text, double multiplier) throws IllegalArgumentException{
         if (text == null) throw new IllegalArgumentException("Text darf nicht null sein");

@@ -17,13 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
 import com.example.first_second.databinding.RecipelistscreenBinding;
-import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
-import com.example.first_second.local_memory.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class RecipeListScreen extends Fragment {
 
@@ -67,7 +63,7 @@ public class RecipeListScreen extends Fragment {
 
         recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(context,
                 RecipeListScreen.this, recipeListLayout, nothingHereYetBackground);
-        lm = DatabaseHelper.getDatabaseHelper(context);
+        lm = LocalMemoryImpl.getDatabaseHelper(context);
         lm.addDatabaseObserver(recipeRecyclerViewAdapter);
         recyclerView.setAdapter(recipeRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

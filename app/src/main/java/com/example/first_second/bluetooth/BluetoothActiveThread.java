@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
 import com.example.first_second.local_memory.Recipe;
 
@@ -45,7 +45,7 @@ public class BluetoothActiveThread extends Thread {
         try {
             objectInputStream = new ObjectInputStream(inputStream);
             recipe = (Recipe) objectInputStream.readObject();
-            LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
+            LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
             lm.addRecipe(recipe);
             Log.d(TAG, "Recipe: " + recipe.toString());
         } catch (IOException e) {
