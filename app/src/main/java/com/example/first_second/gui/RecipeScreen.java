@@ -174,7 +174,7 @@ public class RecipeScreen extends Fragment {
                     NavHostFragment.findNavController(RecipeScreen.this).navigate(action);
                     ActionBar actionBar = ((AppCompatActivity)RecipeScreen.this.getActivity()).
                             getSupportActionBar();
-                    actionBar.setTitle("Cookbook Pro");
+                    actionBar.setTitle("Available Devices");
                 } else {
                     Toast.makeText(context, "This device does not have Bluetooth Compatibility!", Toast.LENGTH_SHORT).show();
                 }

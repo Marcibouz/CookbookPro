@@ -33,7 +33,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Gui{
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;

@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.first_second.gui.Gui;
 import com.example.first_second.gui.MainActivity;
 import com.example.first_second.local_memory.Recipe;
 
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class BluetoothClientThread extends Thread {
-    private MainActivity activity;
+    private Gui gui;
     private BluetoothSocket socket;
     private BluetoothDevice device;
     private BluetoothAdapter adapter;
@@ -24,14 +25,16 @@ public class BluetoothClientThread extends Thread {
     private static final String TAG = "ClientThread";
 
     @SuppressLint("MissingPermission")
-    public BluetoothClientThread(BluetoothAdapter adapter, BluetoothDevice device, UUID uuid, String name, String ingredients, String instructions, MainActivity activity) {
+    public BluetoothClientThread(BluetoothAdapter adapter, BluetoothDevice device, UUID uuid,
+                                 String name, String ingredients, String instructions,
+                                 Gui gui) {
         Log.d(TAG, "Client Thread created");
         this.device = device;
         this.adapter = adapter;
         this.recipeName = name;
         this.recipeIngredients = ingredients;
         this.recipeInstructions = instructions;
-        this.activity = activity;
+        this.gui = gui;
 
         try {
             socket = device.createRfcommSocketToServiceRecord(uuid);
@@ -56,7 +59,7 @@ public class BluetoothClientThread extends Thread {
             try {
                 socket.close();
                 Log.d(TAG, "Client Socket Closed");
-                activity.showToast("Connection failed!");
+                gui.showToast("Connection failed!");
             } catch (IOException closeException) {
                 Log.e(TAG, "Could not close the client socket", closeException);
             }
@@ -66,7 +69,7 @@ public class BluetoothClientThread extends Thread {
         // The connection attempt succeeded. Perform work associated withs
         // the connection in a separate thread.
         // Create the bluetooth connected thread that represents the active connection
-        BluetoothActiveThread bluetoothActiveThread = new BluetoothActiveThread(socket, activity);
+        BluetoothActiveThread bluetoothActiveThread = new BluetoothActiveThread(socket, gui);
 
         //Start this thread
         bluetoothActiveThread.start();

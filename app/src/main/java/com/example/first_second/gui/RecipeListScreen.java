@@ -29,6 +29,7 @@ public class RecipeListScreen extends Fragment {
     private FloatingActionButton add_button;
     private ConstraintLayout recipeListLayout;
     private Drawable nothingHereYetBackground;
+    private Drawable emptyTableBackground;
     private Memory memory;
     private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
     @Override
@@ -53,16 +54,19 @@ public class RecipeListScreen extends Fragment {
         add_button = view.findViewById(R.id.add_button);
         recipeListLayout = view.findViewById(R.id.recipeListScreen);
 
-        //Image initialisieren
+        //Images initialisieren
         nothingHereYetBackground =
                 ResourcesCompat.getDrawable(getResources(), R.drawable.nothinghereyet, null);
+        emptyTableBackground =
+                ResourcesCompat.getDrawable(getResources(), R.drawable.emtpytable, null);
 
         //AddButtonlistener setzen
         AddButtonListener addButtonListener = new AddButtonListener();
         add_button.setOnClickListener(addButtonListener);
 
         recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(context,
-                RecipeListScreen.this, recipeListLayout, nothingHereYetBackground);
+                RecipeListScreen.this, recipeListLayout, nothingHereYetBackground,
+                emptyTableBackground);
         memory = MemoryImpl.getMemoryImpl(context);
         memory.addDatabaseObserver(recipeRecyclerViewAdapter);
         recyclerView.setAdapter(recipeRecyclerViewAdapter);

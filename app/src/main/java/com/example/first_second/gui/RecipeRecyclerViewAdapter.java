@@ -31,17 +31,20 @@ public class RecipeRecyclerViewAdapter extends
     private Fragment fragment;
     private ConstraintLayout recipeListLayout;
     private Drawable nothingHereYetBackground;
+    private Drawable emptyTableBackground;
     private LinkedList<String> recipe_id = new LinkedList<>();
     private LinkedList<String> recipe_name = new LinkedList<>();
     private LinkedList<String> recipe_ingredients = new LinkedList<>();
     private LinkedList<String> recipe_directions = new LinkedList<>();
     public RecipeRecyclerViewAdapter(Context context, Fragment fragment,
                                      ConstraintLayout recipeListLayout,
-                                     Drawable nothingHereYetBackground){
+                                     Drawable nothingHereYetBackground,
+                                     Drawable emptyTableBackground){
         this.context = context;
         this.fragment = fragment;
         this.recipeListLayout = recipeListLayout;
         this.nothingHereYetBackground = nothingHereYetBackground;
+        this.emptyTableBackground = emptyTableBackground;
         recipeListChanged();
     }
 
@@ -56,7 +59,8 @@ public class RecipeRecyclerViewAdapter extends
         recipe_directions.clear();
 
         if (recipes.isEmpty()){
-            fragment.getActivity().runOnUiThread(() -> recipeListLayout.setBackground(nothingHereYetBackground));
+            fragment.getActivity().runOnUiThread(() -> recipeListLayout.
+                    setBackground(nothingHereYetBackground));
         } else{
             for (Recipe r : recipes){
                 recipe_id.add(r.getId());
@@ -64,6 +68,8 @@ public class RecipeRecyclerViewAdapter extends
                 recipe_ingredients.add(r.getIngredients());
                 recipe_directions.add(r.getDirections());
             }
+            fragment.getActivity().runOnUiThread(() -> recipeListLayout.
+                    setBackground(emptyTableBackground));
         }
         fragment.getActivity().runOnUiThread(() -> notifyDataSetChanged());
     }
