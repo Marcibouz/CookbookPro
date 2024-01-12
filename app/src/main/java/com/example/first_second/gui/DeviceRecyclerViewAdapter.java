@@ -103,7 +103,8 @@ public class DeviceRecyclerViewAdapter extends
         public void onClick(View view) {
             Toast.makeText(context, "Attempting to connect to device " + current_device_name,
                     Toast.LENGTH_LONG).show();
-            BluetoothHelperImpl bluetoothHelper = new BluetoothHelperImpl(context, fragment.getActivity());
+            BluetoothHelperImpl bluetoothHelper = new BluetoothHelperImpl(context,
+                    (MainActivity)fragment.getActivity());
             bluetoothHelper.createClientThread(current_device, recipe_name, ingredients, directions);
         }
     }

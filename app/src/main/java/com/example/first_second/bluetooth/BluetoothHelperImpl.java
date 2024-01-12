@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.first_second.gui.BluetoothObserver;
+import com.example.first_second.gui.MainActivity;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -37,7 +38,7 @@ public class BluetoothHelperImpl extends AppCompatActivity implements BluetoothH
             Manifest.permission.BLUETOOTH_ADVERTISE};
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private Context context;
-    private Activity activity;
+    private MainActivity activity;
     //Maps consisting of MAC-Address and Name of available devices.
     private Map<BluetoothDevice, String> availableBondedDevices = new LinkedHashMap<>();
     private Map<BluetoothDevice, String> availableDevices = new LinkedHashMap<>();
@@ -46,7 +47,7 @@ public class BluetoothHelperImpl extends AppCompatActivity implements BluetoothH
     private static final UUID UNIQUE_ID = UUID.fromString("b7adcd2b-9256-48d6-a7b6-922e95d91ce1");
 
 
-    public BluetoothHelperImpl(Context context, Activity activity) {
+    public BluetoothHelperImpl(Context context, MainActivity activity) {
         this.context = context;
         this.activity = activity;
     }
@@ -144,9 +145,9 @@ public class BluetoothHelperImpl extends AppCompatActivity implements BluetoothH
 
         boolean discoveryStarted = bluetoothAdapter.startDiscovery();
         if(!discoveryStarted) {
-            Toast.makeText(context,
-                    "Discovery not started. Fine Location access must be Granted",
-                    Toast.LENGTH_SHORT).show();
+            activity.showToast("Discovery not started. Fine Location access must be Granted!");
+        } else {
+            activity.showToast("Discovery started!");
         }
         Log.d("Discovery Status",
                 discoveryStarted ? "Started Successfully" : "Failed to Start");
@@ -193,14 +194,14 @@ public class BluetoothHelperImpl extends AppCompatActivity implements BluetoothH
     public void createClientThread(
             BluetoothDevice device, String name, String ingredients, String instructions) {
         BluetoothClientThread bluetoothClientThread = new BluetoothClientThread
-                (bluetoothAdapter, device, UNIQUE_ID, name, ingredients, instructions);
+                (bluetoothAdapter, device, UNIQUE_ID, name, ingredients, instructions, activity);
         bluetoothClientThread.start();
     }
 
     public void createServerThread(
             BluetoothAdapter adapter, String appName, UUID uuid, Context context) {
         BluetoothServerThread bluetoothServerThread =
-                new BluetoothServerThread(adapter, appName, uuid, context);
+                new BluetoothServerThread(adapter, appName, uuid, context, activity);
         bluetoothServerThread.start();
     }
 }

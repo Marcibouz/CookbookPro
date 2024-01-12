@@ -33,7 +33,7 @@ import com.example.first_second.local_memory.Recipe;
 public class RecipeScreen extends Fragment {
     private RecipescreenBinding binding;
     private Context context;
-    private Activity activity;
+    private MainActivity activity;
     private EditText recipe_name_input, ingredients_input, directions_input, multiplier;
     private Button update_button, delete_button, calculate_button, share_button;
     private String id, recipe_name, ingredients, directions;
@@ -49,7 +49,7 @@ public class RecipeScreen extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = this.getContext();
-        activity = this.getActivity();
+        activity = (MainActivity) this.getActivity();
 
         recipe_name_input = view.findViewById(R.id.recipe_name2);
         ingredients_input = view.findViewById(R.id.ingredients2);

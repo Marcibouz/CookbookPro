@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.first_second.gui.MainActivity;
 import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
 import com.example.first_second.local_memory.Recipe;
@@ -15,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 public class BluetoothActiveThread extends Thread {
+    private MainActivity activity;
     private BluetoothSocket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
@@ -24,8 +26,9 @@ public class BluetoothActiveThread extends Thread {
     private byte[] buffer = new byte[1024]; // buffer store for the stream
     private static final String TAG = "ActiveThread";
 
-    public BluetoothActiveThread(BluetoothSocket socket) {
+    public BluetoothActiveThread(BluetoothSocket socket, MainActivity activity) {
         this.socket = socket;
+        this.activity = activity;
 
         // Get the input and output streams
         try {
@@ -48,6 +51,7 @@ public class BluetoothActiveThread extends Thread {
             LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(context);
             lm.addRecipe(recipe);
             Log.d(TAG, "Recipe: " + recipe.toString());
+            activity.showToast("Recipe received!");
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when reading data", e);
         } catch (ClassNotFoundException e) {
@@ -65,6 +69,7 @@ public class BluetoothActiveThread extends Thread {
             objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(recipe);
             objectOutputStream.flush();
+            activity.showToast("Recipe sent successfully");
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when sending data", e);
         }

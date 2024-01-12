@@ -20,7 +20,7 @@ import com.example.first_second.databinding.AvailabledevicesscreenBinding;
 public class AvailableDevicesScreen extends Fragment {
     private AvailabledevicesscreenBinding binding;
     private Context context;
-    private Activity activity;
+    private MainActivity activity;
     private RecyclerView recyclerView;
     private BluetoothObserver bo;
     private String recipe_name;
@@ -39,7 +39,7 @@ public class AvailableDevicesScreen extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getContext();
-        activity = getActivity();
+        activity = (MainActivity)getActivity();
         recyclerView = view.findViewById(R.id.recyclerViewAvailableDevices);
         getAndSetArgData();
         bo = new DeviceRecyclerViewAdapter(context, AvailableDevicesScreen.this,
