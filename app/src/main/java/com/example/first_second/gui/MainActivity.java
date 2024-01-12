@@ -110,15 +110,6 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_deleteAll) {
             LocalMemory lm = DatabaseHelper.getDatabaseHelper(this);
             lm.deleteAllRecipes();
-            RecipeRecyclerViewAdapter recipeRecyclerViewAdapter =
-                    new RecipeRecyclerViewAdapter(this, new LinkedList<String>(),
-                            new LinkedList<String>(), new LinkedList<String>(),
-                            new LinkedList<String>());
-            RecyclerView recyclerView = findViewById(R.id.recyclerViewRecipes);
-            recyclerView.setAdapter(recipeRecyclerViewAdapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            ConstraintLayout recipeListLayout = findViewById(R.id.recipeListScreen);
-            recipeListLayout.setBackground(nothingHereYetBackground);
             Toast.makeText(this,"All Recipes Deleted", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.first_second.gui.DatabaseObserver;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
     private static final String INGREDIENTS = "ingredients";
     private static final String DIRECTIONS = "directions";
     private static DatabaseHelper databaseHelper;
+    private List<DatabaseObserver> observers = new LinkedList<>();
 
     private DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,6 +33,20 @@ public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
         }
         return databaseHelper;
     }
+
+    @Override
+    public void addDatabaseObserver(DatabaseObserver databaseObserver){
+        observers.add(databaseObserver);
+    }
+    private void notifyObservers(){
+        for (DatabaseObserver databaseObserver : observers){
+            databaseObserver.recipeListChanged();
+        }
+    }
+    public List<DatabaseObserver> getObservers() {
+        return observers;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME +
@@ -57,7 +74,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
         cv.put(INGREDIENTS, recipe.getIngredients());
         cv.put(DIRECTIONS, recipe.getDirections());
 
-        return db.insert(TABLE_NAME,null,cv);
+        long addFeedback = db.insert(TABLE_NAME,null,cv);
+        notifyObservers();
+        return addFeedback;
     }
 
     @Override
@@ -87,18 +106,23 @@ public class DatabaseHelper extends SQLiteOpenHelper implements LocalMemory{
         cv.put(INGREDIENTS, recipe.getIngredients());
         cv.put(DIRECTIONS, recipe.getDirections());
 
-        return db.update(TABLE_NAME, cv, "id=?", new String[]{id});
+        int affectedRows = db.update(TABLE_NAME, cv, "id=?", new String[]{id});
+        notifyObservers();
+        return affectedRows;
     }
 
     @Override
     public int deleteOneRecipe(String id){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, "id=?", new String[]{id});
+        int affectedRows = db.delete(TABLE_NAME, "id=?", new String[]{id});
+        notifyObservers();
+        return affectedRows;
     }
 
     @Override
     public void deleteAllRecipes(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
+        notifyObservers();
     }
 }

@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DeviceRecyclerViewAdapter extends
-        RecyclerView.Adapter<DeviceRecyclerViewAdapter.DeviceViewHolder>
-        implements BluetoothObserver{
+        RecyclerView.Adapter<DeviceRecyclerViewAdapter.DeviceViewHolder> implements
+        BluetoothObserver{
     private Context context;
     private Fragment fragment;
     private List<BluetoothDevice> device = new LinkedList<>();

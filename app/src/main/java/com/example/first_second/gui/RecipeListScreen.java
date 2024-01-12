@@ -32,12 +32,8 @@ public class RecipeListScreen extends Fragment {
     private RecyclerView recyclerView;
     private FloatingActionButton add_button;
     private ConstraintLayout recipeListLayout;
-
     private Drawable nothingHereYetBackground;
-
     private LocalMemory lm;
-    private LinkedList<String> recipe_id, recipe_name, recipe_ingredients, recipe_directions;
-
     private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
     @Override
     public View onCreateView(
@@ -69,40 +65,12 @@ public class RecipeListScreen extends Fragment {
         AddButtonListener addButtonListener = new AddButtonListener();
         add_button.setOnClickListener(addButtonListener);
 
-        //DatabaseHelper initialisieren
-        lm = DatabaseHelper.getDatabaseHelper(context);
-
-        //Rezept IDs und Namen in Arrays speichern
-        recipe_id = new LinkedList<>();
-        recipe_name = new LinkedList<>();
-        recipe_ingredients = new LinkedList<>();
-        recipe_directions = new LinkedList<>();
-        storeRecipesInLists();
-
-        //Diese an recyclerviewadapter geben
         recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(context,
-                RecipeListScreen.this, recipe_id, recipe_name, recipe_ingredients,
-                recipe_directions);
+                RecipeListScreen.this, recipeListLayout, nothingHereYetBackground);
+        lm = DatabaseHelper.getDatabaseHelper(context);
+        lm.addDatabaseObserver(recipeRecyclerViewAdapter);
         recyclerView.setAdapter(recipeRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-    }
-
-    /**
-     * Nutzt den DatabaseHelper um ein Cursor mit allen Rezepten zu erhalten und packt deren IDs
-     * und Namen jeweils in die Arrays.
-     */
-    private void storeRecipesInLists(){
-        List<Recipe> recipes = lm.readAllRecipes();
-        if (recipes.isEmpty()){
-            recipeListLayout.setBackground(nothingHereYetBackground);
-        } else{
-            for (Recipe r : recipes){
-                recipe_id.add(r.getId());
-                recipe_name.add(r.getRecipeName());
-                recipe_ingredients.add(r.getIngredients());
-                recipe_directions.add(r.getDirections());
-            }
-        }
     }
     @Override
     public void onDestroyView() {

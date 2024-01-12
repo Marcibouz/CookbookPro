@@ -1,11 +1,15 @@
 package com.example.first_second.local_memory;
 
+import com.example.first_second.gui.DatabaseObserver;
+
 import java.util.List;
 
 /**
  * Schnittstelle des LocalMemory
  */
 public interface LocalMemory {
+
+    void addDatabaseObserver(DatabaseObserver databaseObserver);
 
     /**
      * Fügt ein Rezept der Datenbank hinzu.

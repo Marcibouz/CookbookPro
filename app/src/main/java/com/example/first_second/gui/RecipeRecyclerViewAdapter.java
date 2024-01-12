@@ -1,6 +1,7 @@
 package com.example.first_second.gui;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,46 +11,60 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
+import com.example.first_second.local_memory.DatabaseHelper;
+import com.example.first_second.local_memory.LocalMemory;
+import com.example.first_second.local_memory.Recipe;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class RecipeRecyclerViewAdapter extends
-        RecyclerView.Adapter<RecipeRecyclerViewAdapter.RecipeViewHolder>{
+        RecyclerView.Adapter<RecipeRecyclerViewAdapter.RecipeViewHolder> implements
+        DatabaseObserver{
     private Context context;
-    //fragment muss aus RecipeListScreen weitergegeben werden, damit das fragment dem RowElement-
-    //Listener übergeben werden kann, damit dieser dann in den RecipeScreen wechselt und die Rezept-
-    //Daten übergibt
     private Fragment fragment;
-    private LinkedList<String> recipe_id, recipe_name, recipe_ingredients, recipe_directions;
+    private ConstraintLayout recipeListLayout;
+    private Drawable nothingHereYetBackground;
+    private LinkedList<String> recipe_id = new LinkedList<>();
+    private LinkedList<String> recipe_name = new LinkedList<>();
+    private LinkedList<String> recipe_ingredients = new LinkedList<>();
+    private LinkedList<String> recipe_directions = new LinkedList<>();
     public RecipeRecyclerViewAdapter(Context context, Fragment fragment,
-                                     LinkedList<String> recipe_id,
-                                     LinkedList<String> recipe_name,
-                                     LinkedList<String> recipe_ingredients,
-                                     LinkedList<String> recipe_directions){
+                                     ConstraintLayout recipeListLayout,
+                                     Drawable nothingHereYetBackground){
         this.context = context;
         this.fragment = fragment;
-        this.recipe_id = recipe_id;
-        this.recipe_name = recipe_name;
-        this.recipe_ingredients = recipe_ingredients;
-        this.recipe_directions = recipe_directions;
-    }
-    public RecipeRecyclerViewAdapter(Context context,
-                                     LinkedList<String> recipe_id,
-                                     LinkedList<String> recipe_name,
-                                     LinkedList<String> recipe_ingredients,
-                                     LinkedList<String> recipe_directions){
-        this.context = context;
-        this.recipe_id = recipe_id;
-        this.recipe_name = recipe_name;
-        this.recipe_ingredients = recipe_ingredients;
-        this.recipe_directions = recipe_directions;
+        this.recipeListLayout = recipeListLayout;
+        this.nothingHereYetBackground = nothingHereYetBackground;
+        recipeListChanged();
     }
 
+    @Override
+    public void recipeListChanged() {
+        LocalMemory lm = DatabaseHelper.getDatabaseHelper(context);
+        List<Recipe> recipes = lm.readAllRecipes();
+        if (recipes.isEmpty()){
+            recipe_id.clear();
+            recipe_name.clear();
+            recipe_ingredients.clear();
+            recipe_directions.clear();
+            recipeListLayout.setBackground(nothingHereYetBackground);
+        } else{
+            for (Recipe r : recipes){
+                recipe_id.add(r.getId());
+                recipe_name.add(r.getRecipeName());
+                recipe_ingredients.add(r.getIngredients());
+                recipe_directions.add(r.getDirections());
+            }
+        }
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
