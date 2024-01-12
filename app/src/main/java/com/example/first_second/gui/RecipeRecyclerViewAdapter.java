@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,9 +59,13 @@ public class RecipeRecyclerViewAdapter extends
         recipe_ingredients.clear();
         recipe_directions.clear();
 
+        FragmentActivity fragmentActivity = fragment.getActivity();
+        boolean activityNull = fragmentActivity == null;
         if (recipes.isEmpty()){
-            fragment.getActivity().runOnUiThread(() -> recipeListLayout.
-                    setBackground(nothingHereYetBackground));
+            if (!activityNull){
+                fragmentActivity.runOnUiThread(() -> recipeListLayout.
+                        setBackground(nothingHereYetBackground));
+            }
         } else{
             for (Recipe r : recipes){
                 recipe_id.add(r.getId());
@@ -68,10 +73,14 @@ public class RecipeRecyclerViewAdapter extends
                 recipe_ingredients.add(r.getIngredients());
                 recipe_directions.add(r.getDirections());
             }
-            fragment.getActivity().runOnUiThread(() -> recipeListLayout.
-                    setBackground(emptyTableBackground));
+            if (!activityNull){
+                fragmentActivity.runOnUiThread(() -> recipeListLayout.
+                        setBackground(emptyTableBackground));
+            }
         }
-        fragment.getActivity().runOnUiThread(() -> notifyDataSetChanged());
+        if (!activityNull){
+            fragmentActivity.runOnUiThread(() -> notifyDataSetChanged());
+        }
     }
 
     @NonNull

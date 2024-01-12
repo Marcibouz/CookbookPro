@@ -15,7 +15,7 @@ public interface Memory {
      *
      * @param databaseObserver Observer welcher benachrichtigt werden soll.
      */
-    void addDatabaseObserver(DatabaseObserver databaseObserver);
+    void addNewDatabaseObserver(DatabaseObserver databaseObserver);
 
     /**
      * Fügt ein Rezept der Datenbank hinzu.
@@ -37,6 +37,7 @@ public interface Memory {
      *
      * @param id ID des zu aktualisierenden Rezepts
      * @param recipe Rezept mit welchem das alte überschrieben werden soll
+     *
      * @return Anzahl der betroffenenen Zeilen
      */
     int updateRecipe(String id, Recipe recipe);

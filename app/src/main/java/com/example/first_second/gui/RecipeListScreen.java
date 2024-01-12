@@ -68,7 +68,7 @@ public class RecipeListScreen extends Fragment {
                 RecipeListScreen.this, recipeListLayout, nothingHereYetBackground,
                 emptyTableBackground);
         memory = MemoryImpl.getMemoryImpl(context);
-        memory.addDatabaseObserver(recipeRecyclerViewAdapter);
+        memory.addNewDatabaseObserver(recipeRecyclerViewAdapter);
         recyclerView.setAdapter(recipeRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }

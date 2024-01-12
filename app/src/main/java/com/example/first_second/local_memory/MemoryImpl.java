@@ -35,8 +35,10 @@ public class MemoryImpl extends SQLiteOpenHelper implements Memory {
     }
 
     @Override
-    public void addDatabaseObserver(DatabaseObserver databaseObserver){
-        observers.add(databaseObserver);
+    public void addNewDatabaseObserver(DatabaseObserver databaseObserver){
+        if (!observers.contains(databaseObserver)){
+            observers.add(databaseObserver);
+        }
     }
     private void notifyObservers(){
         for (DatabaseObserver databaseObserver : observers){
