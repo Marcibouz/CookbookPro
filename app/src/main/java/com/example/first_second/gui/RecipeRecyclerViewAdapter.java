@@ -58,7 +58,7 @@ public class RecipeRecyclerViewAdapter extends
         recipe_directions.clear();
 
         if (recipes.isEmpty()){
-            runOnUiThread(() -> recipeListLayout.setBackground(nothingHereYetBackground));
+            fragment.getActivity().runOnUiThread(() -> recipeListLayout.setBackground(nothingHereYetBackground));
         } else{
             for (Recipe r : recipes){
                 recipe_id.add(r.getId());
@@ -67,12 +67,7 @@ public class RecipeRecyclerViewAdapter extends
                 recipe_directions.add(r.getDirections());
             }
         }
-        runOnUiThread(() -> notifyDataSetChanged());
-    }
-
-    private void runOnUiThread(Runnable runnable) {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(runnable);
+        fragment.getActivity().runOnUiThread(() -> notifyDataSetChanged());
     }
 
     @NonNull

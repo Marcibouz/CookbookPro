@@ -28,6 +28,8 @@ import com.example.first_second.databinding.ActivityMainBinding;
 import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -128,5 +130,10 @@ public class MainActivity extends AppCompatActivity {
                 menuInflater.inflate(R.menu.menu_main, binding.toolbar.getMenu());
             }
         }
+    }
+
+    public void showToast(String message){
+        MainActivity.this.runOnUiThread(() -> Toast.makeText(this, message,
+                Toast.LENGTH_SHORT).show());
     }
 }
