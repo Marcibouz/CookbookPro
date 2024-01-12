@@ -2,6 +2,7 @@ package com.example.first_second.bluetooth;
 
 import android.Manifest;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -28,7 +29,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
-    private static final String TAG = "BluetoothHelper"; // Tag for Logging
+    private static final String TAG = "Bluetooth"; // Tag for Logging
     //Permission Strings
     public static final String[] SHARE_PERMISSIONS = { // Required Permissions for sharing Recipes
             Manifest.permission.BLUETOOTH_CONNECT,
@@ -89,14 +90,15 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
         return true;
     }
 
+    @SuppressLint("MissingPermission")
     public boolean activateBluetooth() {
         if (bluetoothAdapter == null) {
             Log.d(TAG, "Device does not support Bluetooth.");
             return false;
         } else {
             if (!bluetoothAdapter.isEnabled()) {
-                Log.d(TAG, "Not Enabled");
-                return false;
+                Log.d(TAG, "Bluetooth Adapter Not Enabled, enabling Adapter");
+                bluetoothAdapter.enable();
             } else {
                 Log.d(TAG, "BluetoothAdapter already Enabled.");
             }
@@ -197,7 +199,7 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
         bluetoothClientThread.start();
     }
 
-    public void createServerThread(
+    protected void createServerThread(
             BluetoothAdapter adapter, String appName, UUID uuid, Context context) {
         BluetoothServerThread bluetoothServerThread =
                 new BluetoothServerThread(adapter, appName, uuid, context, gui);

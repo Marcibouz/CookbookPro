@@ -39,8 +39,8 @@ public class DeviceRecyclerViewAdapter extends
         this.directions = directions;
     }
     @Override
-    public void bondedDeviceAdded(BluetoothImpl bluetoothHelper){
-        Map<BluetoothDevice, String> availableBondedDevices = bluetoothHelper.
+    public void bondedDeviceAdded(BluetoothImpl bluetooth){
+        Map<BluetoothDevice, String> availableBondedDevices = bluetooth.
                 getAvailableBondedDevices();
         for (Map.Entry<BluetoothDevice, String> e: availableBondedDevices.entrySet()){
             if(!device.contains(e.getKey())){
@@ -51,8 +51,8 @@ public class DeviceRecyclerViewAdapter extends
         notifyDataSetChanged();
     }
     @Override
-    public void availableDeviceAdded(BluetoothImpl bluetoothHelper){
-        Map<BluetoothDevice, String> availableDevices = bluetoothHelper.getAvailableDevices();
+    public void availableDeviceAdded(BluetoothImpl bluetooth){
+        Map<BluetoothDevice, String> availableDevices = bluetooth.getAvailableDevices();
         for (Map.Entry<BluetoothDevice, String> e: availableDevices.entrySet()){
             if(!device.contains(e.getKey())){
                 device.add(e.getKey());
@@ -103,9 +103,9 @@ public class DeviceRecyclerViewAdapter extends
         public void onClick(View view) {
             Toast.makeText(context, "Attempting to connect to device " + current_device_name,
                     Toast.LENGTH_LONG).show();
-            BluetoothImpl bluetoothHelper = new BluetoothImpl(context,
+            BluetoothImpl bluetooth = new BluetoothImpl(context,
                     (MainActivity)fragment.getActivity());
-            bluetoothHelper.createClientThread(current_device, recipe_name, ingredients, directions);
+            bluetooth.createClientThread(current_device, recipe_name, ingredients, directions);
         }
     }
 }

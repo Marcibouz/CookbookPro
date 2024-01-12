@@ -44,7 +44,7 @@ public class BluetoothActiveThread extends Thread {
         }
     }
 
-    public void read(Context context) {
+    protected void read(Context context) {
         Log.d(TAG, "Read Method Called");
         try {
             objectInputStream = new ObjectInputStream(inputStream);
@@ -64,7 +64,7 @@ public class BluetoothActiveThread extends Thread {
     }
 
     // send data to the remote device.
-    public void write(Recipe recipe) {
+    protected void write(Recipe recipe) {
         Log.d(TAG, "Write Method Called");
         try {
             objectOutputStream = new ObjectOutputStream(outputStream);

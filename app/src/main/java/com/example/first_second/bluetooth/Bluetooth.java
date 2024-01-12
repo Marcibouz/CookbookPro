@@ -1,8 +1,13 @@
 package com.example.first_second.bluetooth;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+
+import com.example.first_second.gui.BluetoothObserver;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Schnittstelle für Bluetooth Funktionen
@@ -50,13 +55,20 @@ public interface Bluetooth {
     void startDiscoverable();
 
     /**
-     * Erstellt einen neuen ClientThread, welcher versucht, sich mit einem ServerThread zu verbinden.
-     * @param device Gerät, mit dem sich verbunden werden soll und an welches die Daten verschickt
-     *               werden
+     * Methode zum Erstellen eines neuen Client Threads, welcher bei erfolgreicher Verbindung
+     * die Rezeptdaten an das Target Device verschickt.
+     * @param device Device, an welches die Daten geschickt werden sollen
      * @param name Name des Rezeptes
      * @param ingredients Zutaten des Rezeptes
      * @param instructions Zubereitungsanweisungen des Rezeptes
      */
-    void createClientThread(BluetoothDevice device, String name,
-                            String ingredients, String instructions);
+    void createClientThread(
+            BluetoothDevice device, String name, String ingredients, String instructions);
+
+    /**
+     * Fügt der Bluetooth-Komponente einen Observer hinzu, welcher bei Änderungen der verbundenen
+     * und verfügbaren Geräte benachrichtigt wird
+     * @param bluetoothObserver Observer
+     */
+    void addBluetoothObserver(BluetoothObserver bluetoothObserver);
 }

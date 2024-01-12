@@ -43,6 +43,9 @@ public class BluetoothClientThread extends Thread {
         }
     }
 
+    /**
+     * Ausführung des Client-Threads
+     */
     @SuppressLint("MissingPermission")
     public void run() {
         Log.d(TAG, "Client Thread running");
@@ -78,7 +81,7 @@ public class BluetoothClientThread extends Thread {
         bluetoothActiveThread.write(new Recipe(recipeName, recipeIngredients, recipeInstructions));
 
         // Closes ClientThread
-        //cancel();
+        cancel();
     }
 
     // Closes the client socket and causes the thread to finish.

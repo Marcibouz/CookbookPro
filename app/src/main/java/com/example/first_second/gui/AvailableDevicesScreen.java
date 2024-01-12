@@ -43,11 +43,11 @@ public class AvailableDevicesScreen extends Fragment {
         getAndSetArgData();
         bo = new DeviceRecyclerViewAdapter(context, AvailableDevicesScreen.this,
                 recipe_name, ingredients, directions);
-        BluetoothImpl bluetoothHelper = new BluetoothImpl(context, activity);
-        bluetoothHelper.addBluetoothObserver(bo);
+        BluetoothImpl bluetooth = new BluetoothImpl(context, activity);
+        bluetooth.addBluetoothObserver(bo);
         recyclerView.setAdapter((DeviceRecyclerViewAdapter)bo);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        bluetoothHelper.findDevices();
+        bluetooth.findDevices();
     }
 
     @Override
