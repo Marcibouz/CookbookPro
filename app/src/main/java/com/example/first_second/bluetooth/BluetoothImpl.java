@@ -2,7 +2,6 @@ package com.example.first_second.bluetooth;
 
 import android.Manifest;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -12,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -28,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class BluetoothHelperImpl extends AppCompatActivity implements BluetoothHelper {
+public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
     private static final String TAG = "BluetoothHelper"; // Tag for Logging
     //Permission Strings
     public static final String[] SHARE_PERMISSIONS = { // Required Permissions for sharing Recipes
@@ -47,7 +45,7 @@ public class BluetoothHelperImpl extends AppCompatActivity implements BluetoothH
     private static final UUID UNIQUE_ID = UUID.fromString("b7adcd2b-9256-48d6-a7b6-922e95d91ce1");
 
 
-    public BluetoothHelperImpl(Context context, MainActivity activity) {
+    public BluetoothImpl(Context context, MainActivity activity) {
         this.context = context;
         this.activity = activity;
     }
@@ -146,8 +144,6 @@ public class BluetoothHelperImpl extends AppCompatActivity implements BluetoothH
         boolean discoveryStarted = bluetoothAdapter.startDiscovery();
         if(!discoveryStarted) {
             activity.showToast("Discovery not started. Fine Location access must be Granted!");
-        } else {
-            activity.showToast("Discovery started!");
         }
         Log.d("Discovery Status",
                 discoveryStarted ? "Started Successfully" : "Failed to Start");

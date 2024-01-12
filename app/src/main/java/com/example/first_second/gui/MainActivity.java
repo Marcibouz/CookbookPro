@@ -6,8 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.example.first_second.R;
-import static com.example.first_second.bluetooth.BluetoothHelperImpl.SHARE_PERMISSIONS;
-import static com.example.first_second.bluetooth.BluetoothHelperImpl.RECEIVE_PERMISSIONS;
+import static com.example.first_second.bluetooth.BluetoothImpl.SHARE_PERMISSIONS;
+import static com.example.first_second.bluetooth.BluetoothImpl.RECEIVE_PERMISSIONS;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,14 +22,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.first_second.bluetooth.BluetoothHelper;
-import com.example.first_second.bluetooth.BluetoothHelperImpl;
+import com.example.first_second.bluetooth.Bluetooth;
+import com.example.first_second.bluetooth.BluetoothImpl;
 import com.example.first_second.databinding.ActivityMainBinding;
 import com.example.first_second.local_memory.LocalMemoryImpl;
 import com.example.first_second.local_memory.LocalMemory;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -102,13 +100,14 @@ public class MainActivity extends AppCompatActivity {
         // noinspection SimplifiableIfStatement
 
         if (item.getItemId() == R.id.action_receiveViaBluetooth) {
-            BluetoothHelper bluetoothHelper = new BluetoothHelperImpl(this, this);
-            bluetoothHelper.startDiscoverable();
+            Bluetooth bluetooth = new BluetoothImpl(this, this);
+            bluetooth.startDiscoverable();
+            Toast.makeText(this, "Your device is now discoverable.", Toast.LENGTH_SHORT).show();
         }
         if (item.getItemId() == R.id.action_deleteAll) {
             LocalMemory lm = LocalMemoryImpl.getDatabaseHelper(this);
             lm.deleteAllRecipes();
-            Toast.makeText(this,"All Recipes Deleted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "All Recipes Deleted!", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -131,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
     public void showToast(String message){
         MainActivity.this.runOnUiThread(() -> Toast.makeText(this, message,
                 Toast.LENGTH_SHORT).show());

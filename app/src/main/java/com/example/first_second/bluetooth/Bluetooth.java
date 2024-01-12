@@ -1,15 +1,13 @@
 package com.example.first_second.bluetooth;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
 
 import java.util.Map;
 
 /**
  * Schnittstelle für Bluetooth Funktionen
  */
-public interface BluetoothHelper {
+public interface Bluetooth {
 
     /**
      * Gibt eine Map aller bereits verbundener Bluetooth-Geräte zurück

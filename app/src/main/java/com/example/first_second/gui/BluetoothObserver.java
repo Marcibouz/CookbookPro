@@ -1,8 +1,8 @@
 package com.example.first_second.gui;
 
-import com.example.first_second.bluetooth.BluetoothHelperImpl;
+import com.example.first_second.bluetooth.BluetoothImpl;
 
 public interface BluetoothObserver {
-    void bondedDeviceAdded(BluetoothHelperImpl bluetoothHelper);
-    void availableDeviceAdded(BluetoothHelperImpl bluetoothHelper);
+    void bondedDeviceAdded(BluetoothImpl bluetoothHelper);
+    void availableDeviceAdded(BluetoothImpl bluetoothHelper);
 }

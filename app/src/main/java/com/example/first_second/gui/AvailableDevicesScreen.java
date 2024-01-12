@@ -1,6 +1,5 @@
 package com.example.first_second.gui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -14,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.first_second.R;
-import com.example.first_second.bluetooth.BluetoothHelperImpl;
+import com.example.first_second.bluetooth.BluetoothImpl;
 import com.example.first_second.databinding.AvailabledevicesscreenBinding;
 
 public class AvailableDevicesScreen extends Fragment {
@@ -44,7 +43,7 @@ public class AvailableDevicesScreen extends Fragment {
         getAndSetArgData();
         bo = new DeviceRecyclerViewAdapter(context, AvailableDevicesScreen.this,
                 recipe_name, ingredients, directions);
-        BluetoothHelperImpl bluetoothHelper = new BluetoothHelperImpl(context, activity);
+        BluetoothImpl bluetoothHelper = new BluetoothImpl(context, activity);
         bluetoothHelper.addBluetoothObserver(bo);
         recyclerView.setAdapter((DeviceRecyclerViewAdapter)bo);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

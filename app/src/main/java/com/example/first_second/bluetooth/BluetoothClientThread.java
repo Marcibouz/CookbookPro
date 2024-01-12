@@ -75,7 +75,7 @@ public class BluetoothClientThread extends Thread {
         bluetoothActiveThread.write(new Recipe(recipeName, recipeIngredients, recipeInstructions));
 
         // Closes ClientThread
-        cancel();
+        //cancel();
     }
 
     // Closes the client socket and causes the thread to finish.
