@@ -19,9 +19,8 @@ public class MemoryImpl extends SQLiteOpenHelper implements Memory {
     private static final String RECIPE_NAME = "recipe_name";
     private static final String INGREDIENTS = "ingredients";
     private static final String DIRECTIONS = "directions";
-    private static MemoryImpl memoryImpl;
     private List<MemoryObserver> observers = new LinkedList<>();
-
+    private static MemoryImpl memoryImpl;
     private MemoryImpl(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -55,7 +54,7 @@ public class MemoryImpl extends SQLiteOpenHelper implements Memory {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
