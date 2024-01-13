@@ -6,8 +6,9 @@ package com.example.first_second.application_logic;
 
 public interface ApplicationLogic {
     /**
-     * Findet alle Zahlen im gegebenen String (egal ob dezimal oder nicht) und multipliziert diese mit dem gegebenen Wert.
-     * Wenn der gegebene Multiplikator kleiner gleich 0 ist, dann wird der String ohne Veränderung zurueckgegeben.
+     * Findet alle Zahlen im gegebenen String (egal ob dezimal oder nicht) und multipliziert diese
+     * mit dem gegebenen Wert. Wenn der gegebene Multiplikator kleiner gleich 0 ist, dann wird der
+     * String ohne Veränderung zurueckgegeben.
      * Die Zahlen im String werden wie folgt interpretiert:
      * Sie sind entweder Ganzzahlen oder Dezimalzahlen welche nur ein Trennzeichen besitzen duerfen.
      * Dieses ist entweder ein "." oder ",".
