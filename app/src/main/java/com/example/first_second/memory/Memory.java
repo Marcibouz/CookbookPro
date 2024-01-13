@@ -3,7 +3,7 @@ package com.example.first_second.memory;
 import java.util.List;
 
 /**
- * Schnittstelle des LocalMemory
+ * Schnittstelle des Memory
  */
 public interface Memory {
 
@@ -36,7 +36,7 @@ public interface Memory {
      * @param id ID des zu aktualisierenden Rezepts
      * @param recipe Rezept mit welchem das alte überschrieben werden soll
      *
-     * @return Anzahl der betroffenenen Zeilen
+     * @return Anzahl der betroffenen Zeilen
      */
     int updateRecipe(String id, Recipe recipe);
 

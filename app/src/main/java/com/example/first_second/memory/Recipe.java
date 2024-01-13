@@ -35,13 +35,4 @@ public class Recipe implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                ", recipeName='" + recipeName + '\'' +
-                ", ingredients='" + ingredients + '\'' +
-                ", directions='" + directions + '\'' +
-                '}';
-    }
 }
