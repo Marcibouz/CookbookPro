@@ -9,6 +9,9 @@ import android.util.Log;
 
 import com.example.first_second.gui.Gui;
 import com.example.first_second.gui.MainActivity;
+import com.example.first_second.memory.Memory;
+import com.example.first_second.memory.MemoryImpl;
+import com.example.first_second.memory.Recipe;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -51,9 +54,20 @@ public class BluetoothServerThread extends Thread {
 
                 // Start this thread
                 bluetoothActiveThread.start();
+                Log.d(TAG, "Active Thread Started");
 
                 // Reads Recipe Data
-                bluetoothActiveThread.read(context);
+                byte[] serializedRecipe = bluetoothActiveThread.read();
+                if (serializedRecipe == null) {
+                    gui.showToast("Invalid Recipe received!");
+                    Log.d(TAG, "Received serialized recipe was null");
+                    break;
+                } else {
+                    Recipe recipe = BluetoothImpl.deserializeIncomingRecipe(serializedRecipe);
+                    Memory memory = MemoryImpl.getMemoryImpl(context);
+                    memory.addRecipe(recipe);
+                    gui.showToast("Received Recipe!");
+                }
             }
         }
     }

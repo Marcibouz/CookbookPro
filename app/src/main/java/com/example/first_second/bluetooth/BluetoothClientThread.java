@@ -17,21 +17,16 @@ public class BluetoothClientThread extends Thread {
     private BluetoothSocket socket;
     private BluetoothDevice device;
     private BluetoothAdapter adapter;
-    private String recipeName;
-    private String recipeIngredients;
-    private String recipeInstructions;
+    private byte[] recipe;
     private static final String TAG = "ClientThread";
 
     @SuppressLint("MissingPermission")
     public BluetoothClientThread(BluetoothAdapter adapter, BluetoothDevice device, UUID uuid,
-                                 String name, String ingredients, String instructions,
-                                 Gui gui) {
+                                 byte[] recipe, Gui gui) {
         Log.d(TAG, "Client Thread created");
         this.device = device;
         this.adapter = adapter;
-        this.recipeName = name;
-        this.recipeIngredients = ingredients;
-        this.recipeInstructions = instructions;
+        this.recipe = recipe;
         this.gui = gui;
 
         try {
@@ -76,10 +71,10 @@ public class BluetoothClientThread extends Thread {
         bluetoothActiveThread.start();
 
         // Write recipe data
-        bluetoothActiveThread.write(new Recipe(recipeName, recipeIngredients, recipeInstructions));
+        bluetoothActiveThread.write(recipe);
 
         // Closes ClientThread
-        cancel();
+        //cancel();
     }
 
     // Closes the client socket and causes the thread to finish.

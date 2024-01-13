@@ -19,7 +19,14 @@ import androidx.core.content.ContextCompat;
 
 import com.example.first_second.gui.Gui;
 import com.example.first_second.gui.MainActivity;
+import com.example.first_second.memory.Recipe;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -70,6 +77,7 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
             bo.bondedDeviceAdded(this);
         }
     }
+
     private void notifyObserversAvailableDeviceAdded() {
         for (BluetoothObserver bo : observers) {
             bo.availableDeviceAdded(this);
@@ -136,7 +144,7 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
         if (bluetoothAdapter.isDiscovering()) { // Cancel ongoing discovery
             bluetoothAdapter.cancelDiscovery();
         }
-        if(!availableDevices.isEmpty()){ // Empty list from previous search
+        if (!availableDevices.isEmpty()) { // Empty list from previous search
             availableDevices.clear();
         }
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -146,7 +154,7 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
         context.registerReceiver(receiver, filter);
 
         boolean discoveryStarted = bluetoothAdapter.startDiscovery();
-        if(!discoveryStarted) {
+        if (!discoveryStarted) {
             gui.showToast("Discovery not started. Fine Location access must be Granted!");
         }
         Log.d("Discovery Status",
@@ -191,17 +199,55 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
         createServerThread(bluetoothAdapter, APP_NAME, UNIQUE_ID, context);
     }
 
-    public void createClientThread(
-            BluetoothDevice device, String name, String ingredients, String instructions) {
+    public void createClientThread(BluetoothDevice device, Recipe recipe) {
         BluetoothClientThread bluetoothClientThread = new BluetoothClientThread
-                (bluetoothAdapter, device, UNIQUE_ID, name, ingredients, instructions, gui);
+                (bluetoothAdapter, device, UNIQUE_ID, serializeRecipe(recipe), gui);
         bluetoothClientThread.start();
     }
 
-    protected void createServerThread(
+    public void createServerThread(
             BluetoothAdapter adapter, String appName, UUID uuid, Context context) {
         BluetoothServerThread bluetoothServerThread =
                 new BluetoothServerThread(adapter, appName, uuid, context, gui);
         bluetoothServerThread.start();
+    }
+
+    public byte[] serializeRecipe(Recipe recipe) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
+
+            objectOutputStream.writeObject(recipe);
+            return byteArrayOutputStream.toByteArray();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Recipe deserializeRecipe(byte[] serializedRecipe) {
+        Log.d(TAG, Arrays.toString(serializedRecipe));
+        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedRecipe);
+             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
+
+            return (Recipe) objectInputStream.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Recipe deserializeIncomingRecipe(byte[] serializedRecipe) {
+        Log.d(TAG, Arrays.toString(serializedRecipe));
+        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedRecipe);
+             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
+
+            return (Recipe) objectInputStream.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

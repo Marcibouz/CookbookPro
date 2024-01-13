@@ -5,10 +5,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.first_second.gui.Gui;
-import com.example.first_second.memory.MemoryImpl;
-import com.example.first_second.memory.Memory;
-import com.example.first_second.memory.Recipe;
 
+
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -20,10 +19,6 @@ public class BluetoothActiveThread extends Thread {
     private BluetoothSocket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
-    private Recipe recipe;
-    private byte[] buffer = new byte[1024]; // buffer store for the stream
     private static final String TAG = "ActiveThread";
 
     public BluetoothActiveThread(BluetoothSocket socket, Gui gui) {
@@ -41,21 +36,22 @@ public class BluetoothActiveThread extends Thread {
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when creating input stream", e);
         }
+        Log.d(TAG, "Active Thread Running");
     }
 
-    protected void read(Context context) {
+    protected byte[] read() {
         Log.d(TAG, "Read Method Called");
         try {
-            objectInputStream = new ObjectInputStream(inputStream);
-            recipe = (Recipe) objectInputStream.readObject();
-            Memory memory = MemoryImpl.getMemoryImpl(context);
-            memory.addRecipe(recipe);
-            Log.d(TAG, "Recipe: " + recipe.toString());
-            gui.showToast("Recipe received!");
+            // Reads all Bytes from Input Stream
+            Log.d(TAG, "try-block entered");
+            byte[] bytes = new byte[inputStream.available()];
+            DataInputStream dataInputStream = new DataInputStream(inputStream);
+            dataInputStream.readFully(bytes);
+            Log.d(TAG, "Returning recipe Data");
+            return bytes;
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when reading data", e);
-        } catch (ClassNotFoundException e) {
-            Log.e(TAG, "Class could not be found", e);
+            return null;
         } finally {
             // closes ActiveThread after read() either failed or succeeded
             cancel();
@@ -63,12 +59,10 @@ public class BluetoothActiveThread extends Thread {
     }
 
     // send data to the remote device.
-    protected void write(Recipe recipe) {
+    protected void write(byte[] recipe) {
         Log.d(TAG, "Write Method Called");
         try {
-            objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(recipe);
-            objectOutputStream.flush();
+            outputStream.write(recipe);
             gui.showToast("Recipe sent successfully");
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when sending data", e);

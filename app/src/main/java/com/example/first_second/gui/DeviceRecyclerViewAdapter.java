@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.first_second.R;
 import com.example.first_second.bluetooth.BluetoothImpl;
 import com.example.first_second.bluetooth.BluetoothObserver;
+import com.example.first_second.memory.Recipe;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -106,7 +107,8 @@ public class DeviceRecyclerViewAdapter extends
                     Toast.LENGTH_LONG).show();
             BluetoothImpl bluetooth = new BluetoothImpl(context,
                     (MainActivity)fragment.getActivity());
-            bluetooth.createClientThread(current_device, recipe_name, ingredients, directions);
+            bluetooth.createClientThread(current_device,
+                    new Recipe(recipe_name, ingredients, directions));
         }
     }
 }
