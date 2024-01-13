@@ -18,10 +18,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
-import com.example.first_second.local_memory.MemoryObserver;
-import com.example.first_second.local_memory.MemoryImpl;
-import com.example.first_second.local_memory.Memory;
-import com.example.first_second.local_memory.Recipe;
+import com.example.first_second.memory.MemoryObserver;
+import com.example.first_second.memory.MemoryImpl;
+import com.example.first_second.memory.Memory;
+import com.example.first_second.memory.Recipe;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class RecipeRecyclerViewAdapter extends
     private LinkedList<String> recipe_name = new LinkedList<>();
     private LinkedList<String> recipe_ingredients = new LinkedList<>();
     private LinkedList<String> recipe_directions = new LinkedList<>();
-    public RecipeRecyclerViewAdapter(Context context, Fragment fragment,
+    protected RecipeRecyclerViewAdapter(Context context, Fragment fragment,
                                      ConstraintLayout recipeListLayout,
                                      Drawable nothingHereYetBackground,
                                      Drawable emptyTableBackground){
@@ -105,7 +105,7 @@ public class RecipeRecyclerViewAdapter extends
         return recipe_id.size();
     }
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder {
+    protected class RecipeViewHolder extends RecyclerView.ViewHolder {
         TextView recipe_name_txt;
         LinearLayout recipeRowLayout;
         public RecipeViewHolder(@NonNull View itemView) {

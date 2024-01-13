@@ -15,9 +15,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.first_second.R;
 import com.example.first_second.databinding.AddscreenBinding;
-import com.example.first_second.local_memory.MemoryImpl;
-import com.example.first_second.local_memory.Memory;
-import com.example.first_second.local_memory.Recipe;
+import com.example.first_second.memory.MemoryImpl;
+import com.example.first_second.memory.Memory;
+import com.example.first_second.memory.Recipe;
 
 public class AddScreen extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.example.first_second.local_memory;
+package com.example.first_second.memory;
 
 import android.content.ContentValues;
 import android.content.Context;

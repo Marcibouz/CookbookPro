@@ -25,8 +25,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.first_second.bluetooth.Bluetooth;
 import com.example.first_second.bluetooth.BluetoothImpl;
 import com.example.first_second.databinding.ActivityMainBinding;
-import com.example.first_second.local_memory.MemoryImpl;
-import com.example.first_second.local_memory.Memory;
+import com.example.first_second.memory.MemoryImpl;
+import com.example.first_second.memory.Memory;
 
 import android.view.Menu;
 import android.view.MenuInflater;

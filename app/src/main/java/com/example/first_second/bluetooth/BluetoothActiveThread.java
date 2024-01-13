@@ -5,10 +5,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.first_second.gui.Gui;
-import com.example.first_second.gui.MainActivity;
-import com.example.first_second.local_memory.MemoryImpl;
-import com.example.first_second.local_memory.Memory;
-import com.example.first_second.local_memory.Recipe;
+import com.example.first_second.memory.MemoryImpl;
+import com.example.first_second.memory.Memory;
+import com.example.first_second.memory.Recipe;
 
 import java.io.IOException;
 import java.io.InputStream;

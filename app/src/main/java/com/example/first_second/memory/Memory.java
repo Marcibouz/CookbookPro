@@ -1,4 +1,4 @@
-package com.example.first_second.local_memory;
+package com.example.first_second.memory;
 
 import java.util.List;
 

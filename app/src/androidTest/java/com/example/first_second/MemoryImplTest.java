@@ -10,8 +10,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-import com.example.first_second.local_memory.MemoryImpl;
-import com.example.first_second.local_memory.Recipe;
+import com.example.first_second.memory.MemoryImpl;
+import com.example.first_second.memory.Recipe;
 
 import java.util.List;
 

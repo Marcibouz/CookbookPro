@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_second.R;
 import com.example.first_second.databinding.RecipelistscreenBinding;
-import com.example.first_second.local_memory.MemoryImpl;
-import com.example.first_second.local_memory.Memory;
+import com.example.first_second.memory.MemoryImpl;
+import com.example.first_second.memory.Memory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class RecipeListScreen extends Fragment {

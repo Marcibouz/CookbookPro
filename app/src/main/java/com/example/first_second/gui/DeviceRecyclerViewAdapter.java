@@ -31,7 +31,7 @@ public class DeviceRecyclerViewAdapter extends
     private String recipe_name;
     private String ingredients;
     private String directions;
-    public DeviceRecyclerViewAdapter(Context context, Fragment fragment, String recipe_name,
+    protected DeviceRecyclerViewAdapter(Context context, Fragment fragment, String recipe_name,
                                      String ingredients, String directions){
         this.context = context;
         this.fragment = fragment;
@@ -82,7 +82,7 @@ public class DeviceRecyclerViewAdapter extends
         return device.size();
     }
 
-    public class DeviceViewHolder extends RecyclerView.ViewHolder{
+    protected class DeviceViewHolder extends RecyclerView.ViewHolder{
         TextView device_name_txt;
         LinearLayout deviceRowLayout;
         public DeviceViewHolder(@NonNull View itemView) {

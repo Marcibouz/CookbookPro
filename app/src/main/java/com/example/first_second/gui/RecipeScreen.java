@@ -24,9 +24,9 @@ import com.example.first_second.application_logic.ApplicationLogicImpl;
 import com.example.first_second.bluetooth.Bluetooth;
 import com.example.first_second.bluetooth.BluetoothImpl;
 import com.example.first_second.databinding.RecipescreenBinding;
-import com.example.first_second.local_memory.MemoryImpl;
-import com.example.first_second.local_memory.Memory;
-import com.example.first_second.local_memory.Recipe;
+import com.example.first_second.memory.MemoryImpl;
+import com.example.first_second.memory.Memory;
+import com.example.first_second.memory.Recipe;
 
 
 public class RecipeScreen extends Fragment {
