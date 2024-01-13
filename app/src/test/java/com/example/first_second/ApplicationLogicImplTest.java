@@ -76,10 +76,8 @@ public class ApplicationLogicImplTest {
     public void testStringNull() {
         String testString = null;
         int multiplier = 2;
-        assertThrows(IllegalArgumentException.class, ()
-                -> {
-            applicationLogicImpl.calculatePortion(testString, multiplier);
-        });
+        assertEquals("", applicationLogicImpl.calculatePortion(testString, multiplier)
+        );
     }
 
     /**

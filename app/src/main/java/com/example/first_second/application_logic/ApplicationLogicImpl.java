@@ -5,9 +5,9 @@ package com.example.first_second.application_logic;
  */
 public class ApplicationLogicImpl implements ApplicationLogic{
 
-    public String calculatePortion(String text, double multiplier) throws IllegalArgumentException{
-        if (text == null) throw new IllegalArgumentException("Text darf nicht null sein");
+    public String calculatePortion(String text, double multiplier) {
         if (multiplier <= 0) return text;
+        if (text == null) return "";
 
         StringBuilder result = new StringBuilder();
         StringBuilder currentNumber = new StringBuilder();

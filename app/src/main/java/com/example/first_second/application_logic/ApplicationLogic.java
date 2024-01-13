@@ -15,7 +15,7 @@ public interface ApplicationLogic {
      * @param text String dessen Zahlen skaliert werden sollen
      * @param multiplier Multuplikator, mit welchem skaliert werden soll
      * @return String mit skalierten Zahlen oder unveränderter String bei Multiplikator <= 0
-     * @throws IllegalArgumentException Falls der uebergebene String null ist
+     * Wenn der String null ist, wird stattdessen ein leerer String zurückgegeben.
      */
-    String calculatePortion(String text, double multiplier) throws IllegalArgumentException;
+    String calculatePortion(String text, double multiplier);
 }
