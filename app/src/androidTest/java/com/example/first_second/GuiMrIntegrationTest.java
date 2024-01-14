@@ -143,8 +143,8 @@ public class GuiMrIntegrationTest {
         onView(withId(R.id.ingredients2)).check(matches(withText(resultIngredients)));
         onView(withId(R.id.directions2)).check(matches(withText(resultDirections)));
 
-        onView(withContentDescription("Navigate up")).perform(click());
-
+        onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(click());
         String testName1 = "Rollade";
         String testIngredients1 =
                 "1000g Rollade, 1000g Rollade, 5L Rollade, 2,43234 Zwiebeln.";
@@ -169,8 +169,8 @@ public class GuiMrIntegrationTest {
         onView(withId(R.id.ingredients2)).check(matches(withText(resultIngredients1)));
         onView(withId(R.id.directions2)).check(matches(withText(resultDirections1)));
 
-        onView(withContentDescription("Navigate up")).perform(click());
-
+        onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(click());
         String testName2 = "Butter Chicken";
         String testIngredients2 =
                 "300g Reis, 1x Dose passierte Tomaten, 1x Sahne, viel Curry und Chicken.";
@@ -195,7 +195,8 @@ public class GuiMrIntegrationTest {
         onView(withId(R.id.ingredients2)).check(matches(withText(resultIngredients2)));
         onView(withId(R.id.directions2)).check(matches(withText(resultDirections2)));
 
-        onView(withContentDescription("Navigate up")).perform(click());
+        onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(click());
 
         onView(withText(testName)).check(matches(isDisplayed()));
         onView(withText(testName1)).check(matches(isDisplayed()));
@@ -274,7 +275,8 @@ public class GuiMrIntegrationTest {
 
         onView(withText(testName)).perform(click());
         onView(withId(R.id.delete_button)).perform(click());
-        onView(withContentDescription("Navigate up")).perform(click());
+        onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(click());
         onView(withId(R.id.delete_button)).perform(click());
         onView(withId(R.id.recipeScreen)).check(matches(isDisplayed()));
     }

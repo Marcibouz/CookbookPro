@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
-import com.example.first_second.gui.Gui;
 import com.example.first_second.memory.Recipe;
 
 import java.util.Map;
@@ -95,7 +94,8 @@ public interface Bluetooth {
 
     /**
      * Methode zum Deserialisieren eines Rezeptes
-     * @param recipeData Rezeptdaten als Byte-Array, welche wieder als ein Rezept-Objekt dargestellt werden sollen
+     * @param recipeData Rezeptdaten als Byte-Array, welche wieder als ein Rezept-Objekt
+     *                   dargestellt werden sollen
      * @return Rezept-Objekt aus der recipeData. Returns null if recipeData is null.
      */
     Recipe deserializeRecipe(byte[] recipeData);

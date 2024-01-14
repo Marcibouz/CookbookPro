@@ -42,6 +42,7 @@ public class BluetoothActiveThread extends Thread {
     protected byte[] read() {
         Log.d(TAG, "Read Method Called");
         try {
+            BluetoothActiveThread.sleep(100);
             // Reads all Bytes from Input Stream
             Log.d(TAG, "try-block entered");
             byte[] bytes = new byte[inputStream.available()];
@@ -52,6 +53,8 @@ public class BluetoothActiveThread extends Thread {
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when reading data", e);
             return null;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             // closes ActiveThread after read() either failed or succeeded
             cancel();
