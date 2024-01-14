@@ -60,6 +60,10 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
         this.gui = activity;
     }
 
+    public BluetoothImpl() {
+
+    }
+
     public Map<BluetoothDevice, String> getAvailableBondedDevices() {
         return availableBondedDevices;
     }
@@ -215,7 +219,9 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
     public byte[] serializeRecipe(Recipe recipe) {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
-
+            if (recipe == null) {
+                return null;
+            }
             objectOutputStream.writeObject(recipe);
             return byteArrayOutputStream.toByteArray();
 
@@ -227,6 +233,9 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
 
     public Recipe deserializeRecipe(byte[] serializedRecipe) {
         Log.d(TAG, Arrays.toString(serializedRecipe));
+        if (serializedRecipe == null) {
+            return null;
+        }
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedRecipe);
              ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
 

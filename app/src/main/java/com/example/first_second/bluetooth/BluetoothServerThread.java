@@ -61,7 +61,6 @@ public class BluetoothServerThread extends Thread {
                 if (serializedRecipe == null) {
                     gui.showToast("Invalid Recipe received!");
                     Log.d(TAG, "Received serialized recipe was null");
-                    break;
                 } else {
                     Recipe recipe = BluetoothImpl.deserializeIncomingRecipe(serializedRecipe);
                     Memory memory = MemoryImpl.getMemoryImpl(context);
