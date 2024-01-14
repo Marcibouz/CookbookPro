@@ -58,28 +58,11 @@ public class GuiMrIntegrationTest {
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
     MemoryImpl memoryImpl;
-    Recipe recipe;
-    Recipe recipe1;
-    Recipe recipe2;
-    Recipe recipe3;
-    Recipe recipe4;
-    Recipe recipe5;
-    Recipe recipe6;
-    Recipe recipe7;
-
     @Before
     public void setUp() {
         memoryImpl = MemoryImpl.getMemoryImpl(getInstrumentation().
                 getTargetContext());
         memoryImpl.deleteAllRecipes();
-        recipe = new Recipe("Name", "Kartoffel", "Kochen");
-        recipe1 = new Recipe("Name1", "Kartoffel1", "Kochen1");
-        recipe2 = new Recipe("Name2", "Kartoffel2", "Kochen2");
-        recipe3 = new Recipe("Name3", "Kartoffel3", "Kochen3");
-        recipe4 = new Recipe("Name4", "Kartoffel4", "Kochen4");
-        recipe5 = new Recipe("Name5", "Kartoffel5", "Kochen5");
-        recipe6 = new Recipe("Name6", "Kartoffel6", "Kochen6");
-        recipe7 = new Recipe("Name7", "Kartoffel7", "Kochen7");
     }
 
     @After
@@ -319,5 +302,144 @@ public class GuiMrIntegrationTest {
         onView(withId(R.id.recipe_name2)).check(matches(withText(updateName)));
         onView(withId(R.id.ingredients2)).check(matches(withText(updateIngredients)));
         onView(withId(R.id.directions2)).check(matches(withText(updateDirections)));
+    }
+
+    @Test
+    public void testGuiUpdateRecipeNotThere() {
+        String testName = "Auflauf";
+        onView(withId(R.id.splashScreen)).perform(click());
+        onView(withId(R.id.add_button)).perform(click());
+        onView(withId(R.id.recipe_name)).perform(typeText(testName),
+                closeSoftKeyboard());
+        onView(withId(R.id.save_button)).perform(click());
+
+        onView(withText(testName)).perform(click());
+        onView(withId(R.id.delete_button)).perform(click());
+        onView(withContentDescription("Navigate up")).perform(click());
+        onView(withId(R.id.update_button)).perform(click());
+        onView(withId(R.id.recipeScreen)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testGuiComplexAddUpdateDelete() {
+        //1 Rezept adden
+        String testName = "Spaghetti Bolognese";
+        String testIngredients =
+                "500g Spaghetti, 500g Hack, 1000L Tomatensauce, 1 Haufen Parmesan.";
+        String testDirections =
+                "Einfach Kochen bitte";
+        String resultName = "Spaghetti Bolognese";
+        String resultIngredients =
+                "500g Spaghetti, 500g Hack, 1000L Tomatensauce, 1 Haufen Parmesan.";
+        String resultDirections =
+                "Einfach Kochen bitte";
+        onView(withId(R.id.splashScreen)).perform(click());
+        onView(withId(R.id.add_button)).perform(click());
+        onView(withId(R.id.recipe_name)).perform(typeText(testName),
+                closeSoftKeyboard());
+        onView(withId(R.id.ingredients)).perform(typeText(testIngredients),
+                closeSoftKeyboard());
+        onView(withId(R.id.directions)).perform(typeText(testDirections),
+                closeSoftKeyboard());
+        onView(withId(R.id.save_button)).perform(click());
+        onView(withText(testName)).perform(click());
+
+        onView(withId(R.id.recipe_name2)).check(matches(withText(resultName)));
+        onView(withId(R.id.ingredients2)).check(matches(withText(resultIngredients)));
+        onView(withId(R.id.directions2)).check(matches(withText(resultDirections)));
+
+        //Rezept aktualisieren
+        String updateName = "Butter Chicken";
+        String updateIngredients =
+                "300g Reis, 1x Dose passierte Tomaten, 1x Sahne, viel Curry und Chicken.";
+        String updateDirections =
+                "ICH HAB HUNGER!";
+
+        onView(withId(R.id.recipe_name2)).perform(clearText());
+        onView(withId(R.id.recipe_name2)).perform(typeText(updateName),
+                closeSoftKeyboard());
+        onView(withId(R.id.ingredients2)).perform(clearText());
+        onView(withId(R.id.ingredients2)).perform(typeText(updateIngredients),
+                closeSoftKeyboard());
+        onView(withId(R.id.directions2)).perform(clearText());
+        onView(withId(R.id.directions2)).perform(typeText(updateDirections),
+                closeSoftKeyboard());
+        onView(withId(R.id.update_button)).perform(click());
+
+        onView(withText(updateName)).check(matches(isDisplayed()));
+        onView(withText(updateName)).perform(click());
+        onView(withId(R.id.recipe_name2)).check(matches(withText(updateName)));
+        onView(withId(R.id.ingredients2)).check(matches(withText(updateIngredients)));
+        onView(withId(R.id.directions2)).check(matches(withText(updateDirections)));
+
+        onView(withContentDescription("Navigate up")).perform(click());
+
+        //2 weitere Rezepte adden
+
+        String testName1 = "Rollade";
+        String testIngredients1 =
+                "1000g Rollade, 1000g Rollade, 5L Rollade, 2,43234 Zwiebeln.";
+        String testDirections1 =
+                "Schnell Kochen Bitte!";
+        String resultName1 = "Rollade";
+        String resultIngredients1 =
+                "1000g Rollade, 1000g Rollade, 5L Rollade, 2,43234 Zwiebeln.";
+        String resultDirections1 =
+                "Schnell Kochen Bitte!";
+
+        onView(withId(R.id.add_button)).perform(click());
+        onView(withId(R.id.recipe_name)).perform(typeText(testName1),
+                closeSoftKeyboard());
+        onView(withId(R.id.ingredients)).perform(typeText(testIngredients1),
+                closeSoftKeyboard());
+        onView(withId(R.id.directions)).perform(typeText(testDirections1),
+                closeSoftKeyboard());
+        onView(withId(R.id.save_button)).perform(click());
+        onView(withText(testName1)).perform(click());
+        onView(withId(R.id.recipe_name2)).check(matches(withText(resultName1)));
+        onView(withId(R.id.ingredients2)).check(matches(withText(resultIngredients1)));
+        onView(withId(R.id.directions2)).check(matches(withText(resultDirections1)));
+
+        onView(withContentDescription("Navigate up")).perform(click());
+
+        String testName2 = "Auflauf";
+        String testIngredients2 =
+                "500g Auflauf, 500g Hack, 1000L Auflaufsauce, 1 Haufen Parmesan.";
+        String testDirections2 =
+                "Schnell Kochen!";
+        String resultName2 = "Auflauf";
+        String resultIngredients2 =
+                "500g Auflauf, 500g Hack, 1000L Auflaufsauce, 1 Haufen Parmesan.";
+        String resultDirections2 =
+                "Schnell Kochen!";
+        onView(withId(R.id.add_button)).perform(click());
+        onView(withId(R.id.recipe_name)).perform(typeText(testName2),
+                closeSoftKeyboard());
+        onView(withId(R.id.ingredients)).perform(typeText(testIngredients2),
+                closeSoftKeyboard());
+        onView(withId(R.id.directions)).perform(typeText(testDirections2),
+                closeSoftKeyboard());
+        onView(withId(R.id.save_button)).perform(click());
+        onView(withText(testName2)).perform(click());
+        onView(withId(R.id.recipe_name2)).check(matches(withText(resultName2)));
+        onView(withId(R.id.ingredients2)).check(matches(withText(resultIngredients2)));
+        onView(withId(R.id.directions2)).check(matches(withText(resultDirections2)));
+
+        onView(withContentDescription("Navigate up")).perform(click());
+
+        //1 Rezept löschen
+
+        onView(withText(testName2)).perform(click());
+        onView(withId(R.id.delete_button)).perform(click());
+        onView(withText(updateName)).check(matches(isDisplayed()));
+        onView(withText(testName1)).check(matches(isDisplayed()));
+        onView(withText(testName2)).check(doesNotExist());
+        //alle Rezepte löschen
+
+        Espresso.openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText("Delete All")).perform(click());
+
+        onView(withText(updateName)).check(doesNotExist());
+        onView(withText(testName1)).check(doesNotExist());
     }
 }
