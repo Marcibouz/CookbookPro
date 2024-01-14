@@ -38,7 +38,7 @@ public class GuiTest {
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
     @Test
-    public void testSplashScreenToRecipeListScreen() {
+    public void testSplashToList() {
         onView(withId(R.id.splashScreen)).perform(click());
         onView(withId(R.id.recipeListScreen)).check(matches(isDisplayed()));
     }
@@ -59,7 +59,7 @@ public class GuiTest {
     }
 
     @Test
-    public void testRowElementClick() {
+    public void testRowClick() {
         onView(withId(R.id.splashScreen)).perform(click());
         onView(withId(R.id.add_button)).perform(click());
         onView(withId(R.id.recipe_name)).perform(typeText("A"), closeSoftKeyboard());
