@@ -16,19 +16,23 @@ import java.util.UUID;
 public interface Bluetooth {
 
     /**
-     * Gibt eine Map aller bereits verbundener Bluetooth-Geräte zurück
+     * Gibt die bereits gekoppelten Geräte des Nutzers in Form einer Map zurück.
+     * BluetoothDevice beschreibt das Gerät an sich und enthält Daten wie die MAC-Adresse,
+     * während der String der Name des Geräts ist, welches dem Nutzer angezeigt wird.
      * @return Map der verbundenen Bluetooth-Geräte
      */
     Map<BluetoothDevice, String> getAvailableBondedDevices();
 
     /**
-     * Gibt eine Map aller verfügbarer Bluetooth-Geräte zurück
+     * Gibt eine Liste aller erreichbaren Bluetooth-Geräte in der Umgebung in Form einer Map zurück.
+     * BluetoothDevice beschreibt das Gerät an sich und enthält Daten wie die MAC-Adresse,
+     * während der String der Name des Geräts ist, welches dem Nutzer angezeigt wird.
      * @return Map der verfügbaren Bluetooth-Geräte
      */
     Map<BluetoothDevice, String> getAvailableDevices();
 
     /**
-     * Methode zum Überprüfen der Berechtigungen des Nutzers.
+     * Methode zum Überprüfen der benötigten Bluetooth-Berechtigungen des Nutzers.
      * @return boolean, ob Permissions gesetzt sind oder nicht
      */
     boolean checkPermissions();
@@ -42,22 +46,22 @@ public interface Bluetooth {
 
     /**
      * Methode zum Finden von Geräten, mit denen sich die App verbinden kann.
-     * Zuerst werden bereits verbundene Geräte aufgelistet
-     * Danach wird eine Liste angezeigt, welche alle Geräte in der Umgebung anzeigt,
-     * die discoverable sind.
+     * Zuerst werden bereits gekoppelte Geräte aufgelistet. Danach wird eine Liste angezeigt,
+     * welche alle per Bluetooth erreichbaren Geräte in der Umgebung anzeigt, die discoverable sind.
      */
     void findDevices();
 
     /**
      * Sorgt dafür, dass das Gerät von anderen Geräten gefunden werden kann und eine Verbindung
-     * aufgebaut werden kann. Hierfür wird ein neuer ServerThread erstellt, welcher darauf wartet,
-     * dass ein ClientThread einen Verbindungsaufbau startet.
+     * aufgebaut werden kann. Bei Einwilligung der Nutzers wird hierfür wird ein neuer ServerThread
+     * erstellt, welcher darauf wartet, dass ein ClientThread einen Verbindungsaufbau startet.
      */
     void startDiscoverable();
 
     /**
-     * Methode zum Erstellen eines neuen Client Threads, welcher bei erfolgreicher Verbindung
-     * die Rezeptdaten serialisiert und an das Target Device verschickt.
+     * Methode zum Erstellen eines Client Threads. Das Device ist das Zielgerät,
+     * mit dem sich über diesen Thread verbunden werden soll. Beim Methodenaufruf wird das
+     * Rezept-Objekt, bestehend aus Name, Zutaten und Anweisungen, zu einem Byte-Array serialisiert.
      * @param device Device, an welches die Daten geschickt werden sollen
      * @param recipe Rezept, welches verschickt werden soll
      */
@@ -65,7 +69,7 @@ public interface Bluetooth {
 
     /**
      * Methode zum Erstellen eines neuen Server Threads, welcher auf die Verbindung eines Clients
-     * wartet und das eintreffende Rezept in der Datenbank des Nutzers speichern kann.
+     * wartet und ein eintreffende Rezept deserialisiert und abspeichert.
      * @param adapter Bluetooth-Adapter des Geräts
      * @param appName Name der App
      * @param uuid UUID zur Verifikation, dass der Client ebenfalls Instanz der App ist und ein

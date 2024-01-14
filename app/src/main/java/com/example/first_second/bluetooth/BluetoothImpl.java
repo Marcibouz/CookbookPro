@@ -247,6 +247,7 @@ public class BluetoothImpl extends AppCompatActivity implements Bluetooth {
         }
     }
 
+    //TODO Refactor so that static method is no longer necessary, this is ugly
     public static Recipe deserializeIncomingRecipe(byte[] serializedRecipe) {
         Log.d(TAG, Arrays.toString(serializedRecipe));
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedRecipe);
